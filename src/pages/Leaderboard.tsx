@@ -24,7 +24,7 @@ const PodiumCard = ({ row, isMe, index }: { row: LeaderboardRow; isMe: boolean; 
           <Trophy className={`w-5 h-5 ${row.rank === 1 ? 'text-primary' : 'text-primary/60'}`} />
         </div>
         <span className="text-[10px] text-primary font-bold tracking-[0.3em] uppercase">Rank {row.rank}</span>
-        <h2 className="font-heading text-xl font-bold text-white break-words">{row.full_name}</h2>
+        <h2 className="font-heading text-xl font-bold text-foreground break-words">{row.full_name}</h2>
         {row.department && <p className="text-xs text-muted-foreground">{row.department}</p>}
         <p className="font-heading text-3xl font-bold tabular-nums text-foreground mt-2">
           {row.total_points}
@@ -74,12 +74,12 @@ const Leaderboard = () => {
   const me = myId ? rows.find(r => r.member_id === myId) : undefined;
 
   return (
-    <div className="min-h-screen relative text-foreground bg-[#050505] overflow-hidden">
+    <div className="min-h-screen relative text-foreground bg-background overflow-hidden">
       <TechGridBackground />
 
       <div className="container mx-auto px-4 sm:px-6 py-12 relative z-10">
         <div className="max-w-5xl mx-auto">
-          <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-12 px-6 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl group text-sm">
+          <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-12 px-6 py-1.5 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-sm">
             <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
             Back to Home
           </Link>
@@ -141,7 +141,7 @@ const Leaderboard = () => {
                     onChange={e => setQuery(e.target.value)}
                     placeholder="Search by name"
                     aria-label="Search by name"
-                    className="w-full rounded-full bg-white/5 border border-white/10 pl-11 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
+                    className="w-full rounded-full bg-white/70 border border-foreground/10 pl-11 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
                   />
                 </label>
                 {departments.length > 2 && (
@@ -153,7 +153,7 @@ const Leaderboard = () => {
                         className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase transition-all ${
                           department === d
                             ? 'bg-primary text-white'
-                            : 'bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:border-white/30'
+                            : 'bg-white/70 border border-foreground/10 text-muted-foreground hover:text-foreground hover:border-foreground/30'
                         }`}
                       >
                         {d}
@@ -175,7 +175,7 @@ const Leaderboard = () => {
                         <th className="text-right font-medium px-3 py-3 hidden md:table-cell">Contributions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/5">
+                    <tbody className="divide-y divide-foreground/5">
                       {table.map(row => {
                         const isMe = row.member_id === myId;
                         return (

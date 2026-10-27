@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
-  CalendarDays, CheckSquare, Coffee, Globe, Grid3x3, HardDrive, LayoutDashboard, Lightbulb, LogIn, LogOut, MapPin, Megaphone, Menu, Search, Settings, ShieldAlert, Ticket, Upload, UserSquare, Users,
+  CalendarDays, CheckSquare, ClipboardList, Coffee, Globe, Grid3x3, HardDrive, LayoutDashboard, Lightbulb, LogIn, LogOut, MapPin, Megaphone, Menu, Search, Settings, ShieldAlert, Ticket, Upload, UserSquare, Users,
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
@@ -29,6 +29,8 @@ const NAV: NavItem[] = [
   { to: '/admin/events', label: 'Events', icon: Ticket },
   { to: '/admin/venues', label: 'Venues', icon: MapPin, superOnly: true },
   { to: '/admin/members', label: 'Members', icon: Users },
+  // Recruitment (ATS) is its own full-page panel at /admin/recruitment, outside this layout.
+  { to: '/admin/recruitment', label: 'Recruitment', icon: ClipboardList },
   { to: '/admin/approvals', label: 'Approvals', icon: CheckSquare },
   { to: '/admin/meets', label: 'Club meets', icon: Coffee },
   { to: '/admin/proposals', label: 'Proposals', icon: Lightbulb },
@@ -70,7 +72,7 @@ function Gate({ children }: { children: React.ReactNode }) {
       <div className="adm center-card">
         <TechGridBackground />
         <div className="box">
-          <img src="/logo.png" alt="" width={44} height={44} style={{ objectFit: 'contain' }} />
+          <img src="/brand/aic-mark.svg" alt="" width={44} height={44} style={{ objectFit: 'contain' }} />
           <h1>Admin panel</h1>
           <p>Sign in with your VIT Google account.</p>
           {error && <p className="warn">{error}</p>}
@@ -229,7 +231,7 @@ function Shell() {
       {navOpen && <div className="adm-scrim" onClick={() => setNavOpen(false)} aria-hidden="true" />}
       <aside className="adm-side">
         <Link to="/" className="adm-brand" style={{ textDecoration: 'none' }} aria-label="IEEE SSCS home page" title="Back to the website">
-          <img src="/logo.png" alt="" />
+          <img src="/brand/aic-mark.svg" alt="" />
           <div className="lbl">IEEE <span>SSCS</span></div>
         </Link>
         {/* Super admins get more links than a short screen can fit; this part scrolls, the brand and footer stay put. */}

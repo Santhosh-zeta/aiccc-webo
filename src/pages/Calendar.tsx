@@ -26,7 +26,7 @@ function termMonths(today: string) {
 }
 
 const Shell = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen relative text-foreground bg-[#050505]">
+  <div className="min-h-screen relative text-foreground bg-background">
     <TechGridBackground />
     <div className="container mx-auto px-4 md:px-6 py-12 relative z-10">
       <div className="max-w-6xl mx-auto">{children}</div>
@@ -35,7 +35,7 @@ const Shell = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Centered = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen relative bg-[#050505] flex items-center justify-center p-6">
+  <div className="min-h-screen relative bg-background flex items-center justify-center p-6">
     <TechGridBackground />
     <HolographicCard className="relative z-10 p-8 max-w-md w-full text-center">{children}</HolographicCard>
   </div>
@@ -90,7 +90,7 @@ const CalendarPage = () => {
   const listed = picked ? on(picked) : inMonth;
 
   if (authLoading || (user && status === 'loading')) {
-    return <div className="min-h-screen bg-black flex items-center justify-center"><LogoSpinner size="md" /></div>;
+    return <div className="min-h-screen bg-background flex items-center justify-center"><LogoSpinner size="md" /></div>;
   }
 
   if (!user) {
@@ -136,7 +136,7 @@ const CalendarPage = () => {
 
   return (
     <Shell>
-      <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-10 px-6 py-1.5 rounded-full bg-white/5 border border-white/10 group text-sm">
+      <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors mb-10 px-6 py-1.5 rounded-full bg-white/70 border border-foreground/10 group text-sm">
         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" /> Back to Home
       </Link>
 
@@ -164,12 +164,12 @@ const CalendarPage = () => {
       <div className="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6">
         <HolographicCard className="p-4 md:p-6">
           <div className="flex items-center justify-between mb-4">
-            <button className="p-2 rounded-full hover:bg-white/5 disabled:opacity-30" disabled={monthIdx === 0}
+            <button className="p-2 rounded-full hover:bg-white/70 disabled:opacity-30" disabled={monthIdx === 0}
               onClick={() => { setMonthIdx(i => i - 1); setPicked(null); }} aria-label="Previous month">
               <ChevronLeft className="w-5 h-5" />
             </button>
             <h2 className="font-heading text-lg md:text-xl font-bold">{monthLabel}</h2>
-            <button className="p-2 rounded-full hover:bg-white/5 disabled:opacity-30" disabled={monthIdx === months.length - 1}
+            <button className="p-2 rounded-full hover:bg-white/70 disabled:opacity-30" disabled={monthIdx === months.length - 1}
               onClick={() => { setMonthIdx(i => i + 1); setPicked(null); }} aria-label="Next month">
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -189,7 +189,7 @@ const CalendarPage = () => {
                   key={day}
                   onClick={() => setPicked(isPicked ? null : day)}
                   className={`min-h-[52px] md:min-h-[92px] rounded-lg border p-1 md:p-1.5 text-left flex flex-col gap-1 transition-colors
-                    ${isPicked ? 'border-primary/70 bg-primary/10' : 'border-white/5 bg-white/[0.02] hover:border-white/20'}`}
+                    ${isPicked ? 'border-primary/70 bg-primary/10' : 'border-foreground/5 bg-white/[0.02] hover:border-foreground/20'}`}
                   aria-label={`${fmt(day)}: ${its.length ? its.map(it => it.title).join(', ') : 'nothing'}`}
                 >
                   <span className={`text-[11px] md:text-xs font-semibold ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
@@ -230,7 +230,7 @@ const CalendarPage = () => {
                     <span>{KINDS[it.kind]?.label ?? it.kind}</span>
                     <span>{fmtRange(it.start_date, it.end_date)}</span>
                   </div>
-                  <p className="font-semibold text-sm mt-1 text-white">{it.title}</p>
+                  <p className="font-semibold text-sm mt-1 text-foreground">{it.title}</p>
                   {it.kind === 'event' && it.coordinators.length > 0 && (
                     <p className="flex items-start gap-1.5 text-xs text-muted-foreground mt-1.5">
                       <Users className="w-3.5 h-3.5 mt-0.5 flex-none" /> {it.coordinators.join(', ')}

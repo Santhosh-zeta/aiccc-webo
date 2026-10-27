@@ -14,8 +14,8 @@ const ProfileImage = ({ src: ref, alt }: { src: string | null, alt: string }) =>
 
     if (error || !src) {
         return (
-            <div className="w-full h-full bg-white/5 flex items-center justify-center">
-                <User className="w-10 h-10 text-primary drop-shadow-[0_0_12px_rgba(220,20,60,0.8)]" />
+            <div className="w-full h-full bg-white/70 flex items-center justify-center">
+                <User className="w-10 h-10 text-primary drop-shadow-[0_0_12px_rgba(49,135,232,0.8)]" />
             </div>
         );
     }
@@ -266,7 +266,7 @@ const Team = () => {
     }, [isHoveringSibhi]);
 
     return (
-        <div className="min-h-screen relative text-foreground bg-[#050505] overflow-hidden">
+        <div className="min-h-screen relative text-foreground bg-background overflow-hidden">
             <TechGridBackground />
             
             {/* Sibhi Mode Background Pulse */}
@@ -303,7 +303,7 @@ const Team = () => {
             
             <div className="container mx-auto px-6 py-12 relative z-10">
                 <div className="max-w-6xl mx-auto">
-                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-12 px-6 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl group text-sm">
+                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-12 px-6 py-1.5 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-sm">
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Back to Home
                     </Link>
@@ -341,7 +341,7 @@ const Team = () => {
                                             <span className="inline-block text-[10px] text-primary font-bold tracking-[0.3em] uppercase mb-2 px-4 py-1 rounded-full bg-primary/10 border border-primary/20">
                                                 {coord.role}
                                             </span>
-                                            <h2 className="font-heading text-2xl md:text-3xl font-bold text-white mb-4">
+                                            <h2 className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-4">
                                                 {coord.name}
                                             </h2>
                                         </div>
@@ -399,7 +399,7 @@ const Team = () => {
                                 className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
                             >
                                 <HolographicCard className="p-6 text-center h-full flex flex-col items-center">
-                                    <div className="w-24 h-24 rounded-2xl bg-white/5 grid place-items-center mb-6 relative overflow-hidden border border-white/10 group-hover:border-primary/30 transition-colors mx-auto">
+                                    <div className="w-24 h-24 rounded-2xl bg-white/70 grid place-items-center mb-6 relative overflow-hidden border border-foreground/10 group-hover:border-primary/30 transition-colors mx-auto">
                                         <FlipPhoto member={member} />
                                     </div>
 
@@ -407,7 +407,7 @@ const Team = () => {
                                         <span className="inline-block text-[10px] text-primary font-bold tracking-[0.2em] uppercase mb-2">
                                             {member.role}
                                         </span>
-                                        <h2 className="font-heading text-xl font-bold text-white mb-3">
+                                        <h2 className="font-heading text-xl font-bold text-foreground mb-3">
                                             {member.name}
                                         </h2>
                                         {member.quote && (
@@ -451,13 +451,13 @@ const Team = () => {
                                     className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
                                 >
                                     <HolographicCard 
-                                        className={`p-6 text-center h-full flex flex-col items-center cursor-pointer transition-all duration-500 ${isSibhi && isSibhiMode ? 'border-primary shadow-[0_0_30px_rgba(220,20,60,0.3)]' : ''}`}
+                                        className={`p-6 text-center h-full flex flex-col items-center cursor-pointer transition-all duration-500 ${isSibhi && isSibhiMode ? 'border-primary shadow-[0_0_30px_rgba(49,135,232,0.3)]' : ''}`}
                                         onClick={() => isSibhi && setClicks(c => c + 1)}
                                         onMouseEnter={() => isSibhi && setIsHoveringSibhi(true)}
                                         onMouseLeave={() => isSibhi && setIsHoveringSibhi(false)}
                                     >
                                         <div 
-                                            className="w-20 h-20 rounded-2xl bg-white/5 grid place-items-center mb-6 relative overflow-hidden border border-white/10 group-hover:border-primary/30 transition-colors mx-auto"
+                                            className="w-20 h-20 rounded-2xl bg-white/70 grid place-items-center mb-6 relative overflow-hidden border border-foreground/10 group-hover:border-primary/30 transition-colors mx-auto"
                                         >
                                             <FlipPhoto member={member} />
                                             
@@ -487,7 +487,7 @@ const Team = () => {
                                             <span className="inline-block text-[10px] text-primary font-bold tracking-[0.2em] uppercase mb-2">
                                                 {member.role}
                                             </span>
-                                            <h2 className="font-heading text-lg font-bold text-white mb-3">
+                                            <h2 className="font-heading text-lg font-bold text-foreground mb-3">
                                                 {member.name}
                                             </h2>
                                             {member.quote && (

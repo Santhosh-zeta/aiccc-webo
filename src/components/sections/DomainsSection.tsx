@@ -103,7 +103,7 @@ const DomainCard = ({ domain, index }: { domain: Domain; index: number }) => {
       viewport={{ once: true }}
       whileHover={{ y: -4 }}
       onMouseMove={onMouseMove}
-      className={`group relative h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.035] to-white/[0.01] p-7 md:p-8 transition-[border-color,box-shadow] duration-300 hover:border-primary/40 hover:shadow-[0_20px_50px_-20px_rgba(220,20,60,0.35)] ${BLOCK_SPAN[domain.id] ?? ''}`}
+      className={`group relative h-full overflow-hidden rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.035] to-white/[0.01] p-7 md:p-8 transition-[border-color,box-shadow] duration-300 hover:border-primary/40 hover:shadow-[0_20px_50px_-20px_rgba(49,135,232,0.35)] ${BLOCK_SPAN[domain.id] ?? ''}`}
     >
       {/* Red light along the top edge on hover */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -118,7 +118,7 @@ const DomainCard = ({ domain, index }: { domain: Domain; index: number }) => {
           background: useSpring(
             useTransform(
               [mouseX, mouseY],
-              ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(220, 20, 60, 0.1), transparent 40%)`
+              ([x, y]) => `radial-gradient(600px circle at ${x}px ${y}px, rgba(49,135,232, 0.1), transparent 40%)`
             ),
             { stiffness: 50, damping: 20 }
           ),
@@ -166,7 +166,7 @@ const DomainsSection = () => {
       <div 
         className="absolute -inset-y-32 inset-x-0 pointer-events-none opacity-40"
         style={{
-          background: 'radial-gradient(circle at 20% 30%, rgba(220, 20, 60, 0.08), transparent 60%)'
+          background: 'radial-gradient(circle at 20% 30%, rgba(49,135,232, 0.08), transparent 60%)'
         }}
       />
       
@@ -181,7 +181,7 @@ const DomainsSection = () => {
             >
               Expertise
             </motion.span>
-            <h2 className="mt-4 font-heading text-[1.75rem] leading-tight sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+            <h2 className="mt-4 font-heading text-[1.75rem] leading-tight sm:text-4xl md:text-5xl font-bold tracking-tight text-foreground">
               <ScrambleText text="Technical Domains" />
             </h2>
             <p className="mt-6 text-sm md:text-base text-muted-foreground max-w-lg">
@@ -189,12 +189,12 @@ const DomainsSection = () => {
             </p>
           </div>
           
-          <div className="mt-8 hidden h-[1px] flex-1 bg-white/5 mx-12 md:block" />
+          <div className="mt-8 hidden h-[1px] flex-1 bg-white/70 mx-12 md:block" />
           
           <div className="mt-8 md:mt-0 flex gap-4">
              <div className="h-2 w-2 rounded-full bg-primary/50" />
-             <div className="h-2 w-2 rounded-full bg-white/10" />
-             <div className="h-2 w-2 rounded-full bg-white/10" />
+             <div className="h-2 w-2 rounded-full bg-white/70" />
+             <div className="h-2 w-2 rounded-full bg-white/70" />
           </div>
         </div>
 

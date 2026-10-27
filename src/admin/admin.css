@@ -1,29 +1,29 @@
 /*
  * Admin panel theme: frosted glass on the home page hero's black, with the
- * hero's crimson (#DC143C) for highlights and glow. The background itself is
+ * hero's crimson (#3187E8) for highlights and glow. The background itself is
  * the hero's <TechGridBackground />. Components follow club_calendar.html.
  * Everything is scoped under .adm so it never leaks into the public site.
- * Fonts come from index.html (Michroma for titles, Raleway for text).
+ * Fonts come from index.html (Space Grotesk for titles, Raleway for text).
  */
 .adm {
-  color-scheme: dark;
-  --bg: #020202;
-  --side: rgba(255, 255, 255, .045);
-  --panel: rgba(255, 255, 255, .04);
-  --cell: rgba(255, 255, 255, .035);
-  --cell-hover: rgba(255, 255, 255, .07);
-  --input: rgba(0, 0, 0, .38);
-  --line: rgba(255, 255, 255, .08);
+  color-scheme: light;
+  --bg: #F7F9FC;
+  --side: rgba(11, 23, 38, .03);
+  --panel: rgba(255, 255, 255, .92);
+  --cell: rgba(11, 23, 38, .03);
+  --cell-hover: rgba(11, 23, 38, .06);
+  --input: #FFFFFF;
+  --line: rgba(11, 23, 38, .10);
   --line-2: rgba(255, 255, 255, .14);
-  --text: #f1f1f3;
-  --text-soft: #a7a7b0;
-  --text-dim: #6f6f78;
-  --accent: #dc143c;
+  --text: #0B1726;
+  --text-soft: #4A5A6E;
+  --text-dim: #8A97A8;
+  --accent: #3187E8;
   --accent-2: #b80f31;
-  --accent-soft: rgba(220, 20, 60, .14);
-  --accent-line: rgba(220, 20, 60, .55);
-  --glow: 0 0 20px rgba(220, 20, 60, .35);
-  --glow-strong: 0 0 26px rgba(220, 20, 60, .55), 0 0 2px rgba(255, 90, 120, .6);
+  --accent-soft: rgba(49,135,232, .14);
+  --accent-line: rgba(49,135,232, .55);
+  --glow: 0 0 20px rgba(49,135,232, .35);
+  --glow-strong: 0 0 26px rgba(49,135,232, .55), 0 0 2px rgba(255, 90, 120, .6);
   --glass-edge: inset 0 1px 0 rgba(255, 255, 255, .09), inset 0 0 0 1px rgba(255, 255, 255, .02);
   --glass-shadow: 0 24px 60px rgba(0, 0, 0, .55);
   --free: #6cc293;
@@ -41,7 +41,7 @@
   --t-vacation: #8aa2c4;
   --radius: 16px;
 
-  font-family: 'Raleway', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   color: var(--text);
   background: var(--bg);
@@ -507,14 +507,14 @@ a.tile:hover { background: var(--cell); }
 /* Red bloom on highlighted cards (like the reference's course cards). */
 .adm .tile, .adm .entry.event, .adm .check-card:has(.tick.on) {
   background:
-    radial-gradient(120% 90% at 0% 100%, rgba(220, 20, 60, .20), transparent 60%),
+    radial-gradient(120% 90% at 0% 100%, rgba(49,135,232, .20), transparent 60%),
     linear-gradient(160deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .015));
 }
 .adm a.tile:hover, .adm .ourcard:hover, .adm .entry.event:hover { border-color: var(--accent-line); box-shadow: var(--glass-edge), var(--glow); }
-.adm .tile .val { font-family: 'Michroma', sans-serif; font-size: 26px; letter-spacing: -.01em; }
+.adm .tile .val { font-family: 'Space Grotesk', sans-serif; font-size: 26px; letter-spacing: -.01em; }
 
 /* Titles in the site's display face. */
-.adm .top h1, .adm .cal-title, .adm-brand { font-family: 'Michroma', sans-serif; font-weight: 400; letter-spacing: .01em; }
+.adm .top h1, .adm .cal-title, .adm-brand { font-family: 'Space Grotesk', sans-serif; font-weight: 400; letter-spacing: .01em; }
 .adm .top h1 { font-size: 26px; }
 .adm .cal-title { font-size: 20px; }
 .adm h3.ph, .adm .sched-head h2, .adm .p-head h2 { font-weight: 600; letter-spacing: .01em; }
@@ -530,7 +530,7 @@ a.tile:hover { background: var(--cell); }
   backdrop-filter: blur(22px) saturate(140%); -webkit-backdrop-filter: blur(22px) saturate(140%);
 }
 .adm-brand { padding: 0 0 22px; justify-content: center; }
-.adm-brand img { width: 40px; height: 40px; filter: drop-shadow(0 0 10px rgba(220, 20, 60, .55)); }
+.adm-brand img { width: 40px; height: 40px; filter: drop-shadow(0 0 10px rgba(49,135,232, .55)); }
 .adm-side .lbl, .adm-nav-label { display: none; }
 .adm-nav { gap: 10px; align-items: center; margin-bottom: 14px; }
 .adm-nav a { width: 52px; height: 52px; padding: 0; justify-content: center; border-radius: 16px; color: var(--text-soft); }
@@ -618,7 +618,7 @@ a.tile:hover { background: var(--cell); }
 .adm .day { background: linear-gradient(160deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .012)); border-color: var(--line); }
 .adm .day:hover { background: rgba(255, 255, 255, .08); }
 .adm .day.has-event { border-color: rgba(255, 59, 92, .45); }
-.adm .day.has-event::before { background: linear-gradient(180deg, transparent 10%, rgba(220, 20, 60, .26) 100%); }
+.adm .day.has-event::before { background: linear-gradient(180deg, transparent 10%, rgba(49,135,232, .26) 100%); }
 .adm .day.selected { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent), var(--glow); }
 .adm .day.today .num { background: var(--accent); box-shadow: var(--glow-strong); }
 .adm .vdot.no { box-shadow: 0 0 8px rgba(255, 77, 106, .8); }
@@ -634,7 +634,7 @@ a.tile:hover { background: var(--cell); }
 .adm .tick.on { box-shadow: 0 0 10px rgba(79, 209, 139, .6); }
 .adm .avatar { background: linear-gradient(160deg, rgba(255, 59, 92, .28), rgba(120, 10, 30, .3)); border-color: rgba(255, 90, 120, .35); color: #ffd0d8; }
 .adm .avatar.lg { box-shadow: var(--glow); }
-.adm .citem .code, .adm .tag.lead { box-shadow: 0 0 10px rgba(220, 20, 60, .25); }
+.adm .citem .code, .adm .tag.lead { box-shadow: 0 0 10px rgba(49,135,232, .25); }
 .adm .citem.hl { box-shadow: inset 0 0 0 1px var(--accent-line), var(--glow); }
 .adm .vopt.sel { box-shadow: var(--glow); }
 .adm table th { color: var(--text-dim); }
@@ -798,7 +798,7 @@ button.adm-note { width: 100%; border: none; background: none; text-align: left;
 .pd-history a { color: var(--text); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .pd-history a:hover { text-decoration: underline; }
 @media (max-width: 640px) { .pd-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.drv-search { color-scheme: dark; }
+.drv-search { color-scheme: light; }
 
 /* Event folder picker (Drive sidebar) */
 .efp { position: relative; margin-top: 6px; }
@@ -992,3 +992,4 @@ button.adm-note { width: 100%; border: none; background: none; text-align: left;
 .gm-singles { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
 .gm-rules { margin: 16px 0 0; padding-left: 18px; color: var(--text-soft); font-size: 13px; line-height: 1.7; }
 @media (max-width: 860px) { .gm-work { grid-template-columns: 1fr; } }
+

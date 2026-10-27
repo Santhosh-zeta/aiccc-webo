@@ -1,9 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, LogIn, LogOut, User as UserIcon, Award } from 'lucide-react';
+import { Menu, X, LogIn, LogOut, User as UserIcon, Award, ClipboardList, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
+import { useRecruitmentWindow } from '@/hooks/useRecruitmentWindow';
+import { RECRUITMENT_CLOSED, INSTAGRAM_URL } from '@/config/recruitment';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +23,31 @@ const Navigation = () => {
   const location = useLocation();
   const { user, signInWithGoogle, loginAsLocalAdmin, logout } = useAuth();
   const navigate = useNavigate();
+  const [hasApplied, setHasApplied] = useState(false);
+  // Server-evaluated: the manual switch AND the scheduled window.
+  const { isOpen: isRecruitmentOpen } = useRecruitmentWindow();
+
+  useEffect(() => {
+    if (!user) {
+      setHasApplied(false);
+      return;
+    }
+    supabase
+      .from('applications')
+      .select('id')
+      .or(`user_id.eq.${user.uid},email.eq.${user.email}`)
+      .limit(1)
+      .then(({ data }) => setHasApplied(!!data && data.length > 0));
+  }, [user]);
+
+  // One recruitment call-to-action, used by both the desktop bar and the mobile menu.
+  const joinCta = RECRUITMENT_CLOSED
+    ? { label: 'Results on Instagram', to: undefined, href: INSTAGRAM_URL, disabled: false }
+    : hasApplied
+      ? { label: 'Applied', to: undefined, href: undefined, disabled: true }
+      : !isRecruitmentOpen
+        ? { label: 'Closed', to: undefined, href: undefined, disabled: true }
+        : { label: 'Join Us', to: '/apply', href: undefined, disabled: false };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,9 +92,11 @@ const Navigation = () => {
   }, [isMobileMenuOpen]);
 
   const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '#about' },
+    { name: 'Events', href: '#events' },
     { name: 'Team', href: '/team' },
     { name: 'Leaderboard', href: '/leaderboard' },
-    { name: 'Events', href: '#events' },
     { name: 'Calendar', href: '/calendar' },
     { name: 'Propose', href: '/proposals' },
   ];
@@ -108,7 +138,7 @@ const Navigation = () => {
           className={`
             pointer-events-auto grid grid-cols-[minmax(max-content,1fr)_auto] lg:grid-cols-[minmax(max-content,1fr)_auto_minmax(max-content,1fr)] items-center gap-4 px-4 sm:px-6 py-2.5 sm:py-3 transition-[max-width,background-color,border-color,box-shadow,border-radius] duration-500
             ${isScrolled 
-              ? 'w-full max-w-6xl rounded-full bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]' 
+              ? 'w-full max-w-6xl rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]' 
               : 'w-full max-w-7xl bg-transparent border-transparent'
             }
           `}
@@ -116,13 +146,9 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group justify-self-start">
             <div className="relative">
-              <img src="/logo.png" alt="IEEE SSCS Logo" className="w-8 h-8 object-contain relative z-10 transition-transform group-hover:scale-110" />
+              <img src="/brand/aic-logo-full.png" alt="AI Club VIT Chennai logo" className="h-11 w-auto object-contain mix-blend-multiply relative z-10 transition-transform group-hover:scale-105" />
               <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <span className="font-heading font-bold text-lg hidden sm:block whitespace-nowrap">
-              <span className="text-primary tracking-tight">IEEE</span>
-              <span className="text-foreground tracking-tight"> SSCS</span>
-            </span>
           </Link>
 
           {/* Desktop Nav Links */}
@@ -131,7 +157,7 @@ const Navigation = () => {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.href)}
-                className="px-3 py-2 text-sm font-medium whitespace-nowrap text-foreground/70 hover:text-primary transition-all rounded-full hover:bg-white/5 relative overflow-hidden group"
+                className="px-3 py-2 text-sm font-medium whitespace-nowrap text-foreground/70 hover:text-primary transition-all rounded-full hover:bg-white/70 relative overflow-hidden group"
               >
                 <span className="relative z-10">{link.name}</span>
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -141,17 +167,32 @@ const Navigation = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-3 justify-self-end">
+            <div className="hidden sm:flex items-center gap-3">
+              {joinCta.href ? (
+                <Button size="sm" variant="outline" className="border-foreground/10 text-muted-foreground hover:text-foreground backdrop-blur-md rounded-full bg-white/70 px-6" asChild>
+                  <a href={joinCta.href} target="_blank" rel="noopener noreferrer">{joinCta.label}</a>
+                </Button>
+              ) : joinCta.disabled ? (
+                <Button size="sm" variant="outline" className="border-foreground/10 text-muted-foreground backdrop-blur-md rounded-full bg-white/70 cursor-not-allowed px-6" disabled>
+                  {joinCta.label}
+                </Button>
+              ) : (
+                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 shadow-[0_0_15px_rgba(49,135,232,0.2)] font-bold" onClick={() => navigate(joinCta.to!)}>
+                  {joinCta.label}
+                </Button>
+              )}
+            </div>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-9 w-9 rounded-full border border-white/10 p-0 overflow-hidden hover:bg-white/10">
+                  <Button variant="ghost" className="relative h-9 w-9 rounded-full border border-foreground/10 p-0 overflow-hidden hover:bg-white/70">
                     <Avatar className="h-full w-full">
                       <AvatarImage src={user.photoURL} alt={user.displayName} />
-                      <AvatarFallback className="bg-white/10 text-foreground text-xs">{user.displayName?.charAt(0)}</AvatarFallback>
+                      <AvatarFallback className="bg-white/70 text-foreground text-xs">{user.displayName?.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-black/80 backdrop-blur-2xl border-white/10 text-foreground p-2 rounded-2xl mt-4" align="end">
+                <DropdownMenuContent className="w-64 bg-black/80 backdrop-blur-2xl border-foreground/10 text-foreground p-2 rounded-2xl mt-4" align="end">
                   <DropdownMenuLabel className="font-normal p-4">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-bold">{user.displayName}</p>
@@ -160,16 +201,28 @@ const Navigation = () => {
                       </p>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-white/5" />
+                  <DropdownMenuSeparator className="bg-white/70" />
                   <div className="p-1">
-                    <DropdownMenuItem onClick={() => navigate('/me')} className="rounded-xl focus:bg-white/10 cursor-pointer p-3">
+                    <DropdownMenuItem onClick={() => navigate('/me')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
                       <Award className="mr-3 h-4 w-4 text-primary" />
                       <span>My Contributions</span>
                     </DropdownMenuItem>
                     {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'external') && (
-                      <DropdownMenuItem onClick={() => navigate('/admin')} className="rounded-xl focus:bg-white/10 cursor-pointer p-3">
+                      <DropdownMenuItem onClick={() => navigate('/admin')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
                         <UserIcon className="mr-3 h-4 w-4 text-primary" />
                         <span>Admin Dashboard</span>
+                      </DropdownMenuItem>
+                    )}
+                    {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'interviewer') && (
+                      <DropdownMenuItem onClick={() => navigate('/admin/recruitment')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
+                        <ClipboardList className="mr-3 h-4 w-4 text-primary" />
+                        <span>Recruitment</span>
+                      </DropdownMenuItem>
+                    )}
+                    {user.role === 'interviewer' && (
+                      <DropdownMenuItem onClick={() => navigate('/interviewer')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
+                        <Video className="mr-3 h-4 w-4 text-primary" />
+                        <span>My Interviews</span>
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem onClick={logout} className="rounded-xl focus:bg-red-500/20 text-red-400 cursor-pointer p-3">
@@ -198,7 +251,7 @@ const Navigation = () => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="hidden sm:flex border-white/10 hover:bg-white/10 text-foreground backdrop-blur-md rounded-full px-6"
+                  className="hidden sm:flex border-foreground/10 hover:bg-white/70 text-foreground backdrop-blur-md rounded-full px-6"
                   onClick={signInWithGoogle}
                 >
                   <LogIn className="w-4 h-4 mr-2" />
@@ -209,7 +262,7 @@ const Navigation = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2.5 -mr-1.5 text-foreground hover:bg-white/10 rounded-full transition-colors"
+              className="lg:hidden p-2.5 -mr-1.5 text-foreground hover:bg-white/70 rounded-full transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
@@ -243,15 +296,25 @@ const Navigation = () => {
                 </motion.button>
               ))}
               
-              <motion.div 
-                className="w-full h-[1px] bg-white/10 my-4"
+              {joinCta.href ? (
+                <Button asChild className="w-full max-w-xs rounded-full h-12 text-base font-bold" variant="outline">
+                  <a href={joinCta.href} target="_blank" rel="noopener noreferrer">{joinCta.label}</a>
+                </Button>
+              ) : joinCta.disabled ? (
+                <Button disabled className="w-full max-w-xs rounded-full h-12 text-base font-bold" variant="outline">{joinCta.label}</Button>
+              ) : (
+                <Button className="w-full max-w-xs bg-primary text-primary-foreground rounded-full h-12 text-base font-bold" onClick={() => { navigate(joinCta.to!); setIsMobileMenuOpen(false); }}>{joinCta.label}</Button>
+              )}
+
+              <motion.div
+                className="w-full h-[1px] bg-white/70 my-4"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
               />
 
               {user ? (
                 <div className="flex flex-col items-center gap-6">
-                  <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10">
+                  <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/70 border border-foreground/10">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.photoURL} />
                       <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
@@ -266,6 +329,18 @@ const Navigation = () => {
                     <Button variant="outline" className="rounded-full px-8" onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }}>
                       <UserIcon className="w-4 h-4 mr-2" />
                       Admin Dashboard
+                    </Button>
+                  )}
+                  {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'interviewer') && (
+                    <Button variant="outline" className="rounded-full px-8" onClick={() => { navigate('/admin/recruitment'); setIsMobileMenuOpen(false); }}>
+                      <ClipboardList className="w-4 h-4 mr-2" />
+                      Recruitment
+                    </Button>
+                  )}
+                  {user.role === 'interviewer' && (
+                    <Button variant="outline" className="rounded-full px-8" onClick={() => { navigate('/interviewer'); setIsMobileMenuOpen(false); }}>
+                      <Video className="w-4 h-4 mr-2" />
+                      My Interviews
                     </Button>
                   )}
                   <Button variant="outline" className="rounded-full px-8 border-red-500/30 text-red-400 hover:bg-red-500/10" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>

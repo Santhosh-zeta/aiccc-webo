@@ -36,7 +36,7 @@ const Spotlight = ({ row, tiedWith, runnersUp }: { row: LeaderboardRow; tiedWith
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-4 border-t border-white/5 pt-6">
+        <div className="mt-8 grid grid-cols-2 gap-4 border-t border-foreground/5 pt-6">
           <div>
             <p className="font-heading text-3xl font-bold tabular-nums text-foreground">{row.total_points}</p>
             <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Points</p>
@@ -54,11 +54,11 @@ const Spotlight = ({ row, tiedWith, runnersUp }: { row: LeaderboardRow; tiedWith
         )}
 
         {runnersUp.length > 0 && (
-          <div className="mt-8 border-t border-white/5 pt-6">
+          <div className="mt-8 border-t border-foreground/5 pt-6">
             <p className="mb-3 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Also on the podium</p>
             <div className="space-y-2">
               {runnersUp.map(r => (
-                <div key={r.member_id} className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3">
+                <div key={r.member_id} className="flex items-center gap-3 rounded-xl border border-foreground/5 bg-white/[0.02] px-4 py-3">
                   <span className="w-5 font-heading font-bold tabular-nums text-primary">{r.rank}</span>
                   <span className="flex-1 min-w-0 truncate text-sm font-semibold text-foreground">{r.full_name}</span>
                   <span className="font-heading text-sm font-bold tabular-nums text-foreground">
@@ -112,7 +112,7 @@ const LeaderboardSection = () => {
                 No points on the board yet. Check back soon.
               </p>
             ) : (
-              <ol className="divide-y divide-white/5">
+              <ol className="divide-y divide-foreground/5">
                 {rows.map((row, index) => (
                   <motion.li
                     key={row.member_id}
@@ -144,7 +144,7 @@ const LeaderboardSection = () => {
               </ol>
             )}
 
-            <div className="mt-6 pt-6 border-t border-white/5 flex justify-center">
+            <div className="mt-6 pt-6 border-t border-foreground/5 flex justify-center">
               <Link
                 to="/leaderboard"
                 className="flex items-center gap-2 py-2 text-[11px] md:text-xs text-primary font-bold tracking-widest uppercase hover:text-primary/80 transition-colors group"

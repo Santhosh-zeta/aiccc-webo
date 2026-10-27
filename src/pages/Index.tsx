@@ -7,6 +7,7 @@ import DomainsSection from '@/components/sections/DomainsSection';
 import EventsSection from '@/components/sections/EventsSection';
 import LeaderboardSection from '@/components/sections/LeaderboardSection';
 import MembershipSection from '@/components/sections/MembershipSection';
+import JoinSection from '@/components/sections/JoinSection';
 import ContactSection from '@/components/sections/ContactSection';
 import SiteFooter from '@/components/SiteFooter';
 
@@ -26,6 +27,7 @@ const Index = () => {
           <EventsSection />
           <LeaderboardSection />
           <MembershipSection />
+          <JoinSection />
           <ContactSection />
         </main>
         <SiteFooter />

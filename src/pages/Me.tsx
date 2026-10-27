@@ -78,7 +78,7 @@ function Messages() {
         <h2 className="text-lg font-bold">Messages from the board</h2>
         {unread > 0 && <span className="ml-auto text-xs font-bold text-primary">{unread} new</span>}
       </div>
-      <ul className="divide-y divide-white/5">
+      <ul className="divide-y divide-foreground/5">
         {items.map(b => (
           <li key={b.id}>
             <button type="button" onClick={() => open(b.id)}
@@ -98,7 +98,7 @@ function Messages() {
 }
 
 const Shell = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen bg-black text-foreground relative overflow-hidden">
+  <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
     <TechGridBackground />
     <div className="relative z-10 px-4 py-8 md:p-12">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-5xl mx-auto space-y-8">
@@ -109,7 +109,7 @@ const Shell = ({ children }: { children: React.ReactNode }) => (
 );
 
 const CenteredCard = ({ children }: { children: React.ReactNode }) => (
-  <div className="min-h-screen bg-black flex items-center justify-center p-4">
+  <div className="min-h-screen bg-background flex items-center justify-center p-4">
     <HolographicCard className="max-w-md w-full text-center p-8">{children}</HolographicCard>
   </div>
 );
@@ -294,7 +294,7 @@ const Me = () => {
   };
 
   if (authLoading || (user && status === 'loading')) {
-    return <div className="min-h-screen bg-black flex items-center justify-center"><LogoSpinner size="md" /></div>;
+    return <div className="min-h-screen bg-background flex items-center justify-center"><LogoSpinner size="md" /></div>;
   }
 
   if (!user) {
@@ -346,7 +346,7 @@ const Me = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
         <div className="space-y-4">
-          <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl group text-xs tracking-widest uppercase">
+          <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all px-4 py-1.5 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-xs tracking-widest uppercase">
             <ArrowLeft className="w-3 h-3 mr-2 transition-transform group-hover:-translate-x-1" />
             Home
           </Link>
@@ -402,7 +402,7 @@ const Me = () => {
 
       {/* Tabs: log something new, or look back at what was submitted */}
       {canEarn && (
-        <div className="flex gap-2 border-b border-white/10" role="tablist">
+        <div className="flex gap-2 border-b border-foreground/10" role="tablist">
           {([['log', 'Log a contribution'], ['history', `My submissions (${contributions.length})`]] as const).map(([key, label]) => (
             <button key={key} type="button" role="tab" aria-selected={tab === key} onClick={() => setTab(key)}
               className={`px-4 py-2.5 text-sm font-semibold -mb-px border-b-2 transition-colors ${tab === key ? 'border-primary text-foreground' : 'border-transparent text-muted-foreground hover:text-foreground'}`}>
@@ -478,17 +478,17 @@ const Me = () => {
               <Label htmlFor="images">Proof images (optional, up to {MAX_PROOF_IMAGES})</Label>
               <div className="flex flex-wrap gap-3">
                 {images.map((img, i) => (
-                  <div key={img.preview} className="relative w-24 h-24 rounded-xl overflow-hidden border border-white/10">
+                  <div key={img.preview} className="relative w-24 h-24 rounded-xl overflow-hidden border border-foreground/10">
                     <img src={img.preview} alt={img.file.name} className="w-full h-full object-cover" />
                     <button type="button" onClick={() => removePickedImage(i)} aria-label={`Remove ${img.file.name}`}
-                      className="absolute top-1 right-1 rounded-full bg-black/70 p-1 hover:bg-black">
+                      className="absolute top-1 right-1 rounded-full bg-black/70 p-1 hover:bg-background">
                       <X className="w-3 h-3" />
                     </button>
                   </div>
                 ))}
                 {images.length < MAX_PROOF_IMAGES && (
                   <label htmlFor="images"
-                    className="w-24 h-24 rounded-xl border border-dashed border-white/20 flex flex-col items-center justify-center gap-1 text-xs text-muted-foreground cursor-pointer hover:border-primary/50 hover:text-foreground transition-colors">
+                    className="w-24 h-24 rounded-xl border border-dashed border-foreground/20 flex flex-col items-center justify-center gap-1 text-xs text-muted-foreground cursor-pointer hover:border-primary/50 hover:text-foreground transition-colors">
                     <ImagePlus className="w-5 h-5" />
                     Add image
                   </label>
@@ -561,11 +561,11 @@ const Me = () => {
                       <div className="flex gap-2 pt-1">
                         {c.proof_images.map(path => imageUrls[path] ? (
                           <a key={path} href={imageUrls[path]} target="_blank" rel="noopener noreferrer"
-                            className="block w-14 h-14 rounded-lg overflow-hidden border border-white/10 hover:border-primary/50">
+                            className="block w-14 h-14 rounded-lg overflow-hidden border border-foreground/10 hover:border-primary/50">
                             <img src={imageUrls[path]} alt="Proof" className="w-full h-full object-cover" />
                           </a>
                         ) : (
-                          <div key={path} className="w-14 h-14 rounded-lg bg-white/5 border border-white/10" />
+                          <div key={path} className="w-14 h-14 rounded-lg bg-white/70 border border-foreground/10" />
                         ))}
                       </div>
                     )}

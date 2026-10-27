@@ -1,150 +1,96 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
+/** How long the loader runs before the site appears (ms). */
+const DURATION = 2600;
+
+/**
+ * 3D intro: the brain artwork turns on a floating 3D plane inside rotating
+ * rings, the logo rises beneath it, and a progress bar fills. Pure CSS 3D
+ * transforms, so there is no extra library to download.
+ */
 const StartupPreloader = ({ onComplete }: { onComplete: () => void }) => {
-    const [isDone, setIsDone] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-    useEffect(() => {
-        // Run sequence for 2.2 seconds before triggering exit
-        const timer = setTimeout(() => {
-            setIsDone(true);
-            setTimeout(onComplete, 500); // Wait for fade out
-        }, 2200);
-
-        return () => clearTimeout(timer);
-    }, [onComplete]);
-
-    // 6 pins per side
-    const pins = Array.from({ length: 6 });
-
-    // The order of rendering in the DOM defines the stagger order.
-    // By keeping them all inside one container, Framer staggerChildren lights them up sequentially.
-    const containerVariants = {
-        hidden: {},
-        visible: {
-            transition: { staggerChildren: 0.05 }
-        }
+  useEffect(() => {
+    const start = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / DURATION);
+      setProgress(p);
+      if (p < 1) frame = requestAnimationFrame(tick);
+      else setTimeout(onComplete, 250);
     };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [onComplete]);
 
-    const pinVariants = {
-        hidden: { backgroundColor: '#1a1a1a', boxShadow: '0 0 0 rgba(220,20,60,0)' },
-        visible: { 
-            backgroundColor: '#dc143c', 
-            boxShadow: '0 0 10px rgba(220,20,60,0.8)',
-            transition: { duration: 0.2 }
-        }
-    };
+  return (
+    <motion.div
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden bg-[#F7F9FC]"
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <style>{`
+        .ldr-scene { perspective: 1100px; }
+        .ldr-stage { transform-style: preserve-3d; animation: ldr-tilt 6s ease-in-out infinite; }
+        .ldr-card { transform-style: preserve-3d; animation: ldr-spin 9s linear infinite; }
+        .ldr-ring { position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(49,135,232,.45); transform-style: preserve-3d; }
+        .ldr-ring::after { content: ""; position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #3187E8; box-shadow: 0 0 14px rgba(49,135,232,.8); }
+        .ldr-r1 { animation: ldr-r1 5s linear infinite; }
+        .ldr-r2 { animation: ldr-r2 7s linear infinite; border-color: rgba(105,172,255,.5); }
+        .ldr-r3 { animation: ldr-r3 11s linear infinite; border-style: dashed; }
+        @keyframes ldr-spin { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        @keyframes ldr-tilt { 0%,100% { transform: rotateX(-12deg) rotateZ(-4deg); } 50% { transform: rotateX(12deg) rotateZ(4deg); } }
+        @keyframes ldr-r1 { from { transform: rotateX(70deg) rotateZ(0deg); } to { transform: rotateX(70deg) rotateZ(360deg); } }
+        @keyframes ldr-r2 { from { transform: rotateY(65deg) rotateZ(0deg); } to { transform: rotateY(65deg) rotateZ(-360deg); } }
+        @keyframes ldr-r3 { from { transform: rotateX(20deg) rotateY(-25deg) rotateZ(0deg); } to { transform: rotateX(20deg) rotateY(-25deg) rotateZ(360deg); } }
+        @media (prefers-reduced-motion: reduce) { .ldr-stage, .ldr-card, .ldr-ring { animation: none !important; } }
+      `}</style>
 
-    return (
-        <motion.div
-            initial={{ opacity: 1 }}
-            animate={{ opacity: isDone ? 0 : 1 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-[100] bg-[#050505] flex items-center justify-center overflow-hidden"
-        >
-            {/* The Microchip */}
-            <motion.div 
-                className="relative flex items-center justify-center"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ 
-                    scale: isDone ? 1.5 : 1, 
-                    opacity: 1 
-                }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-                {/* Pins Container (Must be absolute and sit behind the core) */}
-                <motion.div 
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="absolute inset-0"
-                >
-                    {/* Top Pins */}
-                    <div className="absolute -top-3 left-0 w-full flex justify-between px-3">
-                        {pins.map((_, i) => (
-                            <motion.div key={`top-${i}`} variants={pinVariants} className="w-1.5 h-3 bg-zinc-800 rounded-t-sm" />
-                        ))}
-                    </div>
-                    {/* Bottom Pins */}
-                    <div className="absolute -bottom-3 left-0 w-full flex justify-between px-3">
-                        {pins.map((_, i) => (
-                            <motion.div key={`bottom-${i}`} variants={pinVariants} className="w-1.5 h-3 bg-zinc-800 rounded-b-sm" />
-                        ))}
-                    </div>
-                    {/* Left Pins */}
-                    <div className="absolute top-0 -left-3 h-full flex flex-col justify-between py-3">
-                        {pins.map((_, i) => (
-                            <motion.div key={`left-${i}`} variants={pinVariants} className="w-3 h-1.5 bg-zinc-800 rounded-l-sm" />
-                        ))}
-                    </div>
-                    {/* Right Pins */}
-                    <div className="absolute top-0 -right-3 h-full flex flex-col justify-between py-3">
-                        {pins.map((_, i) => (
-                            <motion.div key={`right-${i}`} variants={pinVariants} className="w-3 h-1.5 bg-zinc-800 rounded-r-sm" />
-                        ))}
-                    </div>
-                </motion.div>
+      <div className="ldr-scene relative h-[320px] w-[320px] sm:h-[380px] sm:w-[380px]">
+        <div className="ldr-stage absolute inset-0">
+          <div className="ldr-ring ldr-r1" />
+          <div className="ldr-ring ldr-r2" />
+          <div className="ldr-ring ldr-r3" />
 
-                {/* Center Core */}
-                <motion.div 
-                    className="relative z-10 w-24 h-24 md:w-32 md:h-32 bg-[#0a0a0a] border-2 border-primary/20 rounded-md flex items-center justify-center overflow-hidden"
-                    animate={{
-                        borderColor: isDone ? 'rgba(220,20,60,1)' : 'rgba(220,20,60,0.3)',
-                        boxShadow: isDone ? '0 0 40px rgba(220,20,60,0.6), inset 0 0 20px rgba(220,20,60,0.3)' : '0 0 0px rgba(220,20,60,0)'
-                    }}
-                    transition={{ delay: 1.2, duration: 0.5 }} // delay roughly until pins finish
-                >
-                    <img
-                        src="/logo.png"
-                        alt="IEEE SSCS"
-                        className="w-[60%] h-[60%] object-contain opacity-90 relative z-20"
-                    />
-                    
-                    {/* Core scan line */}
-                    <motion.div 
-                        className="absolute left-0 right-0 h-full w-full bg-gradient-to-b from-transparent via-primary/20 to-transparent z-10"
-                        animate={{ top: ['-100%', '100%'] }}
-                        transition={{ duration: 1.5, ease: "linear", repeat: Infinity }}
-                    />
+          {/* The brain artwork on a spinning 3D plane */}
+          <div className="absolute inset-[14%]" style={{ transformStyle: 'preserve-3d' }}>
+            <div className="ldr-card absolute inset-0">
+              <div
+                className="absolute inset-0 overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(11,23,38,.18)]"
+                style={{ backfaceVisibility: 'hidden' }}
+              >
+                <img src="/brand/hero-brain-light.png" alt="" className="h-full w-full object-cover" draggable={false} />
+              </div>
+              <div
+                className="absolute inset-0 overflow-hidden rounded-2xl bg-white shadow-[0_20px_60px_rgba(11,23,38,.18)]"
+                style={{ transform: 'rotateY(180deg)', backfaceVisibility: 'hidden' }}
+              >
+                <img src="/brand/aic-mark.svg" alt="" className="h-full w-full object-contain p-6" draggable={false} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                    {/* Faint Grid Background inside chip */}
-                    <div 
-                        className="absolute inset-0 opacity-20 pointer-events-none"
-                        style={{
-                            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                            backgroundSize: '8px 8px'
-                        }}
-                    />
-                </motion.div>
+      <motion.img
+        src="/brand/aic-logo-full.png"
+        alt="AI Club VIT Chennai"
+        className="mt-6 h-16 w-auto object-contain mix-blend-multiply sm:h-20"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, duration: 0.7 }}
+      />
 
-                {/* Outer Glow Pulse */}
-                <motion.div 
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ 
-                        opacity: isDone ? [0, 0.5, 0] : 0, 
-                        scale: isDone ? 2 : 0.8 
-                    }}
-                    transition={{ duration: 1, ease: "easeOut", delay: 1.4 }}
-                    className="absolute inset-0 -z-10 rounded-full border border-primary/50 shadow-[0_0_50px_rgba(220,20,60,0.5)]"
-                />
-
-                {/* Tagline Wipe Animation */}
-                <motion.div 
-                    className="absolute -bottom-16 left-1/2 -translate-x-1/2 whitespace-nowrap"
-                    initial={{ clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)", opacity: 0 }}
-                    animate={{ 
-                        clipPath: isDone ? "polygon(0 0, 0 0, 0 100%, 0% 100%)" : "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-                        opacity: 1 
-                    }}
-                    transition={{ duration: 1.2, delay: 0.8, ease: "easeInOut" }}
-                >
-                    <span className="font-heading text-primary/80 tracking-[0.2em] uppercase text-xs font-bold drop-shadow-[0_0_8px_rgba(220,20,60,0.5)]">
-                        Think Silicon. Think SSCS
-                    </span>
-                </motion.div>
-            </motion.div>
-        </motion.div>
-    );
+      <div className="mt-8 h-[3px] w-56 overflow-hidden rounded-full bg-[#14283D]/10">
+        <div className="h-full origin-left rounded-full bg-[#3187E8]" style={{ transform: `scaleX(${progress})` }} />
+      </div>
+      <p className="mt-3 font-mono text-[11px] tracking-[0.3em] text-[#0B1726]/60">
+        LOADING {Math.round(progress * 100)}%
+      </p>
+    </motion.div>
+  );
 };
 
 export default StartupPreloader;

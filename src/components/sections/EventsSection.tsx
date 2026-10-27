@@ -119,7 +119,7 @@ const EventsSection = () => {
 
         <div className="max-w-6xl mx-auto space-y-6 px-6">
           {events === null && Array.from({ length: 2 }, (_, i) => (
-            <div key={i} className="h-44 rounded-2xl bg-white/[0.03] border border-white/5 animate-pulse" />
+            <div key={i} className="h-44 rounded-2xl bg-white/[0.03] border border-foreground/5 animate-pulse" />
           ))}
 
           {events !== null && shown.length === 0 && (
@@ -167,7 +167,7 @@ const EventsSection = () => {
                     {event.tags.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {event.tags.map(tag => (
-                          <span key={tag} className="px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 text-[10px] text-muted-foreground hover:border-primary/30 transition-colors">
+                          <span key={tag} className="px-3 py-1 rounded-full bg-white/[0.03] border border-foreground/5 text-[10px] text-muted-foreground hover:border-primary/30 transition-colors">
                             {tag}
                           </span>
                         ))}
@@ -187,7 +187,7 @@ const EventsSection = () => {
                   if (showAll) document.getElementById('events')?.scrollIntoView({ behavior: 'smooth' });
                   setShowAll(v => !v);
                 }}
-                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-white/10 bg-white/[0.03] text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full border border-foreground/10 bg-white/[0.03] text-xs font-bold tracking-[0.2em] uppercase text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"
               >
                 {showAll ? <>Show less <ChevronUp className="w-4 h-4" /></> : <>See all events ({allPast.length}) <ChevronDown className="w-4 h-4" /></>}
               </button>
@@ -209,7 +209,7 @@ const EventsSection = () => {
                 <div className="fixed inset-0 flex items-center justify-center z-[101] p-4 pointer-events-none">
                   <motion.div
                     layoutId={`card-${selected.id}`}
-                    className="w-full max-w-2xl max-h-[80vh] bg-[#0a0a0a] border border-white/10 rounded-2xl overflow-y-auto pointer-events-auto custom-scrollbar shadow-2xl"
+                    className="w-full max-w-2xl max-h-[80vh] bg-background border border-foreground/10 rounded-2xl overflow-y-auto pointer-events-auto custom-scrollbar shadow-2xl"
                   >
                     <div className="p-6 md:p-8">
                       <div className="flex justify-between items-start mb-6">
@@ -222,7 +222,7 @@ const EventsSection = () => {
                         </div>
                         <button
                           onClick={e => { e.stopPropagation(); setSelectedId(null); }}
-                          className="p-2 hover:bg-white/5 rounded-full transition-colors"
+                          className="p-2 hover:bg-white/70 rounded-full transition-colors"
                           aria-label="Close"
                         >
                           <Minus className="w-6 h-6 text-muted-foreground/50" />
@@ -240,12 +240,12 @@ const EventsSection = () => {
                               key={img}
                               type="button"
                               onClick={() => setViewerIdx(idx)}
-                              className="group relative aspect-[4/3] rounded-lg overflow-hidden border border-white/10 hover:border-primary/40 transition-colors cursor-zoom-in"
+                              className="group relative aspect-[4/3] rounded-lg overflow-hidden border border-foreground/10 hover:border-primary/40 transition-colors cursor-zoom-in"
                               aria-label={`View photo ${idx + 1} of ${images.length}`}
                             >
                               <img src={img} alt={`${selected.title} photo ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
                               <span className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <ZoomIn className="w-5 h-5 text-white" />
+                                <ZoomIn className="w-5 h-5 text-foreground" />
                               </span>
                             </button>
                           ))}
@@ -264,7 +264,7 @@ const EventsSection = () => {
                       )}
 
                       {(selected.link || selected.tags.length > 0) && (
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-6 border-t border-white/5">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pt-6 border-t border-foreground/5">
                           {selected.link && (
                             <a
                               href={selected.link}
@@ -277,7 +277,7 @@ const EventsSection = () => {
                           )}
                           <div className="flex flex-wrap gap-2">
                             {selected.tags.map(tag => (
-                              <span key={tag} className="px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 text-[10px] text-muted-foreground">
+                              <span key={tag} className="px-3 py-1 rounded-full bg-white/[0.03] border border-foreground/5 text-[10px] text-muted-foreground">
                                 {tag}
                               </span>
                             ))}
@@ -315,32 +315,32 @@ const EventsSection = () => {
 
               <button
                 onClick={e => { e.stopPropagation(); setViewerIdx(null); }}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/70 hover:bg-white/80 transition-colors"
                 aria-label="Close photo"
               >
-                <X className="w-5 h-5 text-white" />
+                <X className="w-5 h-5 text-foreground" />
               </button>
 
               {images.length > 1 && (
                 <>
                   <button
                     onClick={e => { e.stopPropagation(); step(-1); }}
-                    className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                    className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/70 hover:bg-white/80 transition-colors"
                     aria-label="Previous photo"
                   >
-                    <ChevronLeft className="w-6 h-6 text-white" />
+                    <ChevronLeft className="w-6 h-6 text-foreground" />
                   </button>
                   <button
                     onClick={e => { e.stopPropagation(); step(1); }}
-                    className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                    className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/70 hover:bg-white/80 transition-colors"
                     aria-label="Next photo"
                   >
-                    <ChevronRight className="w-6 h-6 text-white" />
+                    <ChevronRight className="w-6 h-6 text-foreground" />
                   </button>
                 </>
               )}
 
-              <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-white/70 tracking-widest">
+              <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-foreground/80 tracking-widest">
                 {viewerIdx + 1} / {images.length}
               </p>
             </motion.div>

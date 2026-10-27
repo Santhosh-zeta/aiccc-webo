@@ -49,8 +49,8 @@ const SiteFooter = () => {
 
   return (
     <footer
-      className="relative h-[100svh] min-h-[560px] w-full overflow-hidden border-t border-white/5 bg-[#060606]"
-      style={{ backgroundImage: "radial-gradient(60% 50% at 0% 0%, rgba(220,20,60,0.10), transparent 70%), radial-gradient(50% 45% at 100% 40%, rgba(220,20,60,0.07), transparent 70%)" }}
+      className="relative h-[100svh] min-h-[560px] w-full overflow-hidden border-t border-foreground/5 bg-[#060606]"
+      style={{ backgroundImage: "radial-gradient(60% 50% at 0% 0%, rgba(49,135,232,0.10), transparent 70%), radial-gradient(50% 45% at 100% 40%, rgba(49,135,232,0.07), transparent 70%)" }}
     >
       {playing ? (
         <Suspense fallback={<StaticTiles />}>
@@ -64,7 +64,7 @@ const SiteFooter = () => {
       <div className="pointer-events-none relative z-10 mx-auto grid max-w-[1800px] grid-cols-1 gap-x-10 gap-y-6 px-6 pt-12 md:grid-cols-2 md:px-16 md:pt-16">
         <div className="font-body font-medium leading-[0.92] tracking-tight text-white/35 text-[clamp(34px,4.6vw,76px)] select-none">
           <span className="relative">
-            <span className="text-primary/85">IEEE</span> <span className="text-white/50">SSCS</span>
+            <span className="text-primary/85">AI</span> <span className="text-muted-foreground">CLUB</span>
             {combo > 1 && (
               <span className="absolute -right-12 top-[0.35em] font-mono text-xs md:text-sm font-bold text-primary">×{combo}</span>
             )}
@@ -76,7 +76,7 @@ const SiteFooter = () => {
         <div className="text-[#9b9b9f] text-[clamp(20px,2vw,32px)] leading-snug md:text-right">
           <button
             onClick={() => (playing ? stop() : setPlaying(true))}
-            className="pointer-events-auto py-1 font-medium text-white underline decoration-primary decoration-2 underline-offset-[6px] hover:text-primary transition-colors"
+            className="pointer-events-auto py-1 font-medium text-foreground underline decoration-primary decoration-2 underline-offset-[6px] hover:text-primary transition-colors"
           >
             {playing ? 'STOP' : 'PLAY'}
           </button>{' '}
@@ -86,7 +86,7 @@ const SiteFooter = () => {
         </div>
 
         <p className="text-sm md:text-lg text-[#9b9b9f]">
-          Copyright © 2026 IEEE SSCS VIT Chennai
+          Copyright © 2026 AI Club VIT Chennai
           <span aria-hidden="true" className="mx-2 text-[#5a5a5e]">·</span>
           <span className="whitespace-nowrap">
             Built by{' '}
@@ -94,7 +94,7 @@ const SiteFooter = () => {
               href="https://sibhi.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="pointer-events-auto inline-block py-1.5 text-white underline decoration-primary decoration-2 underline-offset-4 hover:text-primary transition-colors"
+              className="pointer-events-auto inline-block py-1.5 text-foreground underline decoration-primary decoration-2 underline-offset-4 hover:text-primary transition-colors"
             >
               Sibhi
             </a>
@@ -109,7 +109,7 @@ const SiteFooter = () => {
                 href={l.href}
                 target={l.href.startsWith('http') ? '_blank' : undefined}
                 rel="noopener noreferrer"
-                className="pointer-events-auto inline-block py-2 hover:text-white transition-colors"
+                className="pointer-events-auto inline-block py-2 hover:text-foreground transition-colors"
               >
                 {l.label}
               </a>

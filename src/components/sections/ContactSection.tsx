@@ -37,12 +37,12 @@ const ContactSection = () => {
           >
             <a
               href="mailto:ieee.sscs.vitchennai@gmail.com"
-              className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-white/[0.08] backdrop-blur-xl transition-all group"
+              className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/70 border border-foreground/10 hover:border-primary/50 hover:bg-white/[0.08] backdrop-blur-xl transition-all group"
             >
               <Mail className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
               <span className="text-sm font-medium text-foreground/80">ieee.sscs.vitchennai@gmail.com</span>
             </a>
-            <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl">
+            <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/70 border border-foreground/10 backdrop-blur-xl">
               <MapPin className="w-5 h-5 text-primary" />
               <span className="text-sm font-medium text-foreground/80 text-center">VIT Chennai, India</span>
             </div>
@@ -61,7 +61,7 @@ const ContactSection = () => {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 hover:bg-white/[0.08] backdrop-blur-xl hover:text-primary transition-all group"
+                className="p-4 rounded-2xl bg-white/70 border border-foreground/10 hover:border-primary/50 hover:bg-white/[0.08] backdrop-blur-xl hover:text-primary transition-all group"
                 aria-label={social.label}
               >
                 <social.icon className="w-6 h-6 group-hover:scale-110 transition-transform" />

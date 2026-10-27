@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { AFTER_LOGIN_KEY, AuthProvider, useAuth } from '@/contexts/AuthContext';
 import { Toaster } from '@/components/ui/sonner';
 import Index from '@/pages/Index';
@@ -9,6 +9,7 @@ import Proposals from '@/pages/Proposals';
 import NotFound from '@/pages/NotFound';
 
 import Me from '@/pages/Me';
+import { RECRUITMENT_CLOSED } from '@/config/recruitment';
 import './App.css';
 
 import { Suspense, useEffect, useState } from 'react';
@@ -48,12 +49,26 @@ const WebsitePage = lazyPage(() => import('@/admin/pages/WebsitePage'));
 const TeamPage = lazyPage(() => import('@/admin/pages/TeamPage'));
 const SuperAdminOnly = lazyPage(() => import('@/admin/SuperAdminOnly'));
 
+// Recruitment (ATS): applicant pages, the interviewer dashboard and the recruitment panel.
+// Each is its own lazy chunk, so the club site doesn't download them.
+const Apply = lazyPage(() => import('@/pages/Apply'));
+const Register = lazyPage(() => import('@/pages/Register'));
+const StatusPage = lazyPage(() => import('@/pages/Status'));
+const ScheduleInterview = lazyPage(() => import('@/pages/ScheduleInterview'));
+const InterviewerDashboard = lazyPage(() => import('@/pages/InterviewerDashboard'));
+const RecruitmentSchedule = lazyPage(() => import('@/pages/RecruitmentSchedule'));
+const RecruitmentPanel = lazyPage(() => import('@/admin/recruitment/RecruitmentPanel'));
+
 const isAdminPath = (path: string) => path === '/admin' || path.startsWith('/admin/');
 
 /** The custom cursor belongs to the public site; the admin panel uses the normal one. */
 function SiteCursor() {
   const { pathname } = useLocation();
-  return isAdminPath(pathname) ? null : <CustomCursor />;
+  const admin = isAdminPath(pathname);
+  // Admin styles (admin.css) bring back the normal cursor only under this class.
+  // It covers /admin/recruitment too, which doesn't use AdminLayout.
+  useEffect(() => { document.body.classList.toggle('adm-body', admin); }, [admin]);
+  return admin ? null : <CustomCursor />;
 }
 
 /** Google sends everyone back to the home page; this takes them on to where they signed in from (e.g. /admin). */
@@ -102,7 +117,7 @@ function App() {
             <Router>
               <SiteCursor />
               <ReturnAfterLogin />
-              <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><LogoSpinner size="md" /></div>}>
+              <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><LogoSpinner size="md" /></div>}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/team" element={<Team />} />
@@ -111,6 +126,29 @@ function App() {
                 <Route path="/proposals" element={<Proposals />} />
 
                 <Route path="/me" element={<Me />} />
+
+                {/* Recruitment routes: closed off while RECRUITMENT_CLOSED (src/config/recruitment.ts) */}
+                {RECRUITMENT_CLOSED ? (
+                  <>
+                    <Route path="/apply" element={<Navigate to="/" replace />} />
+                    <Route path="/status" element={<Navigate to="/" replace />} />
+                    <Route path="/schedule" element={<Navigate to="/" replace />} />
+                    <Route path="/register" element={<Navigate to="/" replace />} />
+                  </>
+                ) : (
+                  <>
+                    <Route path="/apply" element={<Apply />} />
+                    <Route path="/status" element={<StatusPage />} />
+                    <Route path="/schedule" element={<ScheduleInterview />} />
+                    <Route path="/register" element={<Register />} />
+                  </>
+                )}
+
+                {/* Staff recruitment routes: auth-gated, unaffected by the recruitment switch */}
+                <Route path="/interviewer" element={<InterviewerDashboard />} />
+                <Route path="/admin/recruitment" element={<RecruitmentPanel />} />
+                <Route path="/admin/recruitment/schedule" element={<RecruitmentSchedule />} />
+
                 <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<Overview />} />
                   <Route path="calendar" element={<CalendarPage />} />

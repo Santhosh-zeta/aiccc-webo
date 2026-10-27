@@ -1,170 +1,171 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, Instagram } from 'lucide-react';
+import { ArrowRight, ChevronDown, Instagram, Video } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import GlitchText from '@/components/ui/GlitchText';
-import RotatingWord from '@/components/fx/RotatingWord';
-import AsciiReveal from '@/components/fx/AsciiReveal';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
+import { useRecruitmentWindow } from '@/hooks/useRecruitmentWindow';
+import { RECRUITMENT_CLOSED, INSTAGRAM_URL } from '@/config/recruitment';
 
-const INSTAGRAM_URL = 'https://www.instagram.com/ieee_sscs_vitcc/';
-const DESIGN_WORDS = ['circuits', 'chips', 'systems', 'the future'];
+const STATS = [
+  { value: '50+', label: 'Active Members' },
+  { value: '10+', label: 'Events Every Year' },
+  { value: '20+', label: 'Projects Built' },
+  { value: '∞', label: 'Ideas Ahead' },
+];
 
 const HeroSection = () => {
+  const { user } = useAuth();
+  const [hasApplied, setHasApplied] = useState(false);
+  const [canBookSlot, setCanBookSlot] = useState(false);
+  const [isBooked, setIsBooked] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
+  // Server-evaluated: the manual switch AND the scheduled window.
+  const { isOpen: isRecruitmentOpen } = useRecruitmentWindow();
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      if (!user) {
+        setHasApplied(false);
+        setCanBookSlot(false);
+        setIsBooked(false);
+        setIsSelected(false);
+        return;
+      }
+      const { data } = await supabase
+        .from('applications')
+        .select('id, status, shortlist_notified')
+        .or(`user_id.eq.${user.uid},email.eq.${user.email}`)
+        .limit(1);
+
+      if (data && data.length > 0) {
+        setHasApplied(true);
+        const app = data[0];
+        const st = app.status;
+        // Gated on shortlist_notified: a shortlisted applicant who has not been
+        // emailed yet must not be told they can book.
+        if (st === 'shortlisted' && app.shortlist_notified === true) setCanBookSlot(true);
+        else if (st === 'interview_scheduled') setIsBooked(true);
+        else if (['selected', 'active_member'].includes(st)) setIsSelected(true);
+      }
+    };
+
+    checkStatus();
+  }, [user]);
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // One primary call-to-action, chosen from the recruitment state. Checked in order.
+  const cta = RECRUITMENT_CLOSED
+    ? { kind: 'link' as const, label: 'Follow on Instagram', href: INSTAGRAM_URL, icon: Instagram }
+    : canBookSlot
+      ? { kind: 'router' as const, label: 'Book Slot', to: '/schedule', icon: ArrowRight }
+      : isBooked
+        ? { kind: 'router' as const, label: 'View Interview Slot', to: '/status', icon: Video }
+        : isSelected
+          ? { kind: 'router' as const, label: 'Application Selected', to: '/status', icon: ArrowRight }
+          : hasApplied
+            ? { kind: 'disabled' as const, label: 'Application Received', icon: ArrowRight }
+            : !isRecruitmentOpen
+              ? { kind: 'disabled' as const, label: 'Recruitment Closed', icon: ArrowRight }
+              : { kind: 'router' as const, label: 'Join the Club', to: '/apply', icon: ArrowRight };
+
+  const CtaIcon = cta.icon;
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
-      {/* The club as ASCII art; the pointer reveals the real photo in blocks */}
-      <motion.div
-        className="absolute inset-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.4 }}
-        style={{
-          maskImage: 'radial-gradient(ellipse 75% 70% at 50% 55%, black 35%, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 75% 70% at 50% 55%, black 35%, transparent 80%)',
-        }}
-      >
-        <AsciiReveal src="/team-photo.jpg" focusY={0.62} className="h-full w-full" />
-      </motion.div>
-
-      {/* Content Container */}
-
-      {/* 3. Main Content Container (No more 'box' container to avoid coinciding boxes) */}
-      <div className="relative z-10 container mx-auto px-6">
+    <section id="top" className="relative min-h-screen overflow-hidden bg-transparent pt-32 pb-16 lg:pt-36">
+      <div className="container mx-auto grid items-center gap-10 px-6 lg:grid-cols-[1.05fr_1fr]">
+        {/* Copy */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative pt-28 pb-28 sm:py-20"
+          className="relative z-10"
         >
-          {/* Logo Background (Abstract Glassy Watermark - Pulsing) */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] pointer-events-none -z-10 select-none">
-            <motion.div
-              animate={{ 
-                scale: [1, 1.05, 1],
-                opacity: [0.03, 0.06, 0.03]
-              }}
-              transition={{ 
-                scale: { duration: 8, repeat: Infinity, ease: "easeInOut" },
-                opacity: { duration: 8, repeat: Infinity, ease: "easeInOut" }
-              }}
-              className="w-full h-full relative"
-            >
-              <img
-                src="/logo.png"
-                alt=""
-                className="w-full h-full object-contain brightness-200 invert opacity-15"
-              />
-              {/* Radial Fade to avoid sharp edges - Using inline style for reliability */}
-              <div 
-                className="absolute inset-0" 
-                style={{ 
-                  background: 'radial-gradient(circle, transparent 30%, #050505 70%)' 
-                }} 
-              />
-            </motion.div>
-          </div>
+          <p className="font-mono text-xs tracking-[0.3em] text-muted-foreground">
+            LEARN <span className="text-primary">•</span> BUILD <span className="text-primary">•</span> COLLABORATE <span className="text-primary">•</span> CREATE
+          </p>
 
-          <div className="relative z-10 flex flex-col items-center text-center">
-            {/* Slogan with Glass Line */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="flex items-center gap-3 sm:gap-5 mb-8 sm:mb-10"
-            >
-              <div className="h-[1px] w-6 sm:w-10 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-              <span className="text-[10px] sm:text-[11px] md:text-sm text-primary/90 tracking-[0.25em] sm:tracking-[0.35em] whitespace-nowrap uppercase font-bold px-4 py-1 rounded-full border border-primary/10 bg-primary/5 backdrop-blur-sm">
-                Design • Build • Iterate
-              </span>
-              <div className="h-[1px] w-6 sm:w-10 bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-            </motion.div>
- 
-            {/* Main Title */}
-            <div className="flex flex-wrap justify-center gap-x-3 sm:gap-x-5 gap-y-2 mb-6 sm:mb-8 font-heading text-[2.75rem] leading-none sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-              >
-                <GlitchText text="IEEE" className="text-primary select-none" />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              >
-                <GlitchText text="SSCS" className="text-foreground select-none" />
-              </motion.div>
-            </div>
- 
-            {/* Subtitle / Tagline */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="space-y-3 sm:space-y-4 mb-10 sm:mb-12"
-            >
-              <h2 className="text-lg sm:text-xl md:text-3xl font-heading text-foreground/90 font-light tracking-wide italic">
-                Think Silicon. Think SSCS
-              </h2>
-              <p className="font-heading text-base md:text-xl text-foreground/80 tracking-wide">
-                We design <RotatingWord words={DESIGN_WORDS} className="italic text-primary" />
-              </p>
-              <p className="text-sm md:text-lg text-muted-foreground/80 max-w-2xl mx-auto leading-relaxed">
-                Empowering the next generation of analog and digital circuit designers through hands-on technical excellence and industry-bridging research.
-              </p>
-            </motion.div>
+          <h1 className="mt-5 font-heading text-4xl font-bold uppercase leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+            Where human curiosity meets{' '}
+            <span className="text-primary">artificial intelligence.</span>
+          </h1>
 
-            {/* Glassy CTA Buttons */}
-            <motion.div
-              className="flex w-full flex-col sm:w-auto sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
-            >
-              <Button
-                size="lg"
-                className="w-full sm:w-auto px-10 h-12 sm:h-14 bg-primary text-primary-foreground hover:bg-primary/90 font-heading rounded-full shadow-[0_0_20px_rgba(220,20,60,0.3)] transition-all hover:scale-105"
-                asChild
-              >
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                  Follow on Instagram
-                  <Instagram className="w-5 h-5 ml-2" />
+          <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-muted-foreground sm:text-lg">
+            A student-led community at VIT Chennai, exploring AI through learning, building and collaboration.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            {cta.kind === 'link' && (
+              <Button size="lg" className="h-12 rounded-lg px-7 font-heading font-semibold" asChild>
+                <a href={cta.href} target="_blank" rel="noopener noreferrer">
+                  {cta.label}
+                  <CtaIcon className="ml-2 h-5 w-5" />
                 </a>
               </Button>
-
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto px-10 h-12 sm:h-14 border-white/10 text-foreground hover:bg-white/5 backdrop-blur-md rounded-full transition-all hover:border-primary/50"
-                onClick={() => scrollToSection('#domains')}
-              >
-                Explore Domains
+            )}
+            {cta.kind === 'router' && (
+              <Button size="lg" className="h-12 rounded-lg px-7 font-heading font-semibold" asChild>
+                <Link to={cta.to}>
+                  {cta.label}
+                  <CtaIcon className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
-            </motion.div>
+            )}
+            {cta.kind === 'disabled' && (
+              <Button size="lg" className="h-12 rounded-lg px-7 font-heading font-semibold" disabled>
+                {cta.label}
+              </Button>
+            )}
+            <Button
+              size="lg"
+              variant="outline"
+              className="h-12 rounded-lg border-primary/70 bg-transparent px-7 font-heading font-semibold text-foreground hover:bg-primary/10"
+              onClick={() => scrollToSection('#events')}
+            >
+              Explore Events
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
+
+          <div className="mt-12 grid max-w-xl grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-0">
+            {STATS.map((s, i) => (
+              <div key={s.label} className={`sm:px-5 ${i > 0 ? 'sm:border-l sm:border-border' : ''}`}>
+                <div className="font-heading text-2xl font-bold text-foreground">{s.value}</div>
+                <div className="mt-1 text-xs text-muted-foreground">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Visual: the generated half-brain with circuit traces */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.96 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.2 }}
+          className="relative mx-auto w-full max-w-[640px]"
+        >
+          <img
+            src="/brand/hero-brain-light.png"
+            alt=""
+            aria-hidden="true"
+            className="h-auto w-full select-none"
+            draggable={false}
+          />
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.button
-        className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-all p-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 group"
+      <button
         onClick={() => scrollToSection('#about')}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{
-          opacity: { delay: 1.5 },
-          y: { delay: 1.5, duration: 2, repeat: Infinity }
-        }}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-muted-foreground transition-colors hover:text-primary"
+        aria-label="Scroll to about the club"
       >
-        <ChevronDown className="w-6 h-6 group-hover:scale-110 transition-transform" />
-      </motion.button>
+        <ChevronDown className="h-6 w-6 animate-bounce" />
+      </button>
     </section>
   );
 };

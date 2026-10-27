@@ -94,7 +94,7 @@ const MembershipSection = () => (
         <HolographicCard className="px-6 py-2 sm:px-8">
           <Accordion type="single" collapsible>
             {FAQ.map((item, i) => (
-              <AccordionItem key={item.q} value={`q${i}`} className="border-white/5 last:border-b-0">
+              <AccordionItem key={item.q} value={`q${i}`} className="border-foreground/5 last:border-b-0">
                 <AccordionTrigger className="text-left font-heading text-sm md:text-base text-foreground hover:text-primary hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
