@@ -1,7 +1,8 @@
 /** Public contact points. Update here and the footer follows. */
 export const CLUB_LINKS = [
-  { label: 'Instagram', href: 'https://www.instagram.com/ieee_sscs_vitcc/' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/ieee-sscs-vitc/' },
-  { label: 'WhatsApp', href: 'https://chat.whatsapp.com/Em8uoQtYNPcFTsg3w0dVdo?s=qt&p=a&ilr=1' },
-  { label: 'Email', href: 'mailto:ieee.sscs.vitchennai@gmail.com' },
+  { label: 'Instagram', handle: '@aiclubvitc', href: 'https://www.instagram.com/aiclubvitc/' },
+  { label: 'LinkedIn', handle: 'AI Club VIT Chennai', href: 'https://www.linkedin.com/company/aiclubvitc' },
+  { label: 'Email', handle: 'aiclubvitc@gmail.com', href: 'mailto:aiclubvitc@gmail.com' },
 ];
+
+export const BUILT_BY = { name: 'Santhosh', href: 'https://santhoshv.xyz' };

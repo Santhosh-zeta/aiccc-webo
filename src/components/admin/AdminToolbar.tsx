@@ -66,7 +66,7 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
                 <div className="relative w-full md:w-72 group/input">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                     <Input
-                        placeholder="Search Intelligence Database..."
+                        placeholder="Search by name, roll number or email"
                         className="pl-11 h-12 bg-white border-border focus:border-primary/40 focus:ring-primary/20 rounded-xl transition-all placeholder:text-muted-foreground/50 text-sm font-medium"
                         value={searchTerm}
                         onChange={(e) => onSearchChange(e.target.value)}

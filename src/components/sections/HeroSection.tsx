@@ -93,7 +93,7 @@ const HeroSection = () => {
           <div className="mt-7 flex flex-wrap items-center gap-4">
             <button
               type="button"
-              onClick={() => scrollToSection('#upcoming-events')}
+              onClick={() => scrollToSection('#events')}
               className="inline-flex h-[42px] items-center gap-3 rounded-[3px] bg-primary px-8 font-body text-[15px] font-medium text-white shadow-[0_8px_20px_-8px_hsl(var(--primary)/0.7)] transition-colors hover:bg-primary/90"
             >
               Explore Events

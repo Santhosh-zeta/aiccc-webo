@@ -18,4 +18,4 @@
  */
 export const RECRUITMENT_CLOSED = true;
 
-export const INSTAGRAM_URL = 'https://www.instagram.com/ieee_sscs_vitcc/';
+export const INSTAGRAM_URL = 'https://www.instagram.com/aiclubvitc/';
