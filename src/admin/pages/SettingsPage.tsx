@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import { ChevronRight, Trash2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/sonner';
 import type { ContributionType } from '@/types/club';
@@ -39,9 +39,24 @@ const FEATURES: { key: keyof FeatureFlags; name: string; text: string }[] = [
   { key: 'grid', name: 'Grid maker', text: 'Shows the Instagram grid maker to every admin. When off, it is hidden from the menu for everyone.' },
 ];
 
+/** Section heading with an arrow: the body only shows after it is clicked. */
+function FoldHead({ title, open, onToggle, aside }: { title: string; open: boolean; onToggle: () => void; aside?: React.ReactNode }) {
+  return (
+    <div className="list-head">
+      <button type="button" onClick={onToggle} aria-expanded={open}
+        style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'none', border: 0, padding: 0, cursor: 'pointer', textAlign: 'left' }}>
+        <ChevronRight size={20} style={{ transition: 'transform .15s', transform: open ? 'rotate(90deg)' : 'none', flexShrink: 0 }} />
+        <h3 className="ph" style={{ margin: 0 }}>{title}</h3>
+      </button>
+      {aside}
+    </div>
+  );
+}
+
 function FeaturesSection() {
   const flags = useFeatureFlags();
   const [busy, setBusy] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
 
   const toggle = async (key: keyof FeatureFlags) => {
     const next = { recruitment: flags.recruitment, grid: flags.grid, [key]: !flags[key] } as FeatureFlags;
@@ -56,11 +71,8 @@ function FeaturesSection() {
 
   return (
     <section className="panel">
-      <div className="list-head">
-        <h3 className="ph">Features</h3>
-        <span className="asof">Optional parts of the panel. Off until you need them.</span>
-      </div>
-      <div style={{ display: 'grid', gap: 12 }}>
+      <FoldHead title="Features" open={open} onToggle={() => setOpen(o => !o)} aside={<span className="asof">Optional parts of the panel. Off until you need them.</span>} />
+      {open && <div style={{ display: 'grid', gap: 12, marginTop: 8 }}>
         {FEATURES.map(f => (
           <div key={f.key} style={{ display: 'flex', alignItems: 'center', gap: 16, justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid var(--line)' }}>
             <div style={{ minWidth: 0 }}>
@@ -73,7 +85,7 @@ function FeaturesSection() {
             </label>
           </div>
         ))}
-      </div>
+      </div>}
     </section>
   );
 }
@@ -170,6 +182,7 @@ type Draft = { name: string; points: string; active: boolean };
 
 function TypesSection() {
   const { reload } = useAdminData();
+  const [open, setOpen] = useState(false);
   const [types, setTypes] = useState<ContributionType[] | null>(null);
   const [drafts, setDrafts] = useState<Record<string, Draft>>({});
   const [showHidden, setShowHidden] = useState(false);
@@ -238,10 +251,9 @@ function TypesSection() {
 
   return (
     <section className="panel">
-      <div className="list-head">
-        <h3 className="ph">Contribution types and points</h3>
-        <label className="chk"><input type="checkbox" checked={showHidden} onChange={e => setShowHidden(e.target.checked)} /> Show hidden types</label>
-      </div>
+      <FoldHead title="Contribution types and points" open={open} onToggle={() => setOpen(o => !o)}
+        aside={open ? <label className="chk"><input type="checkbox" checked={showHidden} onChange={e => setShowHidden(e.target.checked)} /> Show hidden types</label> : undefined} />
+      {open && <>
       <p className="note-sm">
         Changing points applies to <b>new approvals</b>; contributions already approved keep their points.
         Attendance roles are different: their points are always the current value, so changing them updates everyone's totals.
@@ -305,6 +317,7 @@ function TypesSection() {
           <button type="submit" className="primary">Add</button>
         </div>
       </form>
+      </>}
     </section>
   );
 }
