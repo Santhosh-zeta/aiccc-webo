@@ -289,16 +289,16 @@ const InterviewScheduler = () => {
                 const portalUrl = window.location.origin;
                 const ok = await sendEmail(
                     app.email,
-                    `Action Required: Book Your Interview Slot - IEEE SSCS [${app.fullName}]`,
+                    `Action Required: Book Your Interview Slot - AI Club [${app.fullName}]`,
                     `<p>Dear <strong>${app.fullName}</strong>,</p>
-                    <p>Congratulations! Your application for IEEE SSCS has been shortlisted for an interview.</p>
+                    <p>Congratulations! Your application for AI Club has been shortlisted for an interview.</p>
                     <p>Please click the button below to choose your preferred interview time slot:</p>
                     <p style="margin: 20px 0;">
                         <a href="${portalUrl}/schedule" style="background-color: #3187E8; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">Book Interview Slot</a>
                     </p>
                     <p>Direct Link: <a href="${portalUrl}/schedule">${portalUrl}/schedule</a></p>
                     <p><em>Note: Slots are allocated on a first-come, first-served basis.</em></p>
-                    <p>Best regards,<br>IEEE SSCS HR Team</p>`
+                    <p>Best regards,<br>AI Club HR Team</p>`
                 );
 
                 if (ok) {
@@ -390,7 +390,7 @@ const InterviewScheduler = () => {
                     </p>
                 </div>
                 
-                <div className="flex items-center gap-4 bg-white/70 p-1 rounded-2xl border border-foreground/10 backdrop-blur-xl group">
+                <div className="flex items-center gap-4 bg-white p-1 rounded-md border border-border  group">
                     <div className="px-4 py-2 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em]">
                         View Date
                     </div>
@@ -398,14 +398,14 @@ const InterviewScheduler = () => {
                         type="date"
                         value={selectedDate}
                         onChange={(e) => setSelectedDate(e.target.value)}
-                        className="bg-white/70 border-foreground/10 text-foreground w-44 h-10 rounded-xl focus:ring-primary/20 focus:border-primary/40 font-mono text-xs"
+                        className="bg-white border-border text-foreground w-44 h-10 rounded-xl focus:ring-primary/20 focus:border-primary/40 font-mono text-xs"
                     />
                 </div>
             </div>
 
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <div className="flex justify-start mb-8 overflow-x-auto pb-2 scrollbar-hide">
-                    <TabsList className="bg-white/70 border border-foreground/10 p-1 h-auto backdrop-blur-xl rounded-2xl">
+                    <TabsList className="bg-white border border-border p-1 h-auto  rounded-md">
                         <TabsTrigger 
                             value="my-interviews" 
                             className="px-6 py-2.5 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-primary/20 transition-all text-xs font-bold tracking-wider"
@@ -437,9 +437,9 @@ const InterviewScheduler = () => {
                 {/* --- MY INTERVIEWS TAB --- */}
                 <TabsContent value="my-interviews" className="space-y-8 outline-none animate-in fade-in slide-in-from-bottom-4 duration-500">
                     {myAssignments.length === 0 ? (
-                        <HolographicCard className="p-20 text-center border-dashed border-foreground/10">
+                        <HolographicCard className="p-20 text-center border-dashed border-border">
                             <div className="max-w-xs mx-auto space-y-4">
-                                <div className="w-16 h-16 rounded-full bg-white/70 border border-foreground/10 flex items-center justify-center mx-auto mb-6">
+                                <div className="w-16 h-16 rounded-full bg-white border border-border flex items-center justify-center mx-auto mb-6">
                                     <CalendarIcon className="w-8 h-8 text-muted-foreground" />
                                 </div>
                                 <h3 className="text-xl font-bold text-foreground tracking-tight">No Interviews Scheduled</h3>
@@ -475,7 +475,7 @@ const InterviewScheduler = () => {
                                             <div className="mt-6 space-y-2 relative z-10">
                                                 <Label className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Session Link</Label>
                                                 <div className="flex gap-2 items-center">
-                                                    <div className="text-xs font-mono bg-black/40 border border-foreground/5 px-3 py-2 rounded-lg flex-1 truncate text-zinc-300">
+                                                    <div className="text-xs font-mono bg-white border border-border px-3 py-2 rounded-lg flex-1 truncate text-zinc-300">
                                                         {myAssignments.find(a => a.panel_id === panelId)?.meeting_link || 'No virtual link assigned yet'}
                                                     </div>
                                                     {myAssignments.find(a => a.panel_id === panelId)?.meeting_link && (
@@ -503,7 +503,7 @@ const InterviewScheduler = () => {
                                                     const existingFeedback = app ? feedbacks.find(f => f.application_id === app.id && f.interviewer_email === user?.email) : null;
 
                                                     return (
-                                                        <div key={slot.id} className={`p-5 transition-all duration-300 ${slot.is_booked ? 'bg-white/[0.02]' : 'hover:bg-white/[0.04]'}`}>
+                                                        <div key={slot.id} className={`p-5 transition-all duration-300 ${slot.is_booked ? 'bg-muted/40' : 'hover:bg-white'}`}>
                                                             <div className="flex justify-between items-center mb-4">
                                                                 <div className="flex items-center gap-3">
                                                                     <div className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(49,135,232,0.5)]"></div>
@@ -512,7 +512,7 @@ const InterviewScheduler = () => {
                                                                     </span>
                                                                 </div>
                                                                 {slot.is_booked ? (
-                                                                    <Badge className={`text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-md ${existingFeedback ? 'bg-green-500/10 text-green-500 border-green-500/20' : 'bg-blue-500/10 text-blue-400 border-blue-500/20'}`}>
+                                                                    <Badge className={`text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-md ${existingFeedback ? 'bg-green-500/10 text-green-600 border-green-500/20' : 'bg-blue-500/10 text-primary border-blue-500/20'}`}>
                                                                         {existingFeedback ? 'COMPLETED' : 'UPCOMING'}
                                                                     </Badge>
                                                                 ) : (
@@ -522,7 +522,7 @@ const InterviewScheduler = () => {
 
                                                             {slot.is_booked && app ? (
                                                                 <div 
-                                                                    className="space-y-4 animate-in slide-in-from-right-2 duration-300 cursor-pointer group-hover:bg-white/70 p-2 rounded-xl transition-all"
+                                                                    className="space-y-4 animate-in slide-in-from-right-2 duration-300 cursor-pointer group-hover:bg-white p-2 rounded-xl transition-all"
                                                                     onClick={() => {
                                                                         const mappedApp: Application = {
                                                                             ...app,
@@ -537,13 +537,13 @@ const InterviewScheduler = () => {
                                                                         <div className="font-heading text-sm text-foreground group-hover:text-primary transition-colors">{app.full_name || app.fullName}</div>
                                                                         <div className="text-[10px] text-muted-foreground font-mono mt-1 opacity-70 uppercase tracking-tighter">{app.roll_number || app.rollNumber} • {app.primary_dept || app.primaryDept}</div>
                                                                         <div className="text-[10px] text-primary mt-2 font-bold tracking-widest uppercase">
-                                                                            {existingFeedback ? <><CheckCircle className="w-3 h-3 inline mr-1 text-green-500" /> View/Edit Evaluation</> : 'Click to Evaluate'}
+                                                                            {existingFeedback ? <><CheckCircle className="w-3 h-3 inline mr-1 text-green-600" /> View/Edit Evaluation</> : 'Click to Evaluate'}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             ) : (
                                                                 <div className="py-2">
-                                                                    <div className="h-1 w-full bg-white/70 rounded-full"></div>
+                                                                    <div className="h-1 w-full bg-white rounded-full"></div>
                                                                 </div>
                                                             )}
                                                         </div>
@@ -561,7 +561,7 @@ const InterviewScheduler = () => {
                 {/* --- ASSIGNMENTS TAB (SUPER ADMIN) --- */}
                 {isSuperAdmin && (
                     <TabsContent value="assignments" className="space-y-8 outline-none animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <HolographicCard className="p-8 border-foreground/5 overflow-visible">
+                        <HolographicCard className="p-8 border-border overflow-visible">
                             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 mb-10">
                                 <div className="space-y-2">
                                     <h3 className="text-2xl font-bold font-heading text-foreground">Assignment Control</h3>
@@ -581,14 +581,14 @@ const InterviewScheduler = () => {
                                             setIsNotifyDialogOpen(true);
                                         }}
                                         disabled={isSending}
-                                        className="rounded-2xl bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 h-12 px-6 font-bold tracking-widest text-xs uppercase transition-all shadow-lg shadow-primary/5"
+                                        className="rounded-md bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 h-12 px-6 font-bold tracking-widest text-xs uppercase transition-all shadow-lg shadow-primary/5"
                                     >
                                         <Send className="w-4 h-4 mr-2" />
                                         NOTIFY SHORTLISTED
                                     </Button>
                                     
-                                    <div className="flex items-center gap-2 bg-white/70 p-1 rounded-2xl border border-foreground/10 h-12">
-                                        <div className="px-4 py-2 text-sm font-heading font-bold text-foreground min-w-[120px] text-center border-foreground/10">
+                                    <div className="flex items-center gap-2 bg-white p-1 rounded-md border border-border h-12">
+                                        <div className="px-4 py-2 text-sm font-heading font-bold text-foreground min-w-[120px] text-center border-border">
                                             {activePanelIdsForDate.length} ACTIVE PANELS
                                         </div>
                                     </div>
@@ -598,7 +598,7 @@ const InterviewScheduler = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
                                 <AnimatePresence mode="popLayout">
                                     {activePanelIdsForDate.length === 0 && (
-                                        <div className="col-span-full py-12 text-center text-muted-foreground border border-dashed border-foreground/10 rounded-2xl">
+                                        <div className="col-span-full py-12 text-center text-muted-foreground border border-dashed border-border rounded-md">
                                             No slots have been generated for {format(parseISO(selectedDate), 'MMM do')} yet. Generate slots first.
                                         </div>
                                     )}
@@ -615,13 +615,13 @@ const InterviewScheduler = () => {
                                                 initial={{ opacity: 0, scale: 0.95 }}
                                                 animate={{ opacity: 1, scale: 1 }}
                                                 exit={{ opacity: 0, scale: 0.95 }}
-                                                className="p-6 rounded-[2rem] bg-white/[0.03] border border-foreground/5 backdrop-blur-xl relative group/panel hover:border-primary/30 transition-all duration-500"
+                                                className="p-6 rounded-md bg-muted/40 border border-border  relative group/panel hover:border-primary/30 transition-all duration-500"
                                             >
                                                 <div className="flex justify-between items-center mb-6">
                                                     <Input
                                                         defaultValue={panelMetadata.find(p => p.panel_id === panelId && isSameDay(parseISO(p.date), parseISO(selectedDate)))?.panel_name || `PANEL ${panelId}`}
                                                         onBlur={(e) => updatePanelName(panelId, e.target.value)}
-                                                        className="h-8 w-40 px-2 text-sm font-heading font-bold text-foreground tracking-widest uppercase bg-transparent border-transparent hover:border-foreground/20 focus:border-primary/50"
+                                                        className="h-8 w-40 px-2 text-sm font-heading font-bold text-foreground tracking-widest uppercase bg-transparent border-transparent hover:border-primary/30 focus:border-primary/50"
                                                         placeholder={`PANEL ${panelId}`}
                                                     />
                                                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
@@ -633,7 +633,7 @@ const InterviewScheduler = () => {
                                                     <div className="relative flex-1">
                                                         <Video className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 text-muted-foreground" />
                                                         <Input
-                                                            className="h-8 pl-8 pr-3 text-[10px] bg-black/40 border-foreground/5 rounded-lg focus:border-primary/40"
+                                                            className="h-8 pl-8 pr-3 text-[10px] bg-white border-border rounded-lg focus:border-primary/40"
                                                             placeholder="Set Panel Meeting Link..."
                                                             defaultValue={panelAssignments[0]?.meeting_link || ''}
                                                             id={`panel-link-input-${panelId}`}
@@ -662,7 +662,7 @@ const InterviewScheduler = () => {
 
                                                 <div className="space-y-3">
                                                     {panelAssignments.map(assign => (
-                                                        <div key={assign.id} className="bg-white/70 p-3 rounded-xl border border-foreground/5 flex justify-between items-center group/assign">
+                                                        <div key={assign.id} className="bg-white p-3 rounded-xl border border-border flex justify-between items-center group/assign">
                                                             <div className="min-w-0 flex-1">
                                                                 <div className="text-[11px] font-bold text-foreground truncate uppercase tracking-tighter" title={assign.interviewer_email}>
                                                                     {assign.interviewer_email.split('@')[0]}
@@ -682,13 +682,13 @@ const InterviewScheduler = () => {
 
                                                     <div className="pt-2">
                                                         <Select onValueChange={(val) => assignInterviewer(panelId, val)}>
-                                                            <SelectTrigger className="h-10 bg-white/70 border-dashed border-foreground/10 hover:border-primary/30 rounded-2xl text-[10px] font-bold tracking-widest transition-all">
+                                                            <SelectTrigger className="h-10 bg-white border-dashed border-border hover:border-primary/30 rounded-md text-[10px] font-bold tracking-widest transition-all">
                                                                 <div className="flex items-center gap-2">
                                                                     <Plus className="w-3 h-3 text-primary" />
                                                                     <span>ADD INTERVIEWER</span>
                                                                 </div>
                                                             </SelectTrigger>
-                                                            <SelectContent className="bg-background border-foreground/10 backdrop-blur-xl">
+                                                            <SelectContent className="bg-background border-border ">
                                                                 {admins.length > 0 ? (
                                                                     admins.map(admin => (
                                                                         <SelectItem key={admin.id} value={admin.email} className="text-xs">{admin.email}</SelectItem>
@@ -714,18 +714,18 @@ const InterviewScheduler = () => {
                 {/* --- SLOT GENERATOR TAB (SUPER ADMIN) --- */}
                 {isSuperAdmin && (
                     <TabsContent value="slots" className="space-y-8 outline-none animate-in fade-in slide-in-from-bottom-4 duration-500">
-                        <HolographicCard className="p-10 border-foreground/5">
+                        <HolographicCard className="p-10 border-border">
                             <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-10 mb-12">
                                 <div className="space-y-2">
                                     <h3 className="text-2xl font-bold font-heading text-foreground">Batch Generator</h3>
                                     <p className="text-sm text-muted-foreground uppercase tracking-widest font-bold opacity-60">Automated Slot Allocation Engine</p>
                                 </div>
                                 <div className="flex gap-4">
-                                    <Button variant="outline" onClick={clearAllSlots} className="h-12 px-6 rounded-2xl bg-destructive/5 border-destructive/20 text-destructive hover:bg-destructive/10 font-bold tracking-widest text-xs uppercase">
+                                    <Button variant="outline" onClick={clearAllSlots} className="h-12 px-6 rounded-md bg-destructive/5 border-destructive/20 text-destructive hover:bg-destructive/10 font-bold tracking-widest text-xs uppercase">
                                         <Trash2 className="w-4 h-4 mr-2" />
                                         PURGE ALL SLOTS
                                     </Button>
-                                    <Button onClick={generateSlots} disabled={isGenerating} className="h-12 px-10 rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold tracking-[0.2em] uppercase text-[10px] shadow-lg shadow-primary/20">
+                                    <Button onClick={generateSlots} disabled={isGenerating} className="h-12 px-10 rounded-md bg-primary hover:bg-primary/90 text-white font-bold tracking-[0.2em] uppercase text-[10px] shadow-lg shadow-primary/20">
                                         {isGenerating ? <LogoSpinner size="sm" /> : 'GENERATE MATRIX'}
                                     </Button>
                                 </div>
@@ -734,26 +734,26 @@ const InterviewScheduler = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-12">
                                 <div className="space-y-2">
                                     <Label className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Target Date</Label>
-                                    <Input type="date" value={genConfig.date} onChange={e => setGenConfig({ ...genConfig, date: e.target.value })} className="h-12 bg-white/70 border-foreground/5 rounded-xl font-mono text-xs" />
+                                    <Input type="date" value={genConfig.date} onChange={e => setGenConfig({ ...genConfig, date: e.target.value })} className="h-12 bg-white border-border rounded-xl font-mono text-xs" />
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Start Time</Label>
-                                    <Input type="time" value={genConfig.startTime} onChange={e => setGenConfig({ ...genConfig, startTime: e.target.value })} className="h-12 bg-white/70 border-foreground/5 rounded-xl font-mono text-xs" />
+                                    <Input type="time" value={genConfig.startTime} onChange={e => setGenConfig({ ...genConfig, startTime: e.target.value })} className="h-12 bg-white border-border rounded-xl font-mono text-xs" />
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">End Time</Label>
-                                    <Input type="time" value={genConfig.endTime} onChange={e => setGenConfig({ ...genConfig, endTime: e.target.value })} className="h-12 bg-white/70 border-foreground/5 rounded-xl font-mono text-xs" />
+                                    <Input type="time" value={genConfig.endTime} onChange={e => setGenConfig({ ...genConfig, endTime: e.target.value })} className="h-12 bg-white border-border rounded-xl font-mono text-xs" />
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Unit Duration</Label>
                                     <div className="relative">
-                                        <Input type="number" value={genConfig.duration} onChange={e => setGenConfig({ ...genConfig, duration: parseInt(e.target.value) })} className="h-12 bg-white/70 border-foreground/5 rounded-xl font-mono text-xs pr-12" />
+                                        <Input type="number" value={genConfig.duration} onChange={e => setGenConfig({ ...genConfig, duration: parseInt(e.target.value) })} className="h-12 bg-white border-border rounded-xl font-mono text-xs pr-12" />
                                         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-muted-foreground font-bold">MIN</span>
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <Label className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Panel Count</Label>
-                                    <Input type="number" value={genConfig.panels} onChange={e => setGenConfig({ ...genConfig, panels: parseInt(e.target.value) })} className="h-12 bg-white/70 border-foreground/5 rounded-xl font-mono text-xs" />
+                                    <Input type="number" value={genConfig.panels} onChange={e => setGenConfig({ ...genConfig, panels: parseInt(e.target.value) })} className="h-12 bg-white border-border rounded-xl font-mono text-xs" />
                                 </div>
                             </div>
 
@@ -766,11 +766,11 @@ const InterviewScheduler = () => {
                                                 <div className="text-[10px] font-heading font-bold text-primary tracking-widest uppercase">
                                                     {panelMetadata.find(p => p.panel_id === panelId && isSameDay(parseISO(p.date), parseISO(genConfig.date)))?.panel_name || `PANEL ${panelId}`}
                                                 </div>
-                                                <Badge variant="outline" className="text-[8px] border-foreground/5 text-muted-foreground">{panelSlots.length}</Badge>
+                                                <Badge variant="outline" className="text-[8px] border-border text-muted-foreground">{panelSlots.length}</Badge>
                                             </div>
                                             <div className="space-y-2">
                                                 {panelSlots.map(slot => (
-                                                    <div key={slot.id} className={`flex justify-between items-center p-3 rounded-xl border transition-all ${slot.is_booked ? 'bg-primary/5 border-primary/20 shadow-lg shadow-primary/5' : 'bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10'}`}>
+                                                    <div key={slot.id} className={`flex justify-between items-center p-3 rounded-xl border transition-all ${slot.is_booked ? 'bg-primary/5 border-primary/20 shadow-lg shadow-primary/5' : 'bg-muted/40 border-white/5 hover:bg-white hover:border-border'}`}>
                                                         <span className={`text-[11px] font-mono font-bold ${slot.is_booked ? 'text-primary' : 'text-zinc-400'}`}>{format(parseISO(slot.start_time), 'HH:mm')}</span>
                                                         {!slot.is_booked && (
                                                             <button onClick={() => deleteSlot(slot.id)} className="text-muted-foreground hover:text-primary transition-colors">
@@ -799,7 +799,7 @@ const InterviewScheduler = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                            className="absolute inset-0 bg-white backdrop-blur-sm"
                             onClick={() => setEvalApp(null)}
                         />
                         <div className="relative z-10 w-full max-w-2xl">
@@ -828,12 +828,12 @@ const InterviewScheduler = () => {
 
             {/* NOTIFY SHORTLISTED DIALOG */}
             <Dialog open={isNotifyDialogOpen} onOpenChange={setIsNotifyDialogOpen}>
-                <DialogContent className="max-w-2xl bg-zinc-950/90 border-foreground/10 text-foreground backdrop-blur-3xl rounded-[2.5rem] overflow-hidden flex flex-col p-0 h-[85vh]">
+                <DialogContent className="max-w-2xl bg-zinc-950/90 border-border text-foreground backdrop-blur-3xl rounded-[2.5rem] overflow-hidden flex flex-col p-0 h-[85vh]">
                     <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-40"></div>
                     <div className="p-8 pb-4">
                         <DialogHeader>
                             <DialogTitle className="text-3xl font-bold font-heading flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center">
                                     <Send className="w-6 h-6 text-primary" />
                                 </div>
                                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
@@ -846,9 +846,9 @@ const InterviewScheduler = () => {
                         </DialogHeader>
                     </div>
 
-                    <div className="flex-1 overflow-auto mx-8 my-4 border border-foreground/5 rounded-3xl bg-white/[0.02] backdrop-blur-sm scrollbar-thin scrollbar-thumb-white/10">
+                    <div className="flex-1 overflow-auto mx-8 my-4 border border-border rounded-md bg-muted/40 backdrop-blur-sm scrollbar-thin scrollbar-thumb-white/10">
                         <table className="w-full text-left">
-                            <thead className="bg-white/70 sticky top-0 z-20 backdrop-blur-md">
+                            <thead className="bg-white sticky top-0 z-20 backdrop-blur-md">
                                 <tr>
                                     <th className="p-5 w-16">
                                         <Checkbox
@@ -874,7 +874,7 @@ const InterviewScheduler = () => {
                             </thead>
                             <tbody className="divide-y divide-foreground/5">
                                 {applications.filter(app => app.status === 'shortlisted').map(app => (
-                                    <tr key={app.id} className="hover:bg-white/[0.03] transition-all group">
+                                    <tr key={app.id} className="hover:bg-muted/40 transition-all group">
                                         <td className="p-5">
                                             <Checkbox
                                                 checked={selectedCandidateIds.includes(app.id)}
@@ -898,11 +898,11 @@ const InterviewScheduler = () => {
                                         </td>
                                         <td className="p-5 text-right">
                                             {app.shortlistNotified ? (
-                                                <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/20 text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg">
+                                                <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20 text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg">
                                                     NOTIFIED
                                                 </Badge>
                                             ) : (
-                                                <Badge variant="outline" className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg">
+                                                <Badge variant="outline" className="bg-yellow-500/10 text-amber-600 border-yellow-500/20 text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg">
                                                     PENDING
                                                 </Badge>
                                             )}
@@ -920,7 +920,7 @@ const InterviewScheduler = () => {
                     </div>
 
                     <div className="p-8 pt-4">
-                        <div className="flex flex-col md:flex-row justify-between items-center bg-white/70 p-6 rounded-[2rem] border border-foreground/5 gap-6">
+                        <div className="flex flex-col md:flex-row justify-between items-center bg-white p-6 rounded-md border border-border gap-6">
                             <div className="flex flex-col">
                                 <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold opacity-40 mb-1">Queue Size</span>
                                 <span className="text-xl font-heading font-bold text-foreground">
@@ -932,14 +932,14 @@ const InterviewScheduler = () => {
                                     variant="ghost" 
                                     onClick={() => setIsNotifyDialogOpen(false)} 
                                     disabled={isSending}
-                                    className="flex-1 md:flex-none h-14 px-8 rounded-2xl font-bold tracking-widest text-[10px] uppercase hover:bg-white/70"
+                                    className="flex-1 md:flex-none h-14 px-8 rounded-md font-bold tracking-widest text-[10px] uppercase hover:bg-white"
                                 >
                                     ABORT
                                 </Button>
                                 <Button
                                     onClick={sendBookingLinkBatch}
                                     disabled={isSending || selectedCandidateIds.length === 0}
-                                    className="flex-1 md:flex-none h-14 px-12 rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold tracking-[0.2em] uppercase text-[10px] shadow-xl shadow-primary/30 min-w-[220px]"
+                                    className="flex-1 md:flex-none h-14 px-12 rounded-md bg-primary hover:bg-primary/90 text-white font-bold tracking-[0.2em] uppercase text-[10px] shadow-xl shadow-primary/30 min-w-[220px]"
                                 >
                                     {isSending ? (
                                         <>

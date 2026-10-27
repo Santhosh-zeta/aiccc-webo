@@ -12,7 +12,7 @@ const DEPT_QUESTIONS: Record<string, { prompt: string, judges: string }> = {
         judges: "Communication, curiosity, technical thinking, passion."
     },
     'Creative': {
-        prompt: "1. Imagine you're designing an eye-catching poster for an IEEE SSCS event. Describe your creative approach, including the theme, colours, layout, visuals, and how you'd make it stand out while keeping it professional. 2.Show us your best creative work (poster, artwork, video, writing, photography, etc.)",
+        prompt: "1. Imagine you're designing an eye-catching poster for an AI Club event. Describe your creative approach, including the theme, colours, layout, visuals, and how you'd make it stand out while keeping it professional. 2.Show us your best creative work (poster, artwork, video, writing, photography, etc.)",
         judges: "Creativity, storytelling, imagination."
     },
     'Human Resources': {
@@ -54,7 +54,7 @@ const FormInput = ({ label, icon: Icon, ...props }: any) => (
         </label>
         <input 
             {...props} 
-            className="w-full bg-black/40 border border-foreground/10 rounded-xl px-4 py-3 text-foreground text-base focus:ring-2 focus:ring-primary/50 focus:border-primary/50 outline-none transition-all placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed" 
+            className="w-full bg-white border border-border rounded-xl px-4 py-3 text-foreground text-base focus:ring-2 focus:ring-primary/50 focus:border-primary/50 outline-none transition-all placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed" 
         />
     </div>
 );
@@ -66,7 +66,7 @@ const FormTextarea = ({ label, ...props }: any) => (
         </label>
         <textarea 
             {...props} 
-            className="w-full min-h-[120px] bg-black/40 border border-foreground/10 rounded-xl px-4 py-3 text-foreground text-base focus:ring-2 focus:ring-primary/50 focus:border-primary/50 outline-none transition-all placeholder:text-muted-foreground resize-y" 
+            className="w-full min-h-[120px] bg-white border border-border rounded-xl px-4 py-3 text-foreground text-base focus:ring-2 focus:ring-primary/50 focus:border-primary/50 outline-none transition-all placeholder:text-muted-foreground resize-y" 
         />
     </div>
 );
@@ -81,7 +81,7 @@ const WelcomeSplash = ({ onComplete }: { onComplete: () => void }) => {
             className="flex flex-col items-center justify-center min-h-[60vh] text-center relative z-10"
         >
             <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 text-foreground tracking-tight">
-                Welcome to SSCS
+                Welcome to AI Club
             </h1>
             <p className="text-xl text-foreground/80 max-w-xl mx-auto mb-10 leading-relaxed">
                 Your journey into circuits, code, and creativity starts right here. Let's get to know you better.
@@ -178,9 +178,9 @@ const TestApply = () => {
         return (
             <div className="min-h-screen flex items-center justify-center relative overflow-hidden text-foreground bg-background">
                 <CircuitBoardBackground />
-                <div className="p-10 max-w-lg w-full text-center relative z-10 bg-black/60 border border-green-500/30 rounded-3xl backdrop-blur-xl shadow-2xl">
+                <div className="p-10 max-w-lg w-full text-center relative z-10 bg-white border border-green-500/30 rounded-md  shadow-2xl">
                     <div className="w-24 h-24 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-500/30">
-                        <CheckCircle2 className="w-12 h-12 text-green-400" />
+                        <CheckCircle2 className="w-12 h-12 text-green-600" />
                     </div>
                     <h2 className="text-3xl font-heading font-bold mb-4 text-foreground">Application Submitted!</h2>
                     <p className="text-foreground/80 mb-8 text-lg">
@@ -206,7 +206,7 @@ const TestApply = () => {
                 <div className="container mx-auto px-4 md:px-6 py-12 relative z-10">
                     <motion.div key={step} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="max-w-4xl mx-auto">
                         
-                        <div className="text-center mb-10">
+                        <div className="mb-10">
                             <span className="inline-block text-sm text-primary font-bold px-4 py-1.5 rounded-full border border-primary/20 bg-primary/10 mb-4">
                                 Step {step} of 4 (UI TEST)
                             </span>
@@ -223,14 +223,14 @@ const TestApply = () => {
                             <div className="flex items-center justify-center gap-2 mt-8 max-w-sm mx-auto">
                                 {[1, 2, 3, 4].map((i) => (
                                     <div key={i} className="flex items-center flex-1">
-                                        <div className={`w-full h-2 rounded-full transition-all duration-500 ${step >= i ? 'bg-primary' : 'bg-white/10'}`} />
+                                        <div className={`w-full h-2 rounded-full transition-all duration-500 ${step >= i ? 'bg-primary' : 'bg-primary/10'}`} />
                                     </div>
                                 ))}
                             </div>
                         </div>
 
                         {/* Main Form Container - Clean and Modern */}
-                        <div className="relative p-6 md:p-10 border border-foreground/10 bg-black/40 backdrop-blur-xl rounded-3xl shadow-2xl">
+                        <div className="relative p-6 md:p-10 border border-border bg-white/90 rounded-md shadow-[0_16px_40px_-20px_rgba(15,58,107,0.3)]">
                             <form onSubmit={step === 4 ? handleSubmit : handleNextStep} noValidate className="space-y-8">
                                 
                                 {step === 1 && (
@@ -242,7 +242,7 @@ const TestApply = () => {
                                             <FormInput label="Phone Number" icon={Phone} type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="WhatsApp number" />
                                         </div>
 
-                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-foreground/10">
+                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-border">
                                             <div className="space-y-3">
                                                 <label className="text-sm font-medium text-foreground/80 flex items-center gap-2">
                                                     <GraduationCap className="w-4 h-4 text-primary/80" /> Year of Study
@@ -250,7 +250,7 @@ const TestApply = () => {
                                                 <div className="grid grid-cols-2 gap-3">
                                                     {YEARS_OF_STUDY.map(year => (
                                                         <div key={year} onClick={() => handleOptionSelect('yearOfStudy', year)} 
-                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.yearOfStudy === year ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-black/40 border-white/10 hover:border-white/30 text-white/70 hover:text-white'}`}>
+                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.yearOfStudy === year ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-white border-border hover:border-primary/40 text-muted-foreground hover:text-white'}`}>
                                                             {year}
                                                         </div>
                                                     ))}
@@ -263,7 +263,7 @@ const TestApply = () => {
                                                 <div className="grid grid-cols-2 gap-3">
                                                     {['Hostel', 'Day Scholar'].map(type => (
                                                         <div key={type} onClick={() => handleOptionSelect('hostelDay', type)} 
-                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.hostelDay === type ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-black/40 border-white/10 hover:border-white/30 text-white/70 hover:text-white'}`}>
+                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.hostelDay === type ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-white border-border hover:border-primary/40 text-muted-foreground hover:text-white'}`}>
                                                             {type}
                                                         </div>
                                                     ))}
@@ -277,7 +277,7 @@ const TestApply = () => {
                                     <div className="space-y-8 animate-in fade-in duration-500">
                                         <div className="mb-6 text-center">
                                             <p className="text-sm text-foreground/80">
-                                                Select your <span className="text-primary font-bold">1st Preference</span> and <span className="text-blue-400 font-bold">2nd Preference</span>.
+                                                Select your <span className="text-primary font-bold">1st Preference</span> and <span className="text-primary font-bold">2nd Preference</span>.
                                             </p>
                                         </div>
                                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
@@ -285,19 +285,19 @@ const TestApply = () => {
                                                 const isPrimary = formData.primaryDept === dept.name;
                                                 const isSecondary = formData.secondaryDept === dept.name;
                                                 
-                                                let cardClass = "relative p-5 rounded-2xl cursor-pointer transition-all duration-200 border flex flex-col ";
+                                                let cardClass = "relative p-5 rounded-md cursor-pointer transition-all duration-200 border flex flex-col ";
                                                 if (isPrimary) {
                                                     cardClass += "border-primary bg-primary/10 shadow-[0_0_20px_rgba(var(--primary),0.15)]";
                                                 } else if (isSecondary) {
                                                     cardClass += "border-blue-500 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.15)]";
                                                 } else {
-                                                    cardClass += "border-foreground/10 bg-black/40 hover:bg-white/70 hover:border-foreground/30";
+                                                    cardClass += "border-border bg-white hover:bg-white hover:border-primary/40";
                                                 }
 
                                                 return (
                                                     <div key={dept.name} className={cardClass} onClick={() => handleDeptClick(dept.name)}>
                                                         <div className="flex items-start justify-between mb-2">
-                                                            <h4 className={`text-base font-bold transition-colors ${isPrimary ? 'text-primary' : isSecondary ? 'text-blue-400' : 'text-foreground'}`}>
+                                                            <h4 className={`text-base font-bold transition-colors ${isPrimary ? 'text-primary' : isSecondary ? 'text-primary' : 'text-foreground'}`}>
                                                                 {dept.name}
                                                             </h4>
                                                             {isPrimary && <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-xs font-bold">1</span>}
@@ -308,8 +308,8 @@ const TestApply = () => {
                                                 );
                                             })}
                                         </div>
-                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-foreground/10">
-                                            <FormTextarea label="Why do you want to join IEEE SSCS?" name="whyJoinSscs" value={formData.whyJoinSscs} onChange={handleInputChange} placeholder="Explain your motivation for joining SSCS..." />
+                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-border">
+                                            <FormTextarea label="Why do you want to join AI Club?" name="whyJoinSscs" value={formData.whyJoinSscs} onChange={handleInputChange} placeholder="Explain your motivation for joining SSCS..." />
                                             <FormTextarea label="Why did you choose these departments?" name="whyTheseDepts" value={formData.whyTheseDepts} onChange={handleInputChange} placeholder="What draws you to this specific role?" />
                                         </div>
                                     </div>
@@ -317,13 +317,13 @@ const TestApply = () => {
 
                                 {step === 3 && (
                                     <div className="space-y-8 animate-in fade-in duration-500">
-                                        <div className="mb-2 text-center border-b border-foreground/5 pb-4 inline-block mx-auto w-full">
+                                        <div className="mb-2 text-center border-b border-border pb-4 inline-block mx-auto w-full">
                                             <p className="text-xs text-muted-foreground italic">
                                                 Please write your own answers. Do not copy/paste AI-generated text. We value authenticity over perfection!
                                             </p>
                                         </div>
                                         <div className="space-y-4">
-                                            <div className="bg-primary/10 border border-primary/20 rounded-2xl p-6 text-center">
+                                            <div className="bg-primary/10 border border-primary/20 rounded-md p-6 text-center">
                                                 <p className="text-sm text-primary font-bold mb-2 uppercase tracking-wider">1st Preference: {formData.primaryDept}</p>
                                                 <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
                                                     {DEPT_QUESTIONS[formData.primaryDept]?.prompt || "Tell us something amazing about yourself."}
@@ -339,9 +339,9 @@ const TestApply = () => {
                                         </div>
 
                                         {formData.secondaryDept && (
-                                            <div className="space-y-4 pt-6 border-t border-foreground/10">
-                                                <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-6 text-center">
-                                                    <p className="text-sm text-blue-400 font-bold mb-2 uppercase tracking-wider">2nd Preference: {formData.secondaryDept}</p>
+                                            <div className="space-y-4 pt-6 border-t border-border">
+                                                <div className="bg-blue-500/10 border border-blue-500/20 rounded-md p-6 text-center">
+                                                    <p className="text-sm text-primary font-bold mb-2 uppercase tracking-wider">2nd Preference: {formData.secondaryDept}</p>
                                                     <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
                                                         {DEPT_QUESTIONS[formData.secondaryDept]?.prompt || "Tell us something amazing about yourself."}
                                                     </p>
@@ -366,14 +366,14 @@ const TestApply = () => {
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                                 {WEEKLY_HOURS.map(hrs => (
                                                     <div key={hrs} onClick={() => handleOptionSelect('weeklyHours', hrs)} 
-                                                        className={`cursor-pointer px-4 py-4 border rounded-xl text-center font-bold text-base transition-all duration-200 ${formData.weeklyHours === hrs ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-black/40 border-white/10 hover:border-white/30 text-white/70 hover:text-white'}`}>
+                                                        className={`cursor-pointer px-4 py-4 border rounded-xl text-center font-bold text-base transition-all duration-200 ${formData.weeklyHours === hrs ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-white border-border hover:border-primary/40 text-muted-foreground hover:text-white'}`}>
                                                         {hrs}
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
                                         
-                                        <div className="space-y-4 pt-8 border-t border-foreground/10">
+                                        <div className="space-y-4 pt-8 border-t border-border">
                                             <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                                                 <LinkIcon className="w-5 h-5 text-primary" /> Links (Optional)
                                             </h3>
@@ -382,7 +382,7 @@ const TestApply = () => {
                                             </div>
                                         </div>
 
-                                        <div className="space-y-4 pt-8 border-t border-foreground/10">
+                                        <div className="space-y-4 pt-8 border-t border-border">
                                             <h3 className="text-lg font-bold text-foreground mb-4">Any Questions for Us?</h3>
                                             <FormTextarea label="If you have any doubts about the club, the role, or the recruitment process, ask away! (Optional)" name="anyQuestions" value={formData.anyQuestions} onChange={handleInputChange} placeholder="Type your question here..." style={{ minHeight: '100px' }} />
                                         </div>
@@ -390,9 +390,9 @@ const TestApply = () => {
                                 )}
 
                                 {/* Navigation Bar */}
-                                <div className="pt-8 flex gap-4 mt-8 border-t border-foreground/10">
+                                <div className="pt-8 flex gap-4 mt-8 border-t border-border">
                                     {step > 1 && (
-                                        <Button type="button" variant="outline" onClick={handlePrevStep} className="h-14 px-6 md:px-8 border-foreground/10 bg-transparent hover:bg-white/70 text-foreground font-medium text-base rounded-xl transition-all">
+                                        <Button type="button" variant="outline" onClick={handlePrevStep} className="h-14 px-6 md:px-8 border-border bg-transparent hover:bg-white text-foreground font-medium text-base rounded-xl transition-all">
                                             <ChevronLeft className="w-5 h-5 mr-2" /> Back
                                         </Button>
                                     )}

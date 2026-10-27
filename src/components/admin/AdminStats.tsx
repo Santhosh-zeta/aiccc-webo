@@ -37,7 +37,7 @@ const AdminStats: React.FC<AdminStatsProps> = ({ applications }) => {
             value: stats.pending,
             subtitle: "Awaiting initial screening",
             icon: Clock,
-            color: "text-amber-400",
+            color: "text-amber-600",
             bg: "bg-amber-500/10",
             border: "border-amber-500/20 hover:border-amber-500/40",
             glow: "shadow-[0_0_20px_rgba(251,191,36,0.1)]",
@@ -48,7 +48,7 @@ const AdminStats: React.FC<AdminStatsProps> = ({ applications }) => {
             value: stats.shortlisted,
             subtitle: "Qualified for interview",
             icon: CheckCircle2,
-            color: "text-emerald-400",
+            color: "text-green-600",
             bg: "bg-emerald-500/10",
             border: "border-emerald-500/20 hover:border-emerald-500/40",
             glow: "shadow-[0_0_20px_rgba(52,211,153,0.1)]",
@@ -59,7 +59,7 @@ const AdminStats: React.FC<AdminStatsProps> = ({ applications }) => {
             value: stats.interviewed,
             subtitle: "Completed evaluations",
             icon: Video,
-            color: "text-cyan-400",
+            color: "text-primary",
             bg: "bg-cyan-500/10",
             border: "border-cyan-500/20 hover:border-cyan-500/40",
             glow: "shadow-[0_0_20px_rgba(6,182,212,0.1)]",
@@ -79,7 +79,7 @@ const AdminStats: React.FC<AdminStatsProps> = ({ applications }) => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.3, delay: index * 0.05 }}
                         >
-                            <HolographicCard className={`p-6 transition-all duration-300 bg-black/40 backdrop-blur-xl border ${card.border} ${card.glow} group`}>
+                            <HolographicCard className={`p-6 transition-all duration-300 bg-white  border ${card.border} ${card.glow} group`}>
                                 <div className="flex items-start justify-between gap-3 mb-4">
                                     <div>
                                         <div className="flex items-center gap-2 mb-1.5">
@@ -91,16 +91,16 @@ const AdminStats: React.FC<AdminStatsProps> = ({ applications }) => {
                                             {card.value}
                                         </h3>
                                     </div>
-                                    <div className={`w-12 h-12 rounded-2xl ${card.bg} flex items-center justify-center border ${card.border} shrink-0 transition-transform duration-300 group-hover:scale-110`}>
+                                    <div className={`w-12 h-12 rounded-md ${card.bg} flex items-center justify-center border ${card.border} shrink-0 transition-transform duration-300 group-hover:scale-110`}>
                                         <Icon className={`w-6 h-6 ${card.color}`} />
                                     </div>
                                 </div>
-                                <div className="flex items-center justify-between pt-3 border-t border-foreground/5">
+                                <div className="flex items-center justify-between pt-3 border-t border-border">
                                     <p className="text-xs text-muted-foreground font-medium truncate">
                                         {card.subtitle}
                                     </p>
                                     {card.badge && (
-                                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white/70 text-zinc-300 border border-foreground/10">
+                                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-white text-zinc-300 border border-border">
                                             {card.badge}
                                         </span>
                                     )}

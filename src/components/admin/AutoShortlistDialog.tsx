@@ -115,10 +115,10 @@ const AutoShortlistDialog: React.FC<AutoShortlistDialogProps> = ({ open, onClose
 
     return (
         <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
-            <DialogContent className="max-w-2xl bg-black/90 border-foreground/10 text-foreground backdrop-blur-xl max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl bg-black/90 border-border text-foreground  max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold flex items-center gap-2">
-                        <Wand2 className="w-5 h-5 text-purple-400" />
+                        <Wand2 className="w-5 h-5 text-primary" />
                         Auto-Shortlist with AI Copilot
                     </DialogTitle>
                     <DialogDescription>
@@ -137,13 +137,13 @@ const AutoShortlistDialog: React.FC<AutoShortlistDialogProps> = ({ open, onClose
                                     max={eligiblePool.length || 1}
                                     value={targetCount}
                                     onChange={(e) => setTargetCount(Math.max(1, Number(e.target.value) || 1))}
-                                    className="bg-white/70 border-foreground/10"
+                                    className="bg-white border-border"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <Label className="text-xs uppercase tracking-widest text-muted-foreground">Department scope</Label>
                                 <Select value={deptFilter} onValueChange={setDeptFilter}>
-                                    <SelectTrigger className="bg-white/70 border-foreground/10">
+                                    <SelectTrigger className="bg-white border-border">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent className="bg-background border-zinc-800">
@@ -154,14 +154,14 @@ const AutoShortlistDialog: React.FC<AutoShortlistDialogProps> = ({ open, onClose
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-2 bg-white/70 border border-foreground/10 rounded-xl p-3">
+                        <div className="flex items-center gap-2 bg-white border border-border rounded-xl p-3">
                             <Checkbox id="force-reanalyze" checked={forceReanalyze} onCheckedChange={(c) => setForceReanalyze(!!c)} />
                             <Label htmlFor="force-reanalyze" className="text-xs text-muted-foreground cursor-pointer">
                                 Re-run AI analysis even for candidates that already have a cached score
                             </Label>
                         </div>
 
-                        <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 text-xs text-purple-200/90 flex items-start gap-2">
+                        <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4 text-xs text-primary/90 flex items-start gap-2">
                             <Sparkles className="w-4 h-4 shrink-0 mt-0.5" />
                             <span>
                                 {eligiblePool.length} candidate{eligiblePool.length === 1 ? '' : 's'} eligible (status: Applied / Under Review{deptFilter !== 'ALL' ? `, dept: ${deptFilter}` : ''}).
@@ -173,7 +173,7 @@ const AutoShortlistDialog: React.FC<AutoShortlistDialogProps> = ({ open, onClose
 
                 {step === 'analyzing' && (
                     <div className="py-10 space-y-4 text-center">
-                        <Loader2 className="w-8 h-8 text-purple-400 animate-spin mx-auto" />
+                        <Loader2 className="w-8 h-8 text-primary animate-spin mx-auto" />
                         <p className="text-sm text-foreground/80">
                             Analyzing candidates{progress.current ? ` — ${progress.current}` : '...'}
                         </p>
@@ -197,7 +197,7 @@ const AutoShortlistDialog: React.FC<AutoShortlistDialogProps> = ({ open, onClose
                             {ranked.map(({ app, analysis }, idx) => (
                                 <label
                                     key={app.id}
-                                    className={`flex items-center gap-3 p-2.5 rounded-lg border cursor-pointer transition-colors ${selectedIds.has(app.id) ? 'bg-cyan-500/10 border-cyan-500/30' : 'bg-white/70 border-foreground/5 hover:bg-white/70'}`}
+                                    className={`flex items-center gap-3 p-2.5 rounded-lg border cursor-pointer transition-colors ${selectedIds.has(app.id) ? 'bg-cyan-500/10 border-cyan-500/30' : 'bg-white border-border hover:bg-white'}`}
                                 >
                                     <Checkbox checked={selectedIds.has(app.id)} onCheckedChange={() => toggleSelected(app.id)} />
                                     <span className="text-[10px] font-mono text-muted-foreground w-6 text-right">{idx + 1}</span>
@@ -207,10 +207,10 @@ const AutoShortlistDialog: React.FC<AutoShortlistDialogProps> = ({ open, onClose
                                             <span className="text-[10px] text-muted-foreground truncate">{app.primaryDept}</span>
                                         </div>
                                         {analysis.aiGeneratedLikelihood >= 60 && (
-                                            <span className="text-[10px] text-amber-400/90">⚠ high AI-content likelihood — review answers manually</span>
+                                            <span className="text-[10px] text-amber-600/90">⚠ high AI-content likelihood — review answers manually</span>
                                         )}
                                     </div>
-                                    <Badge variant="outline" className={`text-[10px] font-bold ${analysis.matchScore >= 80 ? 'text-green-400 border-green-500/30' : analysis.matchScore >= 65 ? 'text-yellow-400 border-yellow-500/30' : 'text-red-400 border-red-500/30'}`}>
+                                    <Badge variant="outline" className={`text-[10px] font-bold ${analysis.matchScore >= 80 ? 'text-green-600 border-green-500/30' : analysis.matchScore >= 65 ? 'text-amber-600 border-yellow-500/30' : 'text-destructive border-red-500/30'}`}>
                                         {analysis.matchScore}%
                                     </Badge>
                                 </label>

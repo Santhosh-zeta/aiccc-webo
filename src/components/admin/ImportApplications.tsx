@@ -329,7 +329,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
           <div className="grid gap-4 md:grid-cols-2">
             <div
               onClick={() => shortlistFileInputRef.current?.click()}
-              className="border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all border-foreground/10 hover:border-foreground/20 hover:bg-white/[0.02] bg-white/70"
+              className="border-2 border-dashed rounded-md p-8 text-center cursor-pointer transition-all border-border hover:border-primary/30 hover:bg-muted/40 bg-white"
             >
               <input
                 type="file"
@@ -353,7 +353,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
                 value={rollNumberText}
                 onChange={(e) => setRollNumberText(e.target.value)}
                 placeholder={"Or paste register numbers here, one per line:\n24BMV1031\n24BPS1117\n..."}
-                className="min-h-[140px] bg-white/70 border-foreground/10 text-sm font-mono"
+                className="min-h-[140px] bg-white border-border text-sm font-mono"
               />
               <Button onClick={handleMatchRollNumbers} size="sm" className="w-full bg-primary text-white hover:bg-primary/90">
                 Match Register Numbers
@@ -363,11 +363,11 @@ export default function ImportApplications({ applications = [], onShortlist }: I
 
           {matches.length > 0 && (
             <div className="space-y-4">
-              <div className="bg-white/70 border border-foreground/10 rounded-xl overflow-hidden shadow-2xl">
+              <div className="bg-white border border-border rounded-xl overflow-hidden shadow-2xl">
                 <div className="max-h-[50vh] overflow-auto scrollbar-thin scrollbar-thumb-primary/20">
                   <Table>
-                    <TableHeader className="bg-black/40 sticky top-0 backdrop-blur-xl z-10">
-                      <TableRow className="border-foreground/10 hover:bg-transparent">
+                    <TableHeader className="bg-white sticky top-0  z-10">
+                      <TableRow className="border-border hover:bg-transparent">
                         <TableHead className="text-[10px] font-bold tracking-wider uppercase text-foreground py-4">Register No</TableHead>
                         <TableHead className="text-[10px] font-bold tracking-wider uppercase text-foreground">Name</TableHead>
                         <TableHead className="text-[10px] font-bold tracking-wider uppercase text-foreground">Dept</TableHead>
@@ -376,15 +376,15 @@ export default function ImportApplications({ applications = [], onShortlist }: I
                     </TableHeader>
                     <TableBody>
                       {matches.map((m, idx) => (
-                        <TableRow key={idx} className="border-foreground/5 hover:bg-white/70">
+                        <TableRow key={idx} className="border-border hover:bg-white">
                           <TableCell className="text-xs font-mono">{m.rollNumber}</TableCell>
                           <TableCell className="font-medium text-sm text-foreground py-3">{m.app?.fullName || '—'}</TableCell>
                           <TableCell className="text-xs text-muted-foreground">{m.app?.primaryDept || '—'}</TableCell>
                           <TableCell className="text-xs">
                             {m.eligible ? (
-                              <span className="px-2 py-1 rounded bg-cyan-500/10 text-cyan-400 font-semibold">{m.reason}</span>
+                              <span className="px-2 py-1 rounded bg-cyan-500/10 text-primary font-semibold">{m.reason}</span>
                             ) : (
-                              <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-400">{m.reason}</span>
+                              <span className="px-2 py-1 rounded bg-amber-500/10 text-amber-600">{m.reason}</span>
                             )}
                           </TableCell>
                         </TableRow>
@@ -394,7 +394,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
                 </div>
               </div>
 
-              <div className="flex items-center justify-between bg-white/70 border border-foreground/10 rounded-xl p-4">
+              <div className="flex items-center justify-between bg-white border border-border rounded-xl p-4">
                 <p className="text-sm text-muted-foreground">
                   {matches.filter(m => m.eligible).length} of {matches.length} will be shortlisted.
                 </p>
@@ -404,7 +404,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
                   className="bg-cyan-600 hover:bg-cyan-700 text-foreground font-bold tracking-wider"
                 >
                   {isShortlisting ? (
-                    <span className="flex items-center gap-2"><div className="w-4 h-4 rounded-full border-2 border-foreground/20 border-t-white animate-spin" /> Shortlisting...</span>
+                    <span className="flex items-center gap-2"><div className="w-4 h-4 rounded-full border-2 border-primary/30 border-t-white animate-spin" /> Shortlisting...</span>
                   ) : (
                     <span className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Shortlist {matches.filter(m => m.eligible).length} Candidate{matches.filter(m => m.eligible).length === 1 ? '' : 's'}</span>
                   )}
@@ -431,7 +431,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
           onDragLeave={onDragLeave}
           onDrop={onDrop}
           onClick={() => fileInputRef.current?.click()}
-          className={`border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all ${isDragging ? 'border-primary bg-primary/10 scale-[1.02]' : 'border-white/10 hover:border-white/20 hover:bg-white/[0.02] bg-white/5'}`}
+          className={`border-2 border-dashed rounded-md p-12 text-center cursor-pointer transition-all ${isDragging ? 'border-primary bg-primary/10 scale-[1.02]' : 'border-border hover:border-white/20 hover:bg-muted/40 bg-white'}`}
         >
           <input 
             type="file" 
@@ -451,10 +451,10 @@ export default function ImportApplications({ applications = [], onShortlist }: I
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white/70 border border-foreground/10 rounded-xl p-4 gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between bg-white border border-border rounded-xl p-4 gap-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-                <CheckCircle className="text-green-400 w-5 h-5" />
+                <CheckCircle className="text-green-600 w-5 h-5" />
               </div>
               <div>
                 <p className="text-sm font-bold text-foreground">{data.length} applicants ready to import</p>
@@ -462,12 +462,12 @@ export default function ImportApplications({ applications = [], onShortlist }: I
               </div>
             </div>
             <div className="flex items-center gap-3 w-full sm:w-auto">
-              <Button variant="ghost" onClick={() => setData([])} disabled={isUploading} className="flex-1 sm:flex-none text-red-400 hover:text-red-300 hover:bg-red-500/10">
+              <Button variant="ghost" onClick={() => setData([])} disabled={isUploading} className="flex-1 sm:flex-none text-destructive hover:text-destructive hover:bg-red-500/10">
                 <Trash2 className="w-4 h-4 mr-2" /> Cancel
               </Button>
               <Button onClick={commitImport} disabled={isUploading} className="flex-1 sm:flex-none bg-primary text-white hover:bg-primary/90 font-bold tracking-wider">
                 {isUploading ? (
-                  <span className="flex items-center gap-2"><div className="w-4 h-4 rounded-full border-2 border-foreground/20 border-t-white animate-spin" /> Importing...</span>
+                  <span className="flex items-center gap-2"><div className="w-4 h-4 rounded-full border-2 border-primary/30 border-t-white animate-spin" /> Importing...</span>
                 ) : (
                   <span className="flex items-center gap-2"><Save className="w-4 h-4" /> Confirm Import</span>
                 )}
@@ -475,11 +475,11 @@ export default function ImportApplications({ applications = [], onShortlist }: I
             </div>
           </div>
 
-          <div className="bg-white/70 border border-foreground/10 rounded-xl overflow-hidden shadow-2xl">
+          <div className="bg-white border border-border rounded-xl overflow-hidden shadow-2xl">
             <div className="max-h-[60vh] overflow-auto scrollbar-thin scrollbar-thumb-primary/20">
               <Table>
-                <TableHeader className="bg-black/40 sticky top-0 backdrop-blur-xl z-10">
-                  <TableRow className="border-foreground/10 hover:bg-transparent">
+                <TableHeader className="bg-white sticky top-0  z-10">
+                  <TableRow className="border-border hover:bg-transparent">
                     <TableHead className="text-[10px] font-bold tracking-wider uppercase text-foreground py-4">Name</TableHead>
                     <TableHead className="text-[10px] font-bold tracking-wider uppercase text-foreground">Email</TableHead>
                     <TableHead className="text-[10px] font-bold tracking-wider uppercase text-foreground">Roll No</TableHead>
@@ -490,7 +490,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
                 </TableHeader>
                 <TableBody>
                   {data.map((app, idx) => (
-                    <TableRow key={idx} className="border-foreground/5 hover:bg-white/70">
+                    <TableRow key={idx} className="border-border hover:bg-white">
                       <TableCell className="font-medium text-sm text-foreground py-3">{app.full_name}</TableCell>
                       <TableCell className="text-xs text-muted-foreground">{app.email}</TableCell>
                       <TableCell className="text-xs font-mono">{app.roll_number}</TableCell>
@@ -499,7 +499,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
                       </TableCell>
                       <TableCell className="text-xs">
                         {app.secondary_dept ? (
-                          <span className="px-2 py-1 rounded bg-white/70 text-foreground/80">{app.secondary_dept}</span>
+                          <span className="px-2 py-1 rounded bg-white text-foreground/80">{app.secondary_dept}</span>
                         ) : (
                           <span className="text-muted-foreground">—</span>
                         )}
@@ -509,7 +509,7 @@ export default function ImportApplications({ applications = [], onShortlist }: I
                           variant="ghost"
                           size="sm"
                           onClick={() => setData(prev => prev.filter((_, i) => i !== idx))}
-                          className="text-white/40 hover:text-red-400 hover:bg-red-500/10 h-8 w-8 p-0 rounded-full"
+                          className="text-white/40 hover:text-destructive hover:bg-red-500/10 h-8 w-8 p-0 rounded-full"
                           title="Remove applicant"
                         >
                           <Trash2 className="w-4 h-4" />

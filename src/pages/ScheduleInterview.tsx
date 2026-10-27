@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ArrowLeft, AlertTriangle, CheckCircle, Video, Calendar, Clock, Users, ShieldAlert, Zap, X, CalendarClock } from 'lucide-react';
+import Navigation from '@/components/Navigation';
 import { format, parseISO } from 'date-fns';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -108,7 +109,7 @@ const ScheduleInterview = () => {
             console.error('[Schedule] Could not load slot times:', error.message);
             setBookingError(
                 error.message?.includes('available_slot_times')
-                    ? 'Slot booking is not set up yet. Please contact the SSCS team.'
+                    ? 'Slot booking is not set up yet. Please contact the AI Club team.'
                     : 'Could not load available slots. Please refresh and try again.'
             );
         } else {
@@ -227,7 +228,7 @@ const ScheduleInterview = () => {
                 setPendingSlot(null);
                 setBookingError(
                     bookingRpcError.message?.includes('book_interview_slot')
-                        ? 'Slot booking is not set up yet. Please contact the SSCS team.'
+                        ? 'Slot booking is not set up yet. Please contact the AI Club team.'
                         : (bookingRpcError.message || 'Booking failed. Please try again.')
                 );
                 fetchSlots();
@@ -239,7 +240,7 @@ const ScheduleInterview = () => {
                 const portalUrl = window.location.origin;
                 sendEmail(
                     existingApp.email,
-                    `Interview Slot Confirmed - ${dateStr2} - IEEE SSCS`,
+                    `Interview Slot Confirmed - ${dateStr2} - AI Club`,
                     `<p>Dear <strong>${existingApp.full_name}</strong>,</p>
                     <p>Your interview slot has been successfully booked and confirmed.</p>
                     <div style="background:#f4f4f5;padding:16px;border-radius:8px;margin:16px 0;border-left:4px solid #3187E8;">
@@ -251,7 +252,7 @@ const ScheduleInterview = () => {
                     <p>Your meeting link will be sent before the interview starts. You can track your status anytime at: <a href="${portalUrl}/apply">${portalUrl}/apply</a></p>
                     <p>Please be ready 5 minutes before your scheduled time slot.</p>
                     <p>You may move this slot <strong>once</strong> from the portal if you need to.</p>
-                    <p>Best regards,<br>IEEE SSCS HR Team</p>`
+                    <p>Best regards,<br>AI Club HR Team</p>`
                 ).catch(err => console.warn('[Schedule] Booking confirmation email failed:', err));
 
                 // Last-minute check for urgent alerts
@@ -276,7 +277,7 @@ const ScheduleInterview = () => {
                         for (const alertEmail of recipients) {
                             sendEmail(
                                 alertEmail,
-                                'URGENT: Last Minute Interview Booking - IEEE SSCS',
+                                'URGENT: Last Minute Interview Booking - AI Club',
                                 `<p>Candidate <strong>${existingApp.full_name}</strong> just booked Panel ${booked.panel_id} at ${format(startTime, 'h:mm a')} (${Math.round(diffMins)} min away).</p><p>No meeting link has been set. Please add one immediately.</p>`
                             ).catch(err => console.warn('[Schedule] Urgent alert email failed:', err));
                         }
@@ -338,7 +339,7 @@ const ScheduleInterview = () => {
                 setPendingSlot(null);
                 setBookingError(
                     rpcError.message?.includes('reschedule_interview_slot')
-                        ? 'Slot changes are not enabled yet. Please contact the SSCS team.'
+                        ? 'Slot changes are not enabled yet. Please contact the AI Club team.'
                         : (rpcError.message || 'Could not change your slot. Please try again.')
                 );
                 fetchSlots();
@@ -348,7 +349,7 @@ const ScheduleInterview = () => {
                 const portalUrl = window.location.origin;
                 sendEmail(
                     existingApp.email,
-                    `Interview Slot Changed - ${format(newStart, 'EEEE, MMMM d, yyyy')} - IEEE SSCS`,
+                    `Interview Slot Changed - ${format(newStart, 'EEEE, MMMM d, yyyy')} - AI Club`,
                     `<p>Dear <strong>${existingApp.full_name}</strong>,</p>
                     <p>Your interview slot has been changed. Your <strong>new</strong> slot is:</p>
                     <div style="background:#f4f4f5;padding:16px;border-radius:8px;margin:16px 0;border-left:4px solid #3187E8;">
@@ -359,7 +360,7 @@ const ScheduleInterview = () => {
                     <p style="color:#71717a;">Your previous slot (${format(oldStart, 'EEEE, MMMM d')} at ${format(oldStart, 'h:mm a')}) has been released.</p>
                     ${whatsappEmailBlock}
                     <p><strong>This was your one allowed slot change</strong> — the new time is final. Track your status anytime at: <a href="${portalUrl}/apply">${portalUrl}/apply</a></p>
-                    <p>Best regards,<br>IEEE SSCS HR Team</p>`
+                    <p>Best regards,<br>AI Club HR Team</p>`
                 ).catch(err => console.warn('[Schedule] Reschedule confirmation email failed:', err));
 
                 setPendingSlot(null);
@@ -407,7 +408,7 @@ const ScheduleInterview = () => {
                 >
                     <HolographicCard className="p-10 text-center border-red-500/30">
                         <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-red-500/20">
-                            <AlertTriangle className="w-10 h-10 text-red-500" />
+                            <AlertTriangle className="w-10 h-10 text-destructive" />
                         </div>
                         <h1 className="text-2xl font-heading font-bold text-foreground mb-3">No Application Found</h1>
                         <p className="text-muted-foreground mb-8 leading-relaxed">You need to apply first before scheduling an interview.</p>
@@ -438,12 +439,12 @@ const ScheduleInterview = () => {
                         transition={{ duration: 1, repeat: Infinity }}
                         className="w-32 h-32 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-8 border-2 border-green-500/50 shadow-[0_0_60px_rgba(34,197,94,0.3)]"
                     >
-                        <CheckCircle className="w-16 h-16 text-green-400" />
+                        <CheckCircle className="w-16 h-16 text-green-600" />
                     </motion.div>
                     <h2 className="text-4xl font-heading font-bold text-foreground mb-3">
                         {isRescheduling ? 'Slot Changed!' : "You're In!"}
                     </h2>
-                    <p className="text-green-400 text-lg">
+                    <p className="text-green-600 text-lg">
                         {isRescheduling ? 'Your new interview slot is confirmed.' : 'Interview slot confirmed.'}
                     </p>
                     <p className="text-muted-foreground mt-2 text-sm">Redirecting you back…</p>
@@ -461,7 +462,7 @@ const ScheduleInterview = () => {
                 <div className="absolute inset-0 bg-purple-950/5 pointer-events-none -z-[5]" />
 
                 <div className="container mx-auto px-4 py-8 relative z-10">
-                    <Link to="/apply" className="inline-flex items-center text-muted-foreground hover:text-purple-400 transition-all mb-8 absolute top-8 left-8 px-5 py-2 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-sm">
+                    <Link to="/apply" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-8 absolute top-8 left-8 px-5 py-2 rounded-full bg-white border border-border  group text-sm">
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" /> Back
                     </Link>
 
@@ -477,29 +478,29 @@ const ScheduleInterview = () => {
                                 transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
                                 className="w-24 h-24 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-purple-500/50 shadow-[0_0_30px_rgba(49,135,232,0.3)]"
                             >
-                                <Video className="w-12 h-12 text-purple-400" />
+                                <Video className="w-12 h-12 text-primary" />
                             </motion.div>
                             <h2 className="text-3xl font-heading font-bold mb-3 text-foreground">Interview Confirmed!</h2>
-                            <div className="inline-block px-4 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-6 text-sm font-medium">
+                            <div className="inline-block px-4 py-1 rounded-full bg-purple-500/20 text-primary border border-purple-500/30 mb-6 text-sm font-medium">
                                 Slot Booked ✓
                             </div>
                             <p className="text-gray-300 mb-6 leading-relaxed">
                                 Your interview slot has been successfully reserved.<br />
                                 Meeting details will be sent to your email before the interview.
                             </p>
-                            <div className="p-4 rounded-xl bg-white/70 border border-foreground/10 mb-4 text-left space-y-2">
+                            <div className="p-4 rounded-xl bg-white border border-border mb-4 text-left space-y-2">
                                 {currentSlot && (
                                     <>
                                         <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Date</p>
                                         <p className="text-foreground font-medium">{format(parseISO(currentSlot.start_time), 'EEEE, MMMM d, yyyy')}</p>
                                         <p className="text-xs text-muted-foreground uppercase tracking-widest mt-3 mb-1">Time</p>
-                                        <p className="text-purple-300 font-bold font-mono text-lg">{format(parseISO(currentSlot.start_time), 'h:mm a')}</p>
+                                        <p className="text-primary font-bold font-mono text-lg">{format(parseISO(currentSlot.start_time), 'h:mm a')}</p>
                                     </>
                                 )}
                                 <p className="text-xs text-muted-foreground uppercase tracking-widest mt-3 mb-1">Applicant</p>
                                 <p className="text-foreground font-medium">{existingApp.full_name}</p>
                                 <p className="text-xs text-muted-foreground uppercase tracking-widest mt-3 mb-1">Primary Choice</p>
-                                <p className="text-purple-400 font-medium">{existingApp.primary_dept}</p>
+                                <p className="text-primary font-medium">{existingApp.primary_dept}</p>
                             </div>
 
                             {/* Only ever rendered for someone who holds a slot — the
@@ -512,7 +513,7 @@ const ScheduleInterview = () => {
                                     <Button
                                         onClick={startReschedule}
                                         variant="outline"
-                                        className="w-full h-12 border-purple-500/30 text-purple-300 hover:bg-purple-500/10 font-bold"
+                                        className="w-full h-12 border-purple-500/30 text-primary hover:bg-purple-500/10 font-bold"
                                     >
                                         <CalendarClock className="w-4 h-4 mr-2" />
                                         Change My Slot
@@ -524,10 +525,10 @@ const ScheduleInterview = () => {
                             ) : (
                                 <p className="text-[11px] text-muted-foreground mb-6">
                                     {changesLeft <= 0
-                                        ? 'You have already used your one slot change, so this time is final. Contact the SSCS team if you cannot attend.'
+                                        ? 'You have already used your one slot change, so this time is final. Contact the AI Club team if you cannot attend.'
                                         : !currentSlot
                                             ? 'Loading your slot details…'
-                                            : 'Your interview is too close to be moved. Contact the SSCS team if you cannot attend.'}
+                                            : 'Your interview is too close to be moved. Contact the AI Club team if you cannot attend.'}
                                 </p>
                             )}
 
@@ -556,7 +557,7 @@ const ScheduleInterview = () => {
                 >
                     <HolographicCard className="p-10 text-center border-yellow-500/20">
                         <div className="w-20 h-20 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-yellow-500/20">
-                            <ShieldAlert className="w-10 h-10 text-yellow-500/70" />
+                            <ShieldAlert className="w-10 h-10 text-amber-600/70" />
                         </div>
                         <h1 className="text-2xl font-heading font-bold text-foreground mb-3">Not Yet Eligible</h1>
                         <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -564,7 +565,7 @@ const ScheduleInterview = () => {
                             If you have already received one, make sure you are signed in with
                             the same email address you applied with.
                         </p>
-                        <Button onClick={() => navigate('/apply')} variant="outline" className="w-full h-12 border-yellow-500/30 text-yellow-400 hover:bg-yellow-500/10">
+                        <Button onClick={() => navigate('/apply')} variant="outline" className="w-full h-12 border-yellow-500/30 text-amber-600 hover:bg-yellow-500/10">
                             Check My Status
                         </Button>
                     </HolographicCard>
@@ -605,6 +606,7 @@ const ScheduleInterview = () => {
     return (
         <div className="min-h-screen relative text-foreground bg-background overflow-hidden">
             <TechGridBackground />
+            <Navigation />
 
             {/* Purple accent overlay for shortlisted theme */}
             <div className="fixed inset-0 pointer-events-none -z-[5]">
@@ -619,7 +621,7 @@ const ScheduleInterview = () => {
                     // change is spent until they confirm one in the modal.
                     <button
                         onClick={cancelReschedule}
-                        className="inline-flex items-center text-muted-foreground hover:text-purple-400 transition-all mb-10 px-5 py-2 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-sm"
+                        className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-10 px-5 py-2 rounded-full bg-white border border-border  group text-sm"
                     >
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Keep My Current Slot
@@ -627,7 +629,7 @@ const ScheduleInterview = () => {
                 ) : (
                     <Link
                         to="/apply"
-                        className="inline-flex items-center text-muted-foreground hover:text-purple-400 transition-all mb-10 px-5 py-2 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-sm"
+                        className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-10 px-5 py-2 rounded-full bg-white border border-border  group text-sm"
                     >
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Back to Application
@@ -643,7 +645,7 @@ const ScheduleInterview = () => {
                 >
                     {/* Stage badge */}
                     <div className="flex items-center gap-3 mb-6">
-                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-bold tracking-widest uppercase">
+                        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/15 border border-purple-500/30 text-primary text-xs font-bold tracking-widest uppercase">
                             <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
                             {isRescheduling ? 'Changing Your Slot' : 'Shortlisted'}
                         </span>
@@ -669,8 +671,8 @@ const ScheduleInterview = () => {
                     {isRescheduling ? (
                         <div className="mt-6 flex flex-col gap-3">
                             {currentSlot && (
-                                <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/70 border border-foreground/10 text-sm text-gray-300 self-start">
-                                    <Clock className="w-4 h-4 shrink-0 text-purple-400" />
+                                <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-border text-sm text-gray-300 self-start">
+                                    <Clock className="w-4 h-4 shrink-0 text-primary" />
                                     <span>
                                         Current slot:{' '}
                                         <strong className="text-foreground">
@@ -679,13 +681,13 @@ const ScheduleInterview = () => {
                                     </span>
                                 </div>
                             )}
-                            <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm self-start">
+                            <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm self-start">
                                 <AlertTriangle className="w-4 h-4 shrink-0" />
                                 <span><strong>This is your only change.</strong> Once you confirm a new time, the slot is final.</span>
                             </div>
                         </div>
                     ) : (
-                        <div className="mt-6 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm">
+                        <div className="mt-6 inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 text-sm">
                             <Zap className="w-4 h-4 shrink-0" />
                             <span><strong>First come, first served.</strong> Slots fill up fast — book now to secure your preferred time.</span>
                         </div>
@@ -704,11 +706,11 @@ const ScheduleInterview = () => {
                             run in parallel. `slots` is one row per distinct time, so its
                             length is a count of times, not of panel seats. */}
                         {[
-                            { label: 'Times Available', value: visibleSlots.length, icon: Calendar, color: 'text-purple-400' },
-                            { label: 'Dates Open', value: uniqueDateCount, icon: Users, color: 'text-pink-400' },
-                            { label: 'Slot Duration', value: slotDurationLabel, icon: Clock, color: 'text-cyan-400' },
+                            { label: 'Times Available', value: visibleSlots.length, icon: Calendar, color: 'text-primary' },
+                            { label: 'Dates Open', value: uniqueDateCount, icon: Users, color: 'text-primary' },
+                            { label: 'Slot Duration', value: slotDurationLabel, icon: Clock, color: 'text-primary' },
                         ].map((stat) => (
-                            <div key={stat.label} className="bg-white/[0.03] border border-foreground/10 rounded-2xl p-4 text-center backdrop-blur-xl">
+                            <div key={stat.label} className="bg-muted/40 border border-border rounded-md p-4 text-center ">
                                 <stat.icon className={`w-5 h-5 mx-auto mb-2 ${stat.color}`} />
                                 <div className={`text-xl font-bold ${stat.color}`}>{stat.value}</div>
                                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">{stat.label}</div>
@@ -724,7 +726,7 @@ const ScheduleInterview = () => {
                             initial={{ opacity: 0, y: -8 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -8 }}
-                            className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm flex items-center gap-3"
+                            className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-destructive text-sm flex items-center gap-3"
                         >
                             <AlertTriangle className="w-4 h-4 shrink-0" />
                             {bookingError}
@@ -743,13 +745,13 @@ const ScheduleInterview = () => {
                             <LogoSpinner size="sm" />
                         </div>
                     ) : visibleSlots.length === 0 ? (
-                        <HolographicCard className="p-16 text-center border-foreground/5">
+                        <HolographicCard className="p-16 text-center border-border">
                             <Calendar className="w-16 h-16 text-muted-foreground/20 mx-auto mb-4" />
                             <h3 className="text-xl font-heading font-bold text-foreground mb-2">No Slots Available</h3>
                             <p className="text-muted-foreground text-sm max-w-sm mx-auto leading-relaxed">
                                 {isRescheduling
-                                    ? 'There is no other free time to move to right now. Your current slot is untouched — check back later or contact the SSCS team.'
-                                    : 'All interview slots have been booked or none have been created yet. Please contact the SSCS team for further information.'}
+                                    ? 'There is no other free time to move to right now. Your current slot is untouched — check back later or contact the AI Club team.'
+                                    : 'All interview slots have been booked or none have been created yet. Please contact the AI Club team for further information.'}
                             </p>
                         </HolographicCard>
                     ) : (
@@ -779,7 +781,7 @@ const ScheduleInterview = () => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setPendingSlot(null)}
-                            className="fixed inset-0 z-[200] bg-black/70 backdrop-blur-sm"
+                            className="fixed inset-0 z-[200] bg-[#0B1726]/60 backdrop-blur-sm"
                         />
 
                         {/* Modal */}
@@ -791,7 +793,7 @@ const ScheduleInterview = () => {
                             className="fixed inset-0 z-[201] flex items-center justify-center p-4 pointer-events-none"
                         >
                             <div className="pointer-events-auto w-full max-w-md">
-                                <div className="relative rounded-3xl bg-background border border-purple-500/30 shadow-[0_0_80px_rgba(49,135,232,0.2)] overflow-hidden">
+                                <div className="relative rounded-md bg-background border border-purple-500/30 shadow-[0_0_80px_rgba(49,135,232,0.2)] overflow-hidden">
                                     {/* Gradient header strip */}
                                     <div className="h-1 w-full bg-gradient-to-r from-purple-600 via-pink-500 to-purple-600" />
 
@@ -799,14 +801,14 @@ const ScheduleInterview = () => {
                                         {/* Close */}
                                         <button
                                             onClick={() => setPendingSlot(null)}
-                                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-white/70 transition-colors text-muted-foreground hover:text-foreground"
+                                            className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-white transition-colors text-muted-foreground hover:text-foreground"
                                         >
                                             <X className="w-4 h-4" />
                                         </button>
 
                                         {/* Icon */}
-                                        <div className="w-16 h-16 bg-purple-500/15 rounded-2xl flex items-center justify-center mb-6 border border-purple-500/30">
-                                            <Calendar className="w-8 h-8 text-purple-400" />
+                                        <div className="w-16 h-16 bg-purple-500/15 rounded-md flex items-center justify-center mb-6 border border-purple-500/30">
+                                            <Calendar className="w-8 h-8 text-primary" />
                                         </div>
 
                                         <h3 className="text-xl font-heading font-bold text-foreground mb-1">
@@ -819,23 +821,23 @@ const ScheduleInterview = () => {
                                         </p>
 
                                         {/* Slot details */}
-                                        <div className="bg-white/70 border border-foreground/10 rounded-2xl p-5 mb-6 space-y-3">
+                                        <div className="bg-white border border-border rounded-md p-5 mb-6 space-y-3">
                                             <div className="flex items-center justify-between">
                                                 <span className="text-xs text-muted-foreground uppercase tracking-widest">Date</span>
                                                 <span className="text-foreground font-semibold">
                                                     {format(parseISO(pendingSlot.start_time), 'EEEE, MMM d, yyyy')}
                                                 </span>
                                             </div>
-                                            <div className="h-px bg-white/70" />
+                                            <div className="h-px bg-white" />
                                             <div className="flex items-center justify-between">
                                                 <span className="text-xs text-muted-foreground uppercase tracking-widest">Time</span>
-                                                <span className="text-purple-300 font-bold text-lg font-mono">
+                                                <span className="text-primary font-bold text-lg font-mono">
                                                     {format(parseISO(pendingSlot.start_time), 'h:mm a')}
                                                 </span>
                                             </div>
                                             {isRescheduling && currentSlot && (
                                                 <>
-                                                    <div className="h-px bg-white/70" />
+                                                    <div className="h-px bg-white" />
                                                     <div className="flex items-center justify-between">
                                                         <span className="text-xs text-muted-foreground uppercase tracking-widest">Replaces</span>
                                                         <span className="text-muted-foreground text-sm line-through">
@@ -852,7 +854,7 @@ const ScheduleInterview = () => {
                                         <div className="flex gap-3">
                                             <Button
                                                 variant="outline"
-                                                className="flex-1 h-12 border-foreground/10 hover:bg-white/70 text-muted-foreground"
+                                                className="flex-1 h-12 border-border hover:bg-white text-muted-foreground"
                                                 onClick={() => setPendingSlot(null)}
                                                 disabled={isBooking}
                                             >

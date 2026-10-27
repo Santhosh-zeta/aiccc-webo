@@ -69,7 +69,7 @@ const TimelineDot = ({ state, icon }: { state: DotState; icon: string }) => {
   }
   if (state === 'past') {
     return (
-      <div className="w-7 h-7 rounded-full bg-white/70 border-2 border-foreground/30 flex items-center justify-center">
+      <div className="w-7 h-7 rounded-full bg-white border-2 border-primary/40 flex items-center justify-center">
         <span className="text-xs">{icon}</span>
       </div>
     );
@@ -227,7 +227,7 @@ export default function CandidateTimeline({ application }: CandidateTimelineProp
                       <span className="text-xs text-primary/60 italic">In progress</span>
                     )}
                   </div>
-                  <p className={`text-xs mt-0.5 leading-relaxed ${isCurrent ? 'text-muted-foreground' : isPast ? 'text-muted-foreground' : 'text-white/25'}`}>
+                  <p className={`text-xs mt-0.5 leading-relaxed ${isCurrent ? 'text-muted-foreground' : isPast ? 'text-muted-foreground' : 'text-muted-foreground'}`}>
                     {ev.description}
                   </p>
                 </div>

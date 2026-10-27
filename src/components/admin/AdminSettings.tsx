@@ -598,7 +598,7 @@ const AdminSettings = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="text-xl flex items-center gap-2">
-                                <Sparkles className="w-5 h-5 text-purple-400" />
+                                <Sparkles className="w-5 h-5 text-primary" />
                                 AI Candidate Copilot Engine
                             </CardTitle>
                             <CardDescription>Configure how candidate applications are analyzed and scored.</CardDescription>
@@ -622,10 +622,10 @@ const AdminSettings = () => {
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="gemini">
-                                                <span className="font-semibold text-purple-400">Google Gemini 3 Pro</span> (best quality, falls back to Gemini 2.5 Flash — requires API Key)
+                                                <span className="font-semibold text-primary">Google Gemini 3 Pro</span> (best quality, falls back to Gemini 2.5 Flash — requires API Key)
                                             </SelectItem>
                                             <SelectItem value="openai">
-                                                <span className="font-semibold text-blue-400">OpenAI GPT-4o Mini</span> (requires API Key)
+                                                <span className="font-semibold text-primary">OpenAI GPT-4o Mini</span> (requires API Key)
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -633,7 +633,7 @@ const AdminSettings = () => {
 
                                 <div className="grid sm:grid-cols-2 gap-4">
                                     <div>
-                                        <Label className="text-sm font-medium mb-1 block text-purple-300">Gemini API Key</Label>
+                                        <Label className="text-sm font-medium mb-1 block text-primary">Gemini API Key</Label>
                                         <Input
                                             type="password"
                                             placeholder="Enter Gemini API Key..."
@@ -646,7 +646,7 @@ const AdminSettings = () => {
                                         />
                                     </div>
                                     <div>
-                                        <Label className="text-sm font-medium mb-1 block text-blue-300">OpenAI API Key</Label>
+                                        <Label className="text-sm font-medium mb-1 block text-primary">OpenAI API Key</Label>
                                         <Input
                                             type="password"
                                             placeholder="Enter OpenAI API Key..."
@@ -683,8 +683,8 @@ const AdminSettings = () => {
                         <div className="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
                         
                         <CardHeader>
-                            <CardTitle className="text-xl flex items-center gap-2 text-emerald-400">
-                                <Database className="w-5 h-5 text-emerald-400 animate-pulse" />
+                            <CardTitle className="text-xl flex items-center gap-2 text-green-600">
+                                <Database className="w-5 h-5 text-green-600 animate-pulse" />
                                 System Snapshot & Disaster Recovery Suite
                             </CardTitle>
                             <CardDescription className="text-muted-foreground">
@@ -694,11 +694,11 @@ const AdminSettings = () => {
 
                         <CardContent className="space-y-8 relative z-10">
                             {/* 1. Export Data Section */}
-                            <div className="bg-card/80 p-6 rounded-xl border border-foreground/10 space-y-4 shadow-inner">
+                            <div className="bg-card/80 p-6 rounded-xl border border-border space-y-4 shadow-inner">
                                 <div className="flex items-start justify-between flex-wrap gap-4">
                                     <div>
                                         <h4 className="text-base font-bold text-foreground flex items-center gap-2">
-                                            <Download className="w-4 h-4 text-emerald-400" />
+                                            <Download className="w-4 h-4 text-green-600" />
                                             Instant System Backups
                                         </h4>
                                         <p className="text-xs text-muted-foreground mt-1 max-w-xl leading-relaxed">
@@ -729,16 +729,16 @@ const AdminSettings = () => {
                                             onClick={handleExportCSV}
                                             disabled={exportingCSV}
                                             variant="outline"
-                                            className="border-foreground/20 hover:bg-white/70 text-foreground font-medium h-11 px-5 rounded-xl flex items-center gap-2"
+                                            className="border-primary/30 hover:bg-white text-foreground font-medium h-11 px-5 rounded-xl flex items-center gap-2"
                                         >
                                             {exportingCSV ? (
                                                 <>
-                                                    <RefreshCw className="w-4 h-4 animate-spin text-emerald-400" />
+                                                    <RefreshCw className="w-4 h-4 animate-spin text-green-600" />
                                                     Exporting...
                                                 </>
                                             ) : (
                                                 <>
-                                                    <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+                                                    <FileSpreadsheet className="w-4 h-4 text-green-600" />
                                                     Export Candidates (.csv)
                                                 </>
                                             )}
@@ -770,11 +770,11 @@ const AdminSettings = () => {
                             {/* 2. Disaster Recovery / Restore Section */}
                             <div className="bg-amber-950/15 p-6 rounded-xl border border-amber-500/30 space-y-5">
                                 <div className="flex items-start gap-3">
-                                    <div className="p-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 shrink-0 mt-0.5">
+                                    <div className="p-2 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-600 shrink-0 mt-0.5">
                                         <AlertTriangle className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h4 className="text-base font-bold text-amber-300 flex items-center gap-2">
+                                        <h4 className="text-base font-bold text-amber-600 flex items-center gap-2">
                                             Disaster Recovery & Archive Restoration
                                         </h4>
                                         <p className="text-xs text-amber-200/80 mt-1 leading-relaxed">
@@ -784,7 +784,7 @@ const AdminSettings = () => {
                                 </div>
 
                                 {/* File Selector & Action */}
-                                <div className="flex flex-col sm:flex-row items-center gap-4 bg-black/40 p-4 rounded-xl border border-foreground/10">
+                                <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-xl border border-border">
                                     <div className="flex-1 w-full">
                                         <label className="block text-xs font-semibold text-foreground/80 mb-1">Select Backup Archive File</label>
                                         <input
@@ -792,10 +792,10 @@ const AdminSettings = () => {
                                             accept=".json,application/json"
                                             onChange={handleFileSelectForRestore}
                                             disabled={restoringBackup}
-                                            className="block w-full text-xs text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500/20 file:text-emerald-300 hover:file:bg-emerald-500/30 transition-all bg-white/5 rounded-lg border border-white/10 p-1"
+                                            className="block w-full text-xs text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-emerald-500/20 file:text-green-600 hover:file:bg-emerald-500/30 transition-all bg-white rounded-lg border border-border p-1"
                                         />
                                         {selectedBackupFile && (
-                                            <p className="text-[11px] text-emerald-400 font-mono mt-1 flex items-center gap-1">
+                                            <p className="text-[11px] text-green-600 font-mono mt-1 flex items-center gap-1">
                                                 <CheckCircle2 className="w-3.5 h-3.5" />
                                                 Ready to restore: <span className="underline">{selectedBackupFile.name}</span> ({(selectedBackupFile.size / 1024).toFixed(1)} KB)
                                             </p>
@@ -823,7 +823,7 @@ const AdminSettings = () => {
 
                                 {/* Live Progress & Status */}
                                 {restoreProgress && (
-                                    <div className="p-3.5 rounded-xl bg-black/60 border border-emerald-500/40 text-emerald-300 text-xs font-mono flex items-center gap-2 animate-pulse">
+                                    <div className="p-3.5 rounded-xl bg-white border border-emerald-500/40 text-green-600 text-xs font-mono flex items-center gap-2 animate-pulse">
                                         <RefreshCw className="w-4 h-4 animate-spin shrink-0" />
                                         <span>{restoreProgress}</span>
                                     </div>
@@ -831,15 +831,15 @@ const AdminSettings = () => {
 
                                 {/* Restoration Summary Results */}
                                 {restoreResults && (
-                                    <div className="space-y-2 bg-black/60 p-4 rounded-xl border border-emerald-500/40">
-                                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-1.5">
+                                    <div className="space-y-2 bg-white p-4 rounded-xl border border-emerald-500/40">
+                                        <span className="text-xs font-bold text-green-600 uppercase tracking-widest flex items-center gap-1.5">
                                             <CheckCircle2 className="w-4 h-4" /> Restoration Report Summary
                                         </span>
                                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
                                             {Object.entries(restoreResults).map(([table, count]) => (
                                                 <div key={table} className="p-2 rounded bg-emerald-500/10 border border-emerald-500/20 text-center">
                                                     <div className="text-[10px] font-mono text-muted-foreground truncate">{table}</div>
-                                                    <div className="text-sm font-black text-emerald-300 mt-0.5">{count} <span className="text-[10px] font-normal">records</span></div>
+                                                    <div className="text-sm font-black text-green-600 mt-0.5">{count} <span className="text-[10px] font-normal">records</span></div>
                                                 </div>
                                             ))}
                                         </div>

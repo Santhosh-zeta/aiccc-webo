@@ -57,7 +57,7 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
     const uniqueYears = Array.from(new Set(applications.map(app => app.admissionYear).filter(Boolean))).sort().reverse() as number[];
 
     return (
-        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 p-6 rounded-[2rem] bg-white/[0.03] border border-foreground/5 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+        <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6 p-6 rounded-md bg-muted/40 border border-border backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
             {/* Subtle glow background */}
             <div className="absolute -top-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-primary/20 transition-all duration-700"></div>
             
@@ -67,7 +67,7 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground group-focus-within/input:text-primary transition-colors" />
                     <Input
                         placeholder="Search Intelligence Database..."
-                        className="pl-11 h-12 bg-white/70 border-foreground/5 focus:border-primary/40 focus:ring-primary/20 rounded-xl transition-all placeholder:text-muted-foreground/50 text-sm font-medium"
+                        className="pl-11 h-12 bg-white border-border focus:border-primary/40 focus:ring-primary/20 rounded-xl transition-all placeholder:text-muted-foreground/50 text-sm font-medium"
                         value={searchTerm}
                         onChange={(e) => onSearchChange(e.target.value)}
                     />
@@ -83,10 +83,10 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
 
                 <div className="flex flex-wrap gap-3">
                     <Select value={programFilter} onValueChange={onProgramFilterChange}>
-                        <SelectTrigger className="h-12 w-[180px] bg-white/70 border-foreground/5 hover:bg-white/70 rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
+                        <SelectTrigger className="h-12 w-[180px] bg-white border-border hover:bg-white rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
                             <SelectValue placeholder="PROGRAM" />
                         </SelectTrigger>
-                        <SelectContent className="bg-zinc-900/95 border-foreground/10 backdrop-blur-xl">
+                        <SelectContent className="bg-zinc-900/95 border-border ">
                             <SelectItem value="ALL">All Programs</SelectItem>
                             {uniquePrograms.map(prog => (
                                 <SelectItem key={prog} value={prog}>{prog}</SelectItem>
@@ -95,10 +95,10 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
                     </Select>
 
                     <Select value={yearFilter} onValueChange={onYearFilterChange}>
-                        <SelectTrigger className="h-12 w-[120px] bg-white/70 border-foreground/5 hover:bg-white/70 rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
+                        <SelectTrigger className="h-12 w-[120px] bg-white border-border hover:bg-white rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
                             <SelectValue placeholder="BATCH" />
                         </SelectTrigger>
-                        <SelectContent className="bg-zinc-900/95 border-foreground/10 backdrop-blur-xl">
+                        <SelectContent className="bg-zinc-900/95 border-border ">
                             <SelectItem value="ALL">All Batches</SelectItem>
                             {uniqueYears.map(year => (
                                 <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
@@ -107,10 +107,10 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
                     </Select>
 
                     <Select value={deptFilter} onValueChange={onDeptFilterChange}>
-                        <SelectTrigger className="h-12 w-[180px] bg-white/70 border-foreground/5 hover:bg-white/70 rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
+                        <SelectTrigger className="h-12 w-[180px] bg-white border-border hover:bg-white rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
                             <SelectValue placeholder="DEPARTMENT" />
                         </SelectTrigger>
-                        <SelectContent className="bg-zinc-900/95 border-foreground/10 backdrop-blur-xl">
+                        <SelectContent className="bg-zinc-900/95 border-border ">
                             <SelectItem value="ALL">All Departments</SelectItem>
                             {uniqueDepts.map(dept => (
                                 <SelectItem key={dept} value={dept}>{dept}</SelectItem>
@@ -119,10 +119,10 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
                     </Select>
 
                     <Select value={statusFilter} onValueChange={onStatusFilterChange}>
-                        <SelectTrigger className="h-12 w-[150px] bg-white/70 border-foreground/5 hover:bg-white/70 rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
+                        <SelectTrigger className="h-12 w-[150px] bg-white border-border hover:bg-white rounded-xl transition-all text-xs font-bold tracking-wider uppercase">
                             <SelectValue placeholder="STATUS" />
                         </SelectTrigger>
-                        <SelectContent className="bg-zinc-900/95 border-foreground/10 backdrop-blur-xl">
+                        <SelectContent className="bg-zinc-900/95 border-border ">
                             <SelectItem value="ALL">All Status</SelectItem>
                             <SelectItem value="pending">Pending</SelectItem>
                             <SelectItem value="neutral">Neutral</SelectItem>
@@ -142,12 +142,12 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
             </div>
 
             {/* Actions Section */}
-            <div className="flex items-center gap-4 w-full xl:w-auto pt-6 xl:pt-0 border-t xl:border-t-0 border-foreground/5 relative z-10">
+            <div className="flex items-center gap-4 w-full xl:w-auto pt-6 xl:pt-0 border-t xl:border-t-0 border-border relative z-10">
                 {canAutoShortlist && (
                     <Button
                         onClick={onAutoShortlist}
                         variant="outline"
-                        className="h-12 px-6 rounded-xl bg-purple-500/10 border-purple-500/30 text-purple-300 hover:bg-purple-500/20 hover:border-purple-500/50 transition-all text-[10px] font-bold tracking-[0.15em] uppercase"
+                        className="h-12 px-6 rounded-xl bg-purple-500/10 border-purple-500/30 text-primary hover:bg-purple-500/20 hover:border-purple-500/50 transition-all text-[10px] font-bold tracking-[0.15em] uppercase"
                     >
                         <Wand2 className="w-4 h-4 mr-2" />
                         Auto-Shortlist
@@ -168,7 +168,7 @@ const AdminToolbar: React.FC<AdminToolbarProps> = ({
                 <Button 
                     onClick={onExport} 
                     variant="outline" 
-                    className="h-12 px-6 rounded-xl bg-white/70 border-foreground/5 hover:bg-white/70 hover:border-foreground/20 transition-all text-[10px] font-bold tracking-[0.15em] uppercase"
+                    className="h-12 px-6 rounded-xl bg-white border-border hover:bg-white hover:border-primary/30 transition-all text-[10px] font-bold tracking-[0.15em] uppercase"
                 >
                     <Download className="w-4 h-4 mr-2" />
                     Export CSV

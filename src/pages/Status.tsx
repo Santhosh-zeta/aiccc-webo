@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Navigation from '@/components/Navigation';
 import {
     ArrowLeft, LogIn, Clock, XOctagon, CalendarDays,
     Video, ChevronRight, Zap, CheckCircle2, CalendarClock
@@ -73,7 +74,7 @@ const SelectedCard = ({ app }: { app: any }) => {
             className="w-full max-w-2xl"
         >
             {/* ── Main credential card ── */}
-            <div className="relative rounded-[2rem] overflow-hidden border border-primary/40 bg-[#0a0202]"
+            <div className="relative rounded-md overflow-hidden border border-primary/40 bg-white"
                  style={{ boxShadow: '0 0 60px rgba(49,135,232,0.18), inset 0 0 80px rgba(49,135,232,0.04)' }}>
 
                 <ScanLine />
@@ -102,9 +103,9 @@ const SelectedCard = ({ app }: { app: any }) => {
                 <div className="px-5 sm:px-8 pt-8 sm:pt-10 pb-8 sm:pb-10 text-center relative z-10">
                     {/* Org badge */}
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 mb-8">
-                        <img src="/brand/aic-mark.svg" alt="IEEE SSCS" className="w-4 h-4 object-contain opacity-80" />
+                        <img src="/brand/aic-mark.svg" alt="AI Club" className="w-4 h-4 object-contain opacity-80" />
                         <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary/80">
-                            IEEE SSCS — {new Date().getFullYear()} Tenure
+                            AI Club — {new Date().getFullYear()} Tenure
                         </span>
                     </div>
 
@@ -179,7 +180,7 @@ const SelectedCard = ({ app }: { app: any }) => {
                             transition={{ delay: 0.7 }}
                             className="mb-8 text-base text-foreground/80"
                         >
-                            a position in IEEE SSCS Student Branch Chapter.
+                            a position in AI Club VIT Chennai.
                             <br />
                             <span className="text-sm text-muted-foreground">Your role details will follow shortly.</span>
                         </motion.div>
@@ -203,11 +204,11 @@ const SelectedCard = ({ app }: { app: any }) => {
                     >
                         <span className="flex items-center gap-1.5">
                             <Zap className="w-3 h-3 text-primary/60" />
-                            IEEE SSCS Student Branch Chapter
+                            AI Club VIT Chennai
                         </span>
                         <span className="text-muted-foreground">·</span>
                         <span className="flex items-center gap-1.5">
-                            <CheckCircle2 className="w-3 h-3 text-green-500/60" />
+                            <CheckCircle2 className="w-3 h-3 text-green-600/60" />
                             Verified Selection
                         </span>
                     </motion.div>
@@ -279,19 +280,19 @@ const SlotDetails = ({ appId, slotChangesUsed }: { appId: string; slotChangesUse
         parseISO(slot.start_time).getTime() > Date.now() + SLOT_CHANGE_LEAD_TIME_MS;
 
     return (
-        <div className="mt-4 p-4 bg-white/70 rounded-xl border border-foreground/10 space-y-3 text-left">
+        <div className="mt-4 p-4 bg-white rounded-xl border border-border space-y-3 text-left">
             <div>
                 <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Date</div>
                 <div className="font-medium text-foreground text-sm">{format(parseISO(slot.start_time), 'EEEE, MMMM d, yyyy')}</div>
             </div>
-            <div className="h-px bg-white/70" />
+            <div className="h-px bg-white" />
             <div>
                 <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Time</div>
-                <div className="font-bold text-purple-300 font-mono">{format(parseISO(slot.start_time), 'h:mm a')}</div>
+                <div className="font-bold text-primary font-mono">{format(parseISO(slot.start_time), 'h:mm a')}</div>
             </div>
             {meetingLink ? (
                 <>
-                    <div className="h-px bg-white/70" />
+                    <div className="h-px bg-white" />
                     <a href={meetingLink} target="_blank" rel="noopener noreferrer"
                        className="flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-green-600 hover:bg-green-700 text-white font-bold text-sm transition-colors w-full">
                         <Video className="w-4 h-4" />
@@ -308,7 +309,7 @@ const SlotDetails = ({ appId, slotChangesUsed }: { appId: string; slotChangesUse
 
             {canChangeSlot ? (
                 <Link to="/schedule"
-                      className="flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-purple-500/30 text-purple-300 hover:bg-purple-500/10 font-bold text-sm transition-colors w-full">
+                      className="flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-purple-500/30 text-primary hover:bg-purple-500/10 font-bold text-sm transition-colors w-full">
                     <CalendarClock className="w-4 h-4" />
                     Change My Slot (once)
                 </Link>
@@ -316,7 +317,7 @@ const SlotDetails = ({ appId, slotChangesUsed }: { appId: string; slotChangesUse
                 <p className="text-[11px] text-muted-foreground">
                     {changesLeft <= 0
                         ? 'You have already used your one slot change, so this time is final.'
-                        : 'Your interview is too close to be moved. Contact the SSCS team if you cannot attend.'}
+                        : 'Your interview is too close to be moved. Contact the AI Club team if you cannot attend.'}
                 </p>
             )}
         </div>
@@ -384,26 +385,27 @@ const StatusPage = () => {
     return (
         <div className="min-h-screen relative text-foreground bg-background overflow-hidden">
             <TechGridBackground />
+            <Navigation />
 
             <div className="absolute top-6 left-6 z-20">
                 <Link to="/"
-                    className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors px-4 py-2 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl text-sm group">
+                    className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors px-4 py-2 rounded-full bg-white border border-border  text-sm group">
                     <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
                     Home
                 </Link>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 pt-20 sm:pt-24 pb-16 relative z-10 flex flex-col items-center min-h-screen">
+            <div className="container mx-auto px-4 sm:px-6 pt-28 pb-16 relative z-10 flex flex-col items-center min-h-screen">
 
                 {/* Header — hide when selected (credential card is the hero) */}
                 {!isSelected && (
                     <motion.div
                         initial={{ opacity: 0, y: -12 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="text-center mb-10"
+                        className="mb-10"
                     >
                         <span className="text-[11px] text-primary tracking-[0.4em] uppercase font-bold px-4 py-1 rounded-full border border-primary/20 bg-primary/5">
-                            IEEE SSCS Recruitment
+                            AI Club Recruitment
                         </span>
                         <h1 className="font-heading text-4xl md:text-5xl font-bold tracking-tight mt-4 text-foreground">
                             Application Status
@@ -418,7 +420,7 @@ const StatusPage = () => {
                         className="text-center mb-8"
                     >
                         <span className="text-[11px] text-primary tracking-[0.4em] uppercase font-bold px-4 py-1 rounded-full border border-primary/20 bg-primary/5">
-                            IEEE SSCS — Results
+                            AI Club — Results
                         </span>
                     </motion.div>
                 )}
@@ -447,7 +449,7 @@ const StatusPage = () => {
                         <motion.div key="no-app" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="w-full max-w-md">
                             <HolographicCard className="p-10 text-center">
                                 <div className="w-20 h-20 bg-yellow-500/10 rounded-full flex items-center justify-center mx-auto mb-6 border border-yellow-500/20">
-                                    <Clock className="w-9 h-9 text-yellow-500/70" />
+                                    <Clock className="w-9 h-9 text-amber-600/70" />
                                 </div>
                                 <h2 className="text-2xl font-heading font-bold text-foreground mb-2">No Application Found</h2>
                                 <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
@@ -464,7 +466,7 @@ const StatusPage = () => {
                         /* ── Selected: credential card ── */
                         <motion.div key="selected" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full max-w-2xl space-y-5">
                             <SelectedCard app={app} />
-                            <Button asChild variant="outline" className="w-full border-foreground/10 hover:bg-white/70 text-muted-foreground">
+                            <Button asChild variant="outline" className="w-full border-border hover:bg-white text-muted-foreground">
                                 <Link to="/">Return to Home</Link>
                             </Button>
                         </motion.div>
@@ -478,16 +480,16 @@ const StatusPage = () => {
                                 <div className="relative z-10">
                                     {/* Icon */}
                                     {isRejected || isWaitlist ? (
-                                        <div className="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-5 border border-foreground/10">
+                                        <div className="w-20 h-20 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-5 border border-border">
                                             <XOctagon className="w-9 h-9 text-zinc-500" />
                                         </div>
                                     ) : status === 'interview_scheduled' ? (
                                         <div className="w-20 h-20 bg-purple-500/15 rounded-full flex items-center justify-center mx-auto mb-5 border border-purple-500/30">
-                                            <Video className="w-9 h-9 text-purple-400" />
+                                            <Video className="w-9 h-9 text-primary" />
                                         </div>
                                     ) : status === 'shortlisted' ? (
                                         <div className="w-20 h-20 bg-purple-500/15 rounded-full flex items-center justify-center mx-auto mb-5 border border-purple-500/30 animate-pulse">
-                                            <CalendarDays className="w-9 h-9 text-purple-400" />
+                                            <CalendarDays className="w-9 h-9 text-primary" />
                                         </div>
                                     ) : (
                                         <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5 border border-primary/20 animate-pulse">
@@ -505,12 +507,12 @@ const StatusPage = () => {
 
                                     <div className={`inline-block px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-5 ${
                                         isRejected || isWaitlist
-                                            ? 'bg-zinc-800 text-zinc-400 border border-foreground/10'
+                                            ? 'bg-zinc-800 text-zinc-400 border border-border'
                                             : status === 'interview_scheduled' || status === 'shortlisted'
-                                            ? 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
+                                            ? 'bg-purple-500/15 text-primary border border-purple-500/30'
                                             : status === 'interviewed'
-                                            ? 'bg-blue-500/15 text-blue-300 border border-blue-500/30'
-                                            : 'bg-yellow-500/10 text-yellow-500 border border-yellow-500/20'
+                                            ? 'bg-blue-500/15 text-primary border border-blue-500/30'
+                                            : 'bg-yellow-500/10 text-amber-600 border border-yellow-500/20'
                                     }`}>
                                         {isRejected ? 'Not Selected'
                                             : isWaitlist ? 'Waitlisted'
@@ -557,14 +559,14 @@ const StatusPage = () => {
                                     { label: 'Name',        value: app.full_name },
                                     { label: 'Roll Number', value: app.roll_number },
                                 ].map(({ label, value }) => (
-                                    <div key={label} className="bg-white/[0.03] rounded-xl border border-foreground/10 p-4">
+                                    <div key={label} className="bg-muted/40 rounded-xl border border-border p-4">
                                         <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-1">{label}</div>
                                         <div className="text-sm font-semibold text-foreground truncate">{value || '—'}</div>
                                     </div>
                                 ))}
                             </div>
 
-                            <Button asChild variant="outline" className="w-full border-foreground/10 hover:bg-white/70 text-muted-foreground">
+                            <Button asChild variant="outline" className="w-full border-border hover:bg-white text-muted-foreground">
                                 <Link to="/">Return to Home</Link>
                             </Button>
                         </motion.div>

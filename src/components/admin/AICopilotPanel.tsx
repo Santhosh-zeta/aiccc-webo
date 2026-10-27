@@ -93,8 +93,8 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
 
     if (loading) {
         return (
-            <div className="bg-gradient-to-r from-purple-950/40 via-black/80 to-indigo-950/40 border border-purple-500/30 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden shadow-2xl animate-pulse">
-                <div className="flex items-center gap-3 text-purple-400 font-semibold text-sm mb-4">
+            <div className="bg-gradient-to-r from-purple-950/40 via-black/80 to-indigo-950/40 border border-purple-500/30 rounded-md p-6  relative overflow-hidden shadow-2xl animate-pulse">
+                <div className="flex items-center gap-3 text-primary font-semibold text-sm mb-4">
                     <Sparkles className="w-5 h-5 animate-spin" />
                     <span>AI Copilot synthesizing candidate profile & technical alignment...</span>
                 </div>
@@ -109,9 +109,9 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
 
     if (error) {
         return (
-            <div className="bg-gradient-to-r from-amber-950/30 via-black/80 to-amber-950/10 border border-amber-500/30 rounded-2xl p-6 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+            <div className="bg-gradient-to-r from-amber-950/30 via-black/80 to-amber-950/10 border border-amber-500/30 rounded-md p-6  relative overflow-hidden shadow-2xl">
                 <div className="flex items-start gap-3">
-                    <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                    <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                     <div className="flex-1 space-y-2">
                         <p className="text-sm font-semibold text-amber-200">AI Copilot unavailable</p>
                         <p className="text-xs text-amber-200/70 leading-relaxed">{error}</p>
@@ -142,27 +142,27 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="bg-gradient-to-br from-purple-950/30 via-black/90 to-indigo-950/30 border border-purple-500/30 rounded-2xl p-5 md:p-6 backdrop-blur-xl relative overflow-hidden shadow-2xl space-y-5"
+            className="bg-gradient-to-br from-purple-950/30 via-black/90 to-indigo-950/30 border border-purple-500/30 rounded-md p-5 md:p-6  relative overflow-hidden shadow-2xl space-y-5"
         >
             {/* Background Holographic Glow */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
             {/* Header */}
-            <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-foreground/10 relative z-10">
+            <div className="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-border relative z-10">
                 <div className="flex items-center gap-2.5">
-                    <div className="p-2 rounded-xl bg-purple-500/20 border border-purple-500/30 text-purple-300 shadow-lg shadow-purple-500/10">
+                    <div className="p-2 rounded-xl bg-purple-500/20 border border-purple-500/30 text-primary shadow-lg shadow-purple-500/10">
                         <Sparkles className="w-5 h-5 animate-pulse" />
                     </div>
                     <div>
                         <h3 className="text-base font-bold text-foreground tracking-wide flex items-center gap-2">
                             AI Recruitment Copilot
-                            <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-300 border border-purple-500/20">
+                            <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-primary border border-purple-500/20">
                                 {`Cloud LLM (${analysis.mode.toUpperCase()})`}
                             </span>
                         </h3>
                         <p className="text-xs text-muted-foreground mt-0.5">
-                            Automated competency matching for <span className="text-purple-300 font-medium">{application.primaryDept}</span>
+                            Automated competency matching for <span className="text-primary font-medium">{application.primaryDept}</span>
                         </p>
                     </div>
                 </div>
@@ -185,31 +185,31 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
                         size="icon"
                         onClick={handleRefresh}
                         disabled={refreshing}
-                        className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/70 transition-colors"
+                        className="h-8 w-8 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white transition-colors"
                         title="Re-run AI Analysis"
                     >
-                        <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin text-purple-400' : ''}`} />
+                        <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin text-primary' : ''}`} />
                     </Button>
                 </div>
             </div>
 
             {/* Signal Breakdown: Technical vs Engagement (creativity/activeness/eagerness) */}
             <div className="grid grid-cols-2 gap-3 relative z-10">
-                <div className="bg-black/30 border border-foreground/5 rounded-xl p-3 space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-blue-300/90">
+                <div className="bg-black/30 border border-border rounded-xl p-3 space-y-1.5">
+                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-primary/90">
                         <span className="flex items-center gap-1.5"><BrainCircuit className="w-3 h-3" /> Technical</span>
                         <span className="tabular-nums">{analysis.technicalScore}</span>
                     </div>
-                    <div className="h-1.5 bg-white/70 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-white rounded-full overflow-hidden">
                         <div className="h-full bg-blue-400/70 rounded-full transition-all" style={{ width: `${analysis.technicalScore}%` }} />
                     </div>
                 </div>
-                <div className="bg-black/30 border border-foreground/5 rounded-xl p-3 space-y-1.5">
-                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-pink-300/90">
+                <div className="bg-black/30 border border-border rounded-xl p-3 space-y-1.5">
+                    <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-widest text-primary/90">
                         <span className="flex items-center gap-1.5"><Flame className="w-3 h-3" /> Creativity &amp; Drive</span>
                         <span className="tabular-nums">{analysis.engagementScore}</span>
                     </div>
-                    <div className="h-1.5 bg-white/70 rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-white rounded-full overflow-hidden">
                         <div className="h-full bg-pink-400/70 rounded-full transition-all" style={{ width: `${analysis.engagementScore}%` }} />
                     </div>
                 </div>
@@ -230,11 +230,11 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
 
             {/* Executive Summary Bullets */}
             <div className="space-y-2.5 relative z-10">
-                <span className="text-[11px] font-bold uppercase tracking-widest text-purple-300/80 block">Executive Summary</span>
-                <div className="grid gap-2 text-xs text-foreground/80 leading-relaxed bg-black/40 p-3.5 rounded-xl border border-foreground/5 shadow-inner">
+                <span className="text-[11px] font-bold uppercase tracking-widest text-primary/80 block">Executive Summary</span>
+                <div className="grid gap-2 text-xs text-foreground/80 leading-relaxed bg-white p-3.5 rounded-xl border border-border shadow-inner">
                     {analysis.summaryBullets.map((bullet, i) => (
                         <div key={i} className="flex items-start gap-2.5">
-                            <Zap className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                            <Zap className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
                             <span className="flex-1"><BoldMarkdown text={bullet} /></span>
                         </div>
                     ))}
@@ -245,7 +245,7 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
                 {/* Key Strengths */}
                 <div className="space-y-2 bg-emerald-950/20 border border-emerald-500/20 rounded-xl p-3.5">
-                    <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-emerald-400">
+                    <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-green-600">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <span>Key Strengths</span>
                     </div>
@@ -253,7 +253,7 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
                         {analysis.strengths.map((str, idx) => (
                             <span
                                 key={idx}
-                                className="px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-medium tracking-wide shadow-sm"
+                                className="px-2 py-0.5 rounded-md bg-emerald-500/15 text-green-600 border border-emerald-500/30 text-[11px] font-medium tracking-wide shadow-sm"
                             >
                                 {str}
                             </span>
@@ -263,7 +263,7 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
 
                 {/* Potential Gaps / Areas to Probe */}
                 <div className="space-y-2 bg-amber-950/20 border border-amber-500/20 rounded-xl p-3.5">
-                    <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-amber-400">
+                    <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-amber-600">
                         <AlertTriangle className="w-3.5 h-3.5" />
                         <span>Areas to Probe in Interview</span>
                     </div>
@@ -271,7 +271,7 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
                         {analysis.gaps.map((gap, idx) => (
                             <span
                                 key={idx}
-                                className="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 text-[11px] font-medium tracking-wide shadow-sm"
+                                className="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-600 border border-amber-500/30 text-[11px] font-medium tracking-wide shadow-sm"
                             >
                                 {gap}
                             </span>
@@ -282,8 +282,8 @@ export default function AICopilotPanel({ application, onAnalysisComplete }: AICo
 
             {/* Recommendation Banner */}
             <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-3 flex items-center gap-3 relative z-10">
-                <Cpu className="w-4 h-4 text-purple-400 shrink-0" />
-                <p className="text-xs text-purple-200/90 font-medium italic">
+                <Cpu className="w-4 h-4 text-primary shrink-0" />
+                <p className="text-xs text-primary/90 font-medium italic">
                     "{analysis.recommendation}"
                 </p>
             </div>

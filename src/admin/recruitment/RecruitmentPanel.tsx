@@ -303,15 +303,15 @@ const Admin = () => {
                     const portalUrl = window.location.origin;
                     const ok = await sendEmail(
                         app.email,
-                        'Congratulations! You\'re in - IEEE SSCS',
+                        'Congratulations! You\'re in - AI Club',
                         `<p>Dear <strong>${app.fullName}</strong>,</p>
-                        <p>We are pleased to offer you ${positionText} at IEEE SSCS.</p>
+                        <p>We are pleased to offer you ${positionText} at AI Club.</p>
                         <p style="margin: 20px 0;">
                             <a href="${portalUrl}/status" style="background-color: #16a34a; color: #ffffff; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">View Your Selection Status</a>
                         </p>
                         <p>Direct link: <a href="${portalUrl}/status">${portalUrl}/status</a></p>
                         <p>Our team will contact you shortly regarding onboarding.</p>
-                        <p>Regards,<br>IEEE SSCS Executive Committee</p>`
+                        <p>Regards,<br>AI Club Executive Committee</p>`
                     );
                     if (ok) {
                         emailCount++;
@@ -342,12 +342,12 @@ const Admin = () => {
                 try {
                     const ok = await sendEmail(
                         app.email,
-                        'Update on your IEEE SSCS Application',
+                        'Update on your AI Club Application',
                         `<p>Dear <strong>${app.fullName}</strong>,</p>
-                        <p>Thank you for applying and interviewing with IEEE SSCS. We deeply appreciate the effort you put into the process.</p>
+                        <p>Thank you for applying and interviewing with AI Club. We deeply appreciate the effort you put into the process.</p>
                         <p>After careful consideration, we regret to inform you that we are unable to offer you a position at this time. We had a highly competitive pool of applicants this year.</p>
                         <p>We encourage you to stay connected and apply again in the future.</p>
-                        <p>Best wishes,<br>IEEE SSCS Executive Committee</p>`
+                        <p>Best wishes,<br>AI Club Executive Committee</p>`
                     );
                     if (ok) {
                         emailCount++;
@@ -407,7 +407,7 @@ const Admin = () => {
             'Year': app.year,
             'Primary Choice': app.primaryDept,
             '1st Preference Answer': app.skills || '',
-            'Why Join SSCS?': app.reason || '',
+            'Why Join AI Club?': app.reason || '',
             'Secondary Choice': app.secondaryDept || 'None',
             '2nd Preference Answer': app.secondarySkills || '',
             'Final Score': app.finalScore || '',
@@ -421,7 +421,7 @@ const Admin = () => {
         const ws = XLSX.utils.json_to_sheet(data);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, "Applications");
-        XLSX.writeFile(wb, "IEEE_SSCS_Applications.csv", { bookType: 'csv' });
+        XLSX.writeFile(wb, "AI_Club_Applications.csv", { bookType: 'csv' });
     };
 
     // ── Filter Logic ────────────────────────────────────────────────────────
@@ -478,15 +478,15 @@ const Admin = () => {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'selected': return 'text-green-400 bg-green-500/10 border-green-500/20';
-            case 'shortlisted': return 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20';
-            case 'rejected': return 'text-red-400 bg-red-500/10 border-red-500/20';
+            case 'selected': return 'text-green-600 bg-green-500/10 border-green-500/20';
+            case 'shortlisted': return 'text-primary bg-cyan-500/10 border-cyan-500/20';
+            case 'rejected': return 'text-destructive bg-red-500/10 border-red-500/20';
             case 'rejected_pending': return 'text-orange-400 bg-orange-500/10 border-orange-500/20';
-            case 'under_review': return 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20';
-            case 'interview_scheduled': return 'text-purple-400 bg-purple-500/10 border-purple-500/20';
+            case 'under_review': return 'text-amber-600 bg-yellow-500/10 border-yellow-500/20';
+            case 'interview_scheduled': return 'text-primary bg-purple-500/10 border-purple-500/20';
             case 'interviewed': return 'text-orange-300 bg-orange-500/10 border-orange-500/20';
-            case 'waitlisted': return 'text-amber-400 bg-amber-500/10 border-amber-500/20';
-            default: return 'text-blue-400 bg-blue-500/10 border-blue-500/20';
+            case 'waitlisted': return 'text-amber-600 bg-amber-500/10 border-amber-500/20';
+            default: return 'text-primary bg-blue-500/10 border-blue-500/20';
         }
     };
 
@@ -500,14 +500,14 @@ const Admin = () => {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center p-4">
                 <HolographicCard className="max-w-md w-full text-center p-8 border-red-500/50">
-                    <ShieldAlert className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                    <h1 className="text-2xl font-bold text-red-500 mb-2">Access Denied</h1>
+                    <ShieldAlert className="w-16 h-16 text-destructive mx-auto mb-4" />
+                    <h1 className="text-2xl font-bold text-destructive mb-2">Access Denied</h1>
                     <p className="text-muted-foreground mb-6">Restricted to administrators only.</p>
                     <div className="space-y-3">
-                        <Button onClick={() => navigate('/')} variant="outline" className="w-full border-red-500/50 text-red-500 hover:bg-red-950/30">Return Home</Button>
+                        <Button onClick={() => navigate('/')} variant="outline" className="w-full border-red-500/50 text-destructive hover:bg-red-950/30">Return Home</Button>
                         {import.meta.env.DEV && (
                             <div className="pt-4 border-t border-red-500/20">
-                                <p className="text-[11px] text-amber-400 font-mono mb-2">⚡ Local Dev Environment Detected</p>
+                                <p className="text-[11px] text-amber-600 font-mono mb-2">⚡ Local Dev Environment Detected</p>
                                 <Button 
                                     onClick={() => {
                                         loginAsLocalAdmin();
@@ -538,7 +538,7 @@ const Admin = () => {
                     {/* Header */}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div className="space-y-4">
-                            <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all px-4 py-1.5 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-xs tracking-widest uppercase">
+                            <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all px-4 py-1.5 rounded-full bg-white border border-border  group text-xs tracking-widest uppercase">
                                 <ArrowLeft className="w-3 h-3 mr-2 transition-transform group-hover:-translate-x-1" />
                                 Portal Home
                             </Link>
@@ -560,20 +560,20 @@ const Admin = () => {
                                 onClick={() => navigate('/interviewer')}
                                 variant="outline"
                                 size="sm"
-                                className="border-foreground/10 bg-white/70 hover:bg-white/70 text-xs font-bold tracking-wider rounded-xl h-10 px-4 transition-all hover:border-primary/40"
+                                className="border-border bg-white hover:bg-white text-xs font-bold tracking-wider rounded-xl h-10 px-4 transition-all hover:border-primary/40"
                             >
                                 <Video className="w-3.5 h-3.5 mr-2 text-primary" />
                                 Interviewer Portal ↗
                             </Button>
-                            <div className={`flex items-center gap-3 px-4 py-2 rounded-2xl border backdrop-blur-xl shadow-lg transition-all duration-500 h-10 ${isSuperAdmin ? 'text-primary bg-primary/10 border-primary/20' :
-                                user?.role === 'admin' ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' :
-                                    'text-zinc-400 bg-zinc-500/10 border-foreground/10'
+                            <div className={`flex items-center gap-3 px-4 py-2 rounded-md border  shadow-lg transition-all duration-500 h-10 ${isSuperAdmin ? 'text-primary bg-primary/10 border-primary/20' :
+                                user?.role === 'admin' ? 'text-primary bg-blue-500/10 border-blue-500/20' :
+                                    'text-zinc-400 bg-zinc-500/10 border-border'
                                 }`}>
                                 <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${isSuperAdmin ? 'bg-primary' : user?.role === 'admin' ? 'bg-blue-400' : 'bg-zinc-400'}`} />
                                 <span className="text-xs font-bold tracking-widest uppercase">
                                     {isSuperAdmin ? 'Super Admin' : user?.role === 'admin' ? 'Admin' : 'Interviewer'}
                                 </span>
-                                <span className="text-[10px] opacity-50 font-mono px-2 py-0.5 rounded-md bg-white/70 ml-1">
+                                <span className="text-[10px] opacity-50 font-mono px-2 py-0.5 rounded-md bg-white ml-1">
                                     {currentPhase.replace(/_/g, ' ')}
                                 </span>
                             </div>
@@ -583,7 +583,7 @@ const Admin = () => {
                     {/* ── Main Tabs ─────────────────────────────────────────── */}
                     <Tabs defaultValue="dashboard" className="w-full">
                         <div className="flex justify-between items-center mb-8 overflow-x-auto pb-2 scrollbar-hide">
-                            <TabsList className="bg-white/70 border border-foreground/10 p-1 h-auto backdrop-blur-xl rounded-2xl flex-wrap gap-1">
+                            <TabsList className="bg-white border border-border p-1 h-auto  rounded-md flex-wrap gap-1">
                                 <TabsTrigger value="dashboard" className="px-5 py-2.5 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-lg transition-all text-xs font-bold tracking-wider">
                                     <LayoutDashboard className="w-3.5 h-3.5 mr-1.5" />DASHBOARD
                                 </TabsTrigger>
@@ -603,7 +603,7 @@ const Admin = () => {
                                             <Trophy className="w-3.5 h-3.5 mr-1.5" />RANKINGS
                                         </TabsTrigger>
                                         <TabsTrigger value="committees" className="px-5 py-2.5 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all text-xs font-bold tracking-wider">
-                                            <Sparkles className="w-3.5 h-3.5 mr-1.5 text-purple-400" />COMMITTEES & DRAFT
+                                            <Sparkles className="w-3.5 h-3.5 mr-1.5 text-primary" />COMMITTEES & DRAFT
                                         </TabsTrigger>
                                         <TabsTrigger value="activity" className="px-5 py-2.5 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-white data-[state=active]:shadow-lg transition-all text-xs font-bold tracking-wider">
                                             <Activity className="w-3.5 h-3.5 mr-1.5" />ACTIVITY
@@ -650,10 +650,10 @@ const Admin = () => {
                                     />
 
                                     {/* View Toggle */}
-                                    <div className="flex items-center gap-1 bg-white/70 border border-foreground/10 rounded-xl p-1">
+                                    <div className="flex items-center gap-1 bg-white border border-border rounded-xl p-1">
                                         <button
                                             onClick={() => switchView('table')}
-                                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === 'table' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-muted-foreground hover:text-white'}`}
+                                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${viewMode === 'table' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-muted-foreground hover:text-foreground'}`}
                                         >
                                             <List className="w-3.5 h-3.5" /> Table
                                         </button>
@@ -668,11 +668,11 @@ const Admin = () => {
 
                                 {/* Table View */}
                                 {viewMode === 'table' && (
-                                    <HolographicCard className="p-0 border-foreground/5 overflow-hidden shadow-2xl">
+                                    <HolographicCard className="p-0 border-border overflow-hidden shadow-2xl">
                                         <div className="max-h-[70vh] overflow-auto scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
                                             <Table>
-                                                <TableHeader className="bg-white/70 sticky top-0 z-10 backdrop-blur-2xl border-b border-foreground/10">
-                                                    <TableRow className="hover:bg-transparent border-foreground/10">
+                                                <TableHeader className="bg-white sticky top-0 z-10 backdrop-blur-2xl border-b border-border">
+                                                    <TableRow className="hover:bg-transparent border-border">
                                                         <TableHead onClick={() => requestSort('fullName')} className="cursor-pointer hover:text-primary transition-colors text-[10px] font-bold tracking-[0.2em] uppercase py-5">
                                                             <div className="flex items-center gap-2">Name <ArrowUpDown className="w-3 h-3" /></div>
                                                         </TableHead>
@@ -713,7 +713,7 @@ const Admin = () => {
                                                         sortedApps.map((app) => (
                                                             <TableRow
                                                                 key={app.id}
-                                                                className="hover:bg-white/70 border-foreground/5 transition-all cursor-pointer group/row"
+                                                                className="hover:bg-white border-border transition-all cursor-pointer group/row"
                                                                 onClick={() => setSelectedApp(app)}
                                                             >
                                                                 <TableCell className="py-6 pl-8">
@@ -721,7 +721,7 @@ const Admin = () => {
                                                                     <div className="text-[10px] text-muted-foreground font-mono mt-0.5 tracking-tighter opacity-70">{app.rollNumber}</div>
                                                                     {app.programName && (
                                                                         <div className="flex items-center gap-1.5 mt-2">
-                                                                            <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-white/70 border border-foreground/10 text-muted-foreground font-bold tracking-wider uppercase">{app.programCode}</span>
+                                                                            <span className="text-[9px] px-1.5 py-0.5 rounded-sm bg-white border border-border text-muted-foreground font-bold tracking-wider uppercase">{app.programCode}</span>
                                                                             <span className="text-[9px] text-primary/50 font-bold tracking-widest uppercase">Batch {app.batch}</span>
                                                                         </div>
                                                                     )}
@@ -741,7 +741,7 @@ const Admin = () => {
                                                                 <TableCell>
                                                                     {app.secondaryDept ? (
                                                                         <>
-                                                                            <Badge variant="outline" className="bg-blue-500/10 border-blue-500/20 text-blue-400 text-[10px] font-bold tracking-wider rounded-md">
+                                                                            <Badge variant="outline" className="bg-blue-500/10 border-blue-500/20 text-primary text-[10px] font-bold tracking-wider rounded-md">
                                                                                 {app.secondaryDept}
                                                                             </Badge>
                                                                             <div className="text-[10px] text-muted-foreground mt-2 font-medium truncate max-w-[150px] opacity-60">
@@ -754,11 +754,11 @@ const Admin = () => {
                                                                 </TableCell>
                                                                 <TableCell>
                                                                     {app.finalScore && app.finalScore > 0 ? (
-                                                                        <span className={`font-mono text-sm font-bold ${app.finalScore >= 7 ? 'text-green-400' : app.finalScore >= 5 ? 'text-yellow-400' : 'text-red-400'}`}>
+                                                                        <span className={`font-mono text-sm font-bold ${app.finalScore >= 7 ? 'text-green-600' : app.finalScore >= 5 ? 'text-amber-600' : 'text-destructive'}`}>
                                                                             {app.finalScore.toFixed(1)}
                                                                         </span>
                                                                     ) : app.interviewScore && app.interviewScore > 0 ? (
-                                                                        <span className={`font-mono text-sm font-bold ${app.interviewScore >= 7 ? 'text-green-400' : app.interviewScore >= 5 ? 'text-yellow-400' : 'text-red-400'}`}>
+                                                                        <span className={`font-mono text-sm font-bold ${app.interviewScore >= 7 ? 'text-green-600' : app.interviewScore >= 5 ? 'text-amber-600' : 'text-destructive'}`}>
                                                                             {app.interviewScore.toFixed(1)}
                                                                         </span>
                                                                     ) : (
@@ -778,7 +778,7 @@ const Admin = () => {
                                                                     <Button
                                                                         size="sm"
                                                                         variant="ghost"
-                                                                        className="w-10 h-10 rounded-xl bg-white/5 hover:bg-primary hover:text-white transition-all duration-300 opacity-0 group-hover/row:opacity-100"
+                                                                        className="w-10 h-10 rounded-xl bg-white hover:bg-primary hover:text-white transition-all duration-300 opacity-0 group-hover/row:opacity-100"
                                                                         onClick={(e) => { e.stopPropagation(); setSelectedApp(app); }}
                                                                     >
                                                                         <Eye className="w-4 h-4" />
@@ -790,7 +790,7 @@ const Admin = () => {
                                                 </TableBody>
                                             </Table>
                                         </div>
-                                        <div className="px-8 py-3 border-t border-foreground/5 flex justify-between text-[10px] text-muted-foreground">
+                                        <div className="px-8 py-3 border-t border-border flex justify-between text-[10px] text-muted-foreground">
                                             <span>Showing {sortedApps.length} of {applications.length}</span>
                                             <span>Click any row to view details</span>
                                         </div>
@@ -857,8 +857,8 @@ const Admin = () => {
                     </Tabs>
 
                     {/* Footer */}
-                    <div className="pt-12 pb-6 border-t border-foreground/5 flex justify-between items-center text-[10px] text-muted-foreground uppercase tracking-[0.3em] font-bold">
-                        <span>IEEE SSCS Portal v3.0</span>
+                    <div className="pt-12 pb-6 border-t border-border flex justify-between items-center text-[10px] text-muted-foreground uppercase tracking-[0.3em] font-bold">
+                        <span>AI Club Portal v3.0</span>
                         <span className="flex items-center gap-2">
                             <span className="w-1 h-1 rounded-full bg-green-500" />
                             System Operational
@@ -893,9 +893,9 @@ const Admin = () => {
                 />
 
                 <Dialog open={isPublishDialogOpen} onOpenChange={setIsPublishDialogOpen}>
-                    <DialogContent className="bg-black/90 border-foreground/10 backdrop-blur-2xl text-foreground">
+                    <DialogContent className="bg-black/90 border-border backdrop-blur-2xl text-foreground">
                         <DialogHeader>
-                            <DialogTitle className="text-2xl font-bold text-red-500 flex items-center gap-2">
+                            <DialogTitle className="text-2xl font-bold text-destructive flex items-center gap-2">
                                 <ShieldAlert className="w-6 h-6" /> Publish Results
                             </DialogTitle>
                             <DialogDescription className="text-muted-foreground pt-4">
@@ -911,7 +911,7 @@ const Admin = () => {
                                 <Input 
                                     value={publishConfirm1}
                                     onChange={(e) => setPublishConfirm1(e.target.value)}
-                                    className="bg-white/70 border-foreground/10 font-mono tracking-widest uppercase"
+                                    className="bg-white border-border font-mono tracking-widest uppercase"
                                     placeholder="CONFIRM"
                                 />
                             </div>
@@ -922,7 +922,7 @@ const Admin = () => {
                                 <Input 
                                     value={publishConfirm2}
                                     onChange={(e) => setPublishConfirm2(e.target.value)}
-                                    className="bg-white/70 border-foreground/10 font-mono tracking-widest uppercase"
+                                    className="bg-white border-border font-mono tracking-widest uppercase"
                                     placeholder="CONFIRM"
                                 />
                             </div>
@@ -934,7 +934,7 @@ const Admin = () => {
                                 variant="destructive" 
                                 disabled={publishConfirm1 !== 'CONFIRM' || publishConfirm2 !== 'CONFIRM'}
                                 onClick={executePublishResults}
-                                className="bg-red-500/20 text-red-500 border border-red-500/50 hover:bg-red-500 hover:text-white"
+                                className="bg-red-500/20 text-destructive border border-red-500/50 hover:bg-red-500 hover:text-white"
                             >
                                 Launch Emails
                             </Button>

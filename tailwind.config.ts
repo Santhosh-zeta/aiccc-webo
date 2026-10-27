@@ -25,6 +25,7 @@ export default {
       },
       fontFamily: {
         heading: ['"Space Grotesk"', 'sans-serif'],
+        display: ['"Saira Semi Condensed"', '"Space Grotesk"', 'sans-serif'],
         subheading: ['"Space Grotesk"', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
         sans: ['Inter', 'sans-serif'],

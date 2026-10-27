@@ -13,11 +13,11 @@ interface DeptWeightsEditorProps {
 }
 
 const METRIC_CONFIG = [
-    { key: 'metric_weight_communication' as const, label: 'Communication', icon: MessageSquare, color: 'text-blue-400' },
-    { key: 'metric_weight_technical' as const, label: 'Technical Knowledge', icon: Cpu, color: 'text-cyan-400' },
-    { key: 'metric_weight_enthusiasm' as const, label: 'Enthusiasm', icon: Zap, color: 'text-yellow-400' },
+    { key: 'metric_weight_communication' as const, label: 'Communication', icon: MessageSquare, color: 'text-primary' },
+    { key: 'metric_weight_technical' as const, label: 'Technical Knowledge', icon: Cpu, color: 'text-primary' },
+    { key: 'metric_weight_enthusiasm' as const, label: 'Enthusiasm', icon: Zap, color: 'text-amber-600' },
     { key: 'metric_weight_leadership' as const, label: 'Leadership Potential', icon: Crown, color: 'text-orange-400' },
-    { key: 'metric_weight_team_fit' as const, label: 'Team Fit', icon: Users, color: 'text-green-400' },
+    { key: 'metric_weight_team_fit' as const, label: 'Team Fit', icon: Users, color: 'text-green-600' },
 ];
 
 const COMPONENT_CONFIG = [
@@ -150,7 +150,7 @@ export default function DeptWeightsEditor({ userEmail }: DeptWeightsEditorProps)
                         Customize how final scores are weighted per department. All values auto-normalize to 100%.
                     </p>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] text-muted-foreground bg-white/70 border border-foreground/10 rounded-lg px-3 py-2">
+                <div className="flex items-center gap-2 text-[10px] text-muted-foreground bg-white border border-border rounded-lg px-3 py-2">
                     <Info className="w-3 h-3" />
                     <span>Changes apply to future ranking calculations</span>
                 </div>
@@ -165,12 +165,12 @@ export default function DeptWeightsEditor({ userEmail }: DeptWeightsEditorProps)
                         className={`px-4 py-1.5 rounded-full text-xs font-bold tracking-wider transition-all border ${
                             selectedDept === w.department
                                 ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
-                                : 'bg-white/70 border-foreground/10 text-muted-foreground hover:border-foreground/20 hover:text-foreground'
+                                : 'bg-white border-border text-muted-foreground hover:border-primary/30 hover:text-foreground'
                         }`}
                     >
                         {w.department}
                         {savedDept === w.department && (
-                            <span className="ml-2 text-green-400">✓</span>
+                            <span className="ml-2 text-green-600">✓</span>
                         )}
                     </button>
                 ))}
@@ -179,13 +179,13 @@ export default function DeptWeightsEditor({ userEmail }: DeptWeightsEditorProps)
             {selectedDept && (
                 <div className="grid lg:grid-cols-2 gap-6">
                     {/* Component Weights */}
-                    <HolographicCard className="p-6 border-foreground/5">
+                    <HolographicCard className="p-6 border-border">
                         <div className="flex items-center gap-2 mb-5">
                             <BarChart3 className="w-4 h-4 text-primary" />
                             <h4 className="text-sm font-bold text-foreground">Component Weights</h4>
                             <Badge
                                 variant="outline"
-                                className={`ml-auto text-[10px] ${Math.abs(componentSum - 1.0) < 0.01 ? 'text-green-400 border-green-400/30' : 'text-red-400 border-red-400/30'}`}
+                                className={`ml-auto text-[10px] ${Math.abs(componentSum - 1.0) < 0.01 ? 'text-green-600 border-green-400/30' : 'text-destructive border-red-400/30'}`}
                             >
                                 {Math.round(componentSum * 100)}% total
                             </Badge>
@@ -212,13 +212,13 @@ export default function DeptWeightsEditor({ userEmail }: DeptWeightsEditorProps)
                     </HolographicCard>
 
                     {/* Interview Metric Weights */}
-                    <HolographicCard className="p-6 border-foreground/5">
+                    <HolographicCard className="p-6 border-border">
                         <div className="flex items-center gap-2 mb-5">
-                            <Users className="w-4 h-4 text-purple-400" />
+                            <Users className="w-4 h-4 text-primary" />
                             <h4 className="text-sm font-bold text-foreground">Interview Metric Weights</h4>
                             <Badge
                                 variant="outline"
-                                className={`ml-auto text-[10px] ${Math.abs(metricSum - 1.0) < 0.01 ? 'text-green-400 border-green-400/30' : 'text-red-400 border-red-400/30'}`}
+                                className={`ml-auto text-[10px] ${Math.abs(metricSum - 1.0) < 0.01 ? 'text-green-600 border-green-400/30' : 'text-destructive border-red-400/30'}`}
                             >
                                 {Math.round(metricSum * 100)}% total
                             </Badge>
@@ -256,7 +256,7 @@ export default function DeptWeightsEditor({ userEmail }: DeptWeightsEditorProps)
                     variant="outline"
                     size="sm"
                     onClick={resetToDefault}
-                    className="border-foreground/10 text-muted-foreground hover:text-foreground text-xs"
+                    className="border-border text-muted-foreground hover:text-foreground text-xs"
                 >
                     <RefreshCw className="w-3 h-3 mr-2" />
                     Reset to Default

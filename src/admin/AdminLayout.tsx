@@ -230,9 +230,9 @@ function Shell() {
       <TechGridBackground />
       {navOpen && <div className="adm-scrim" onClick={() => setNavOpen(false)} aria-hidden="true" />}
       <aside className="adm-side">
-        <Link to="/" className="adm-brand" style={{ textDecoration: 'none' }} aria-label="IEEE SSCS home page" title="Back to the website">
+        <Link to="/" className="adm-brand" style={{ textDecoration: 'none' }} aria-label="AI Club home page" title="Back to the website">
           <img src="/brand/aic-mark.svg" alt="" />
-          <div className="lbl">IEEE <span>SSCS</span></div>
+          <div className="lbl">AI <span>CLUB</span></div>
         </Link>
         {/* Super admins get more links than a short screen can fit; this part scrolls, the brand and footer stay put. */}
         <div className="adm-side-scroll" onScroll={() => setTip(null)}>

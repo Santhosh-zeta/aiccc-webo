@@ -19,7 +19,7 @@ interface AnalyticsDashboardProps {
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-black/90 border border-foreground/10 rounded-lg px-3 py-2 shadow-xl text-sm">
+    <div className="bg-black/90 border border-border rounded-lg px-3 py-2 shadow-xl text-sm">
       <p className="text-muted-foreground mb-1">{label}</p>
       {payload.map((p: any) => (
         <p key={p.name} style={{ color: p.fill || p.color }} className="font-semibold">
@@ -77,7 +77,7 @@ const FunnelRow = ({ label, count, total, color, delay }: FunnelRowProps) => {
       transition={{ duration: 0.4, delay }}
     >
       <span className="w-36 text-xs text-muted-foreground text-right shrink-0">{label}</span>
-      <div className="flex-1 h-6 bg-white/70 rounded-md overflow-hidden">
+      <div className="flex-1 h-6 bg-white rounded-md overflow-hidden">
         <motion.div
           className="h-full rounded-md"
           style={{ backgroundColor: color, width: `${pct}%` }}
@@ -250,7 +250,7 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
   return (
     <div className="space-y-6">
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="bg-white/70 border border-foreground/10 p-1 rounded-xl mb-6">
+        <TabsList className="bg-white border border-border p-1 rounded-xl mb-6">
           <TabsTrigger value="overview" className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-lg px-5 py-2 text-sm text-white/60 transition-all">
             Overview
           </TabsTrigger>
@@ -276,7 +276,7 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Funnel */}
             <motion.div
-              className="bg-white/70 border border-foreground/10 rounded-xl p-5 space-y-3"
+              className="bg-white border border-border rounded-xl p-5 space-y-3"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
@@ -300,7 +300,7 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
 
             {/* Year Distribution */}
             <motion.div
-              className="bg-white/70 border border-foreground/10 rounded-xl p-5"
+              className="bg-white border border-border rounded-xl p-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.3 }}
@@ -339,7 +339,7 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                   skillCategory === cat
                     ? 'bg-primary text-white shadow-[0_0_12px_rgba(49,135,232,0.4)]'
-                    : 'bg-white/70 text-muted-foreground hover:bg-white/70 hover:text-foreground/80'
+                    : 'bg-white text-muted-foreground hover:bg-white hover:text-foreground/80'
                 }`}
               >
                 {CATEGORY_LABELS[cat]}
@@ -349,7 +349,7 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
 
           {/* Tag cloud */}
           <motion.div
-            className="bg-white/70 border border-foreground/10 rounded-xl p-6"
+            className="bg-white border border-border rounded-xl p-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
@@ -379,7 +379,7 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
 
           {/* Top 15 bar chart */}
           <motion.div
-            className="bg-white/70 border border-foreground/10 rounded-xl p-5"
+            className="bg-white border border-border rounded-xl p-5"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.15 }}
@@ -409,7 +409,7 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
           {/* ── 1st Preference Section ─────────────────────────────────── */}
           <div className="space-y-4">
             <motion.div
-              className="bg-white/70 border border-foreground/10 rounded-xl p-5"
+              className="bg-white border border-border rounded-xl p-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
@@ -434,14 +434,14 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
 
             {/* 1st Preference stats table */}
             <motion.div
-              className="bg-white/70 border border-foreground/10 rounded-xl overflow-hidden"
+              className="bg-white border border-border rounded-xl overflow-hidden"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
             >
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-foreground/10 bg-white/[0.03]">
+                  <tr className="border-b border-border bg-muted/40">
                     <th className="text-left px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">1st Preference Department</th>
                     <th className="text-right px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Applied</th>
                     <th className="text-right px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Shortlisted</th>
@@ -453,19 +453,19 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
                   {deptStats.map((d, i) => (
                     <motion.tr
                       key={d.dept}
-                      className="border-b border-foreground/5 hover:bg-white/[0.03] transition-colors"
+                      className="border-b border-border hover:bg-muted/40 transition-colors"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: 0.1 + i * 0.04 }}
                     >
                       <td className="px-4 py-3 text-foreground font-medium">{d.dept}</td>
                       <td className="px-4 py-3 text-right text-foreground/80">{d.applied}</td>
-                      <td className="px-4 py-3 text-right text-cyan-400">{d.shortlisted}</td>
-                      <td className="px-4 py-3 text-right text-emerald-400">{d.selected}</td>
+                      <td className="px-4 py-3 text-right text-primary">{d.shortlisted}</td>
+                      <td className="px-4 py-3 text-right text-green-600">{d.selected}</td>
                       <td className="px-4 py-3 text-right">
                         <span className={`font-semibold ${
-                          d.acceptance >= 30 ? 'text-emerald-400' :
-                          d.acceptance >= 15 ? 'text-yellow-400' : 'text-red-400'
+                          d.acceptance >= 30 ? 'text-green-600' :
+                          d.acceptance >= 15 ? 'text-amber-600' : 'text-destructive'
                         }`}>
                           {d.acceptance}%
                         </span>
@@ -478,9 +478,9 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
           </div>
 
           {/* ── 2nd Preference Section ─────────────────────────────────── */}
-          <div className="space-y-4 pt-6 border-t border-foreground/10">
+          <div className="space-y-4 pt-6 border-t border-border">
             <motion.div
-              className="bg-white/70 border border-foreground/10 rounded-xl p-5"
+              className="bg-white border border-border rounded-xl p-5"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.15 }}
@@ -505,14 +505,14 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
 
             {/* 2nd Preference stats table */}
             <motion.div
-              className="bg-white/70 border border-foreground/10 rounded-xl overflow-hidden"
+              className="bg-white border border-border rounded-xl overflow-hidden"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-foreground/10 bg-white/[0.03]">
+                  <tr className="border-b border-border bg-muted/40">
                     <th className="text-left px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">2nd Preference Department</th>
                     <th className="text-right px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Applied</th>
                     <th className="text-right px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Shortlisted</th>
@@ -524,19 +524,19 @@ export default function AnalyticsDashboard({ applications }: AnalyticsDashboardP
                   {secondaryDeptStats.map((d, i) => (
                     <motion.tr
                       key={d.dept}
-                      className="border-b border-foreground/5 hover:bg-white/[0.03] transition-colors"
+                      className="border-b border-border hover:bg-muted/40 transition-colors"
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
                     >
                       <td className="px-4 py-3 text-foreground font-medium">{d.dept}</td>
                       <td className="px-4 py-3 text-right text-foreground/80">{d.applied}</td>
-                      <td className="px-4 py-3 text-right text-cyan-400">{d.shortlisted}</td>
-                      <td className="px-4 py-3 text-right text-emerald-400">{d.selected}</td>
+                      <td className="px-4 py-3 text-right text-primary">{d.shortlisted}</td>
+                      <td className="px-4 py-3 text-right text-green-600">{d.selected}</td>
                       <td className="px-4 py-3 text-right">
                         <span className={`font-semibold ${
-                          d.acceptance >= 30 ? 'text-emerald-400' :
-                          d.acceptance >= 15 ? 'text-yellow-400' : 'text-red-400'
+                          d.acceptance >= 30 ? 'text-green-600' :
+                          d.acceptance >= 15 ? 'text-amber-600' : 'text-destructive'
                         }`}>
                           {d.acceptance}%
                         </span>

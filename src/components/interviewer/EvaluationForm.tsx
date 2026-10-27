@@ -123,7 +123,7 @@ function MetricRow({ label, icon, value, onChange, disabled }: MetricRowProps) {
             value={[value]}
             onValueChange={([v]) => onChange(v)}
             disabled={disabled}
-            className="w-full [&_[data-radix-slider-track]]:bg-white/70 [&_[data-radix-slider-range]]:opacity-0 [&_[data-radix-slider-thumb]]:border-foreground/30 [&_[data-radix-slider-thumb]]:bg-white [&_[data-radix-slider-thumb]]:shadow-lg"
+            className="w-full [&_[data-radix-slider-track]]:bg-white [&_[data-radix-slider-range]]:opacity-0 [&_[data-radix-slider-thumb]]:border-primary/40 [&_[data-radix-slider-thumb]]:bg-white [&_[data-radix-slider-thumb]]:shadow-lg"
           />
           {/* Gradient fill behind the slider */}
           <div
@@ -172,17 +172,17 @@ function RecOption({ value, label, description, icon, color, borderColor, select
       disabled={disabled}
       className={`
         relative flex-1 flex flex-col items-center gap-1.5 px-3 py-3 rounded-xl border transition-all duration-200
-        ${disabled ? 'cursor-default opacity-70' : 'cursor-pointer hover:bg-white/70'}
+        ${disabled ? 'cursor-default opacity-70' : 'cursor-pointer hover:bg-white'}
         ${selected
-          ? `border-current bg-white/70 shadow-lg`
-          : 'border-foreground/10 bg-transparent'
+          ? `border-current bg-white shadow-lg`
+          : 'border-border bg-transparent'
         }
       `}
       style={selected ? { color, borderColor, boxShadow: `0 0 16px ${color}30` } : { color: 'rgba(255,255,255,0.4)' }}
     >
       <span className={`transition-colors ${selected ? '' : 'text-muted-foreground'}`}>{icon}</span>
       <span className={`text-xs font-semibold transition-colors ${selected ? '' : 'text-muted-foreground'}`}>{label}</span>
-      <span className={`text-[10px] transition-colors ${selected ? 'opacity-70' : 'text-white/25'}`}>{description}</span>
+      <span className={`text-[10px] transition-colors ${selected ? 'opacity-70' : 'text-muted-foreground'}`}>{description}</span>
       {selected && (
         <motion.div
           layoutId="rec-indicator"
@@ -290,10 +290,10 @@ export default function EvaluationForm({
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 12, scale: 0.97 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="bg-black/90 backdrop-blur-xl border border-foreground/10 rounded-2xl overflow-hidden shadow-2xl w-full max-w-2xl"
+      className="bg-black/90  border border-border rounded-md overflow-hidden shadow-2xl w-full max-w-2xl"
     >
       {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-foreground/6">
+      <div className="flex items-start justify-between px-6 pt-6 pb-4 border-b border-border">
         <div className="flex-1 min-w-0">
           {/* Name + readOnly badge */}
           <div className="flex items-center gap-2 flex-wrap">
@@ -304,7 +304,7 @@ export default function EvaluationForm({
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.8 }}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-widest bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
+                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-widest bg-emerald-500/15 text-green-600 border border-emerald-500/30"
                 >
                   <Check size={10} /> Submitted
                 </motion.span>
@@ -316,7 +316,7 @@ export default function EvaluationForm({
             <span className="text-xs text-muted-foreground font-mono">{application.rollNumber}</span>
             {application.phone && (
               <>
-                <span className="w-1 h-1 rounded-full bg-white/80" />
+                <span className="w-1 h-1 rounded-full bg-white" />
                 <a
                   href={`tel:${application.phone}`}
                   className="inline-flex items-center gap-1 text-xs text-muted-foreground font-mono hover:text-foreground/80 transition-colors"
@@ -326,9 +326,9 @@ export default function EvaluationForm({
                 </a>
               </>
             )}
-            <span className="w-1 h-1 rounded-full bg-white/80" />
+            <span className="w-1 h-1 rounded-full bg-white" />
             <span className="text-xs text-muted-foreground">{application.programName || application.department || 'Unknown'} • {application.batch ? `Batch ${application.batch}` : `Year ${application.admissionYear || application.year || 'Unknown'}`}</span>
-            <span className="w-1 h-1 rounded-full bg-white/80" />
+            <span className="w-1 h-1 rounded-full bg-white" />
             <span
               className="text-xs font-medium px-1.5 py-0.5 rounded-md"
               style={{ background: 'rgba(220,38,38,0.15)', color: '#f87171', border: '1px solid rgba(220,38,38,0.3)' }}
@@ -337,7 +337,7 @@ export default function EvaluationForm({
             </span>
             {application.year && (
               <>
-                <span className="w-1 h-1 rounded-full bg-white/80" />
+                <span className="w-1 h-1 rounded-full bg-white" />
                 <span className="text-xs text-muted-foreground">Year {application.year}</span>
               </>
             )}
@@ -347,7 +347,7 @@ export default function EvaluationForm({
         {/* Close button */}
         <button
           onClick={onClose}
-          className="ml-4 p-1.5 rounded-lg text-muted-foreground hover:text-foreground/70 hover:bg-white/70 transition-colors"
+          className="ml-4 p-1.5 rounded-lg text-muted-foreground hover:text-foreground/70 hover:bg-white transition-colors"
         >
           <X size={18} />
         </button>
@@ -355,29 +355,29 @@ export default function EvaluationForm({
 
       <div className="px-6 py-5 space-y-6 max-h-[75vh] overflow-y-auto custom-scrollbar">
         {/* ── Candidate Profile ──────────────────────────────────────────────────────── */}
-        <div className="bg-white/70 border border-foreground/10 rounded-xl p-4 space-y-4">
+        <div className="bg-white border border-border rounded-xl p-4 space-y-4">
           <div className="flex flex-wrap gap-2 mb-4">
             {application.linkedinUrl && (
-              <Button size="sm" variant="outline" className="border-foreground/10 hover:bg-white/70 h-8 text-xs" onClick={() => window.open(application.linkedinUrl, '_blank')}>
+              <Button size="sm" variant="outline" className="border-border hover:bg-white h-8 text-xs" onClick={() => window.open(application.linkedinUrl, '_blank')}>
                 <svg className="w-3 h-3 mr-1.5 text-[#0A66C2]" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                 LinkedIn
               </Button>
             )}
             {application.githubUrl && (
-              <Button size="sm" variant="outline" className="border-foreground/10 hover:bg-white/70 h-8 text-xs" onClick={() => window.open(application.githubUrl, '_blank')}>
+              <Button size="sm" variant="outline" className="border-border hover:bg-white h-8 text-xs" onClick={() => window.open(application.githubUrl, '_blank')}>
                 <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                 GitHub
               </Button>
             )}
             {application.portfolioUrl && (
-              <Button size="sm" variant="outline" className="border-foreground/10 hover:bg-white/70 h-8 text-xs text-blue-400" onClick={() => window.open(application.portfolioUrl, '_blank')}>
+              <Button size="sm" variant="outline" className="border-border hover:bg-white h-8 text-xs text-primary" onClick={() => window.open(application.portfolioUrl, '_blank')}>
                 Portfolio / Link
               </Button>
             )}
             {/* @ts-ignore */}
             {application.resumeUrl && (
               /* @ts-ignore */
-              <Button size="sm" variant="outline" className="border-foreground/10 hover:bg-white/70 h-8 text-xs text-rose-400" onClick={() => window.open(application.resumeUrl, '_blank')}>
+              <Button size="sm" variant="outline" className="border-border hover:bg-white h-8 text-xs text-rose-400" onClick={() => window.open(application.resumeUrl, '_blank')}>
                 View Resume
               </Button>
             )}
@@ -390,9 +390,9 @@ export default function EvaluationForm({
           <div className="space-y-4">
             {/* Preference 1 */}
             <div className="bg-gradient-to-r from-purple-950/40 to-black/60 p-4 rounded-xl border border-purple-500/30 space-y-3 shadow-inner">
-              <div className="flex items-center justify-between gap-2 border-b border-foreground/10 pb-2.5">
+              <div className="flex items-center justify-between gap-2 border-b border-border pb-2.5">
                 <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded bg-purple-500/30 text-purple-200 font-extrabold text-[10px] uppercase tracking-wider border border-purple-500/40">1st Preference</span>
+                  <span className="px-2 py-0.5 rounded bg-purple-500/30 text-primary font-extrabold text-[10px] uppercase tracking-wider border border-purple-500/40">1st Preference</span>
                   <span className="text-base font-black text-foreground tracking-wide">{application.primaryDept || application.department || 'Primary Department'}</span>
                 </div>
               </div>
@@ -401,7 +401,7 @@ export default function EvaluationForm({
                   <span className="text-muted-foreground font-bold block text-[10px] uppercase tracking-widest mb-1.5">Domains of Interest</span>
                   <div className="flex flex-wrap gap-1.5">
                     {application.domains.map((d, i) => (
-                      <span key={i} className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-200 border border-purple-500/30 text-xs font-medium">{d}</span>
+                      <span key={i} className="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-primary border border-purple-500/30 text-xs font-medium">{d}</span>
                     ))}
                   </div>
                 </div>
@@ -409,13 +409,13 @@ export default function EvaluationForm({
               {application.skills && (
                 <div>
                   <span className="text-muted-foreground font-bold block text-[10px] uppercase tracking-widest mb-1">Skills & Experience</span>
-                  <p className="text-foreground/80 text-xs whitespace-pre-wrap leading-relaxed bg-black/40 p-3 rounded-xl border border-foreground/5 font-mono">{application.skills}</p>
+                  <p className="text-foreground/80 text-xs whitespace-pre-wrap leading-relaxed bg-white p-3 rounded-xl border border-border font-mono">{application.skills}</p>
                 </div>
               )}
               {application.reason && (
                 <div>
                   <span className="text-muted-foreground font-bold block text-[10px] uppercase tracking-widest mb-1">Reason for Joining</span>
-                  <p className="text-foreground/80 text-xs whitespace-pre-wrap italic leading-relaxed bg-black/40 p-3 rounded-xl border border-foreground/5">"{application.reason}"</p>
+                  <p className="text-foreground/80 text-xs whitespace-pre-wrap italic leading-relaxed bg-white p-3 rounded-xl border border-border">"{application.reason}"</p>
                 </div>
               )}
             </div>
@@ -423,9 +423,9 @@ export default function EvaluationForm({
             {/* Preference 2 */}
             {(application.secondaryDept || (application.secondaryDomains && application.secondaryDomains.length > 0) || application.secondarySkills || application.secondaryReason) && (
               <div className="bg-gradient-to-r from-blue-950/40 to-black/60 p-4 rounded-xl border border-blue-500/30 space-y-3 shadow-inner">
-                <div className="flex items-center justify-between gap-2 border-b border-foreground/10 pb-2.5">
+                <div className="flex items-center justify-between gap-2 border-b border-border pb-2.5">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-blue-500/30 text-blue-200 font-extrabold text-[10px] uppercase tracking-wider border border-blue-500/40">2nd Preference</span>
+                    <span className="px-2 py-0.5 rounded bg-blue-500/30 text-primary font-extrabold text-[10px] uppercase tracking-wider border border-blue-500/40">2nd Preference</span>
                     <span className="text-base font-black text-foreground tracking-wide">{application.secondaryDept || 'Secondary Department'}</span>
                   </div>
                 </div>
@@ -434,7 +434,7 @@ export default function EvaluationForm({
                     <span className="text-muted-foreground font-bold block text-[10px] uppercase tracking-widest mb-1.5">Domains of Interest</span>
                     <div className="flex flex-wrap gap-1.5">
                       {application.secondaryDomains.map((d, i) => (
-                        <span key={i} className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-200 border border-blue-500/30 text-xs font-medium">{d}</span>
+                        <span key={i} className="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-primary border border-blue-500/30 text-xs font-medium">{d}</span>
                       ))}
                     </div>
                   </div>
@@ -442,13 +442,13 @@ export default function EvaluationForm({
                 {application.secondarySkills && (
                   <div>
                     <span className="text-muted-foreground font-bold block text-[10px] uppercase tracking-widest mb-1">Skills & Experience</span>
-                    <p className="text-foreground/80 text-xs whitespace-pre-wrap leading-relaxed bg-black/40 p-3 rounded-xl border border-foreground/5 font-mono">{application.secondarySkills}</p>
+                    <p className="text-foreground/80 text-xs whitespace-pre-wrap leading-relaxed bg-white p-3 rounded-xl border border-border font-mono">{application.secondarySkills}</p>
                   </div>
                 )}
                 {application.secondaryReason && (
                   <div>
                     <span className="text-muted-foreground font-bold block text-[10px] uppercase tracking-widest mb-1">Reason for Joining</span>
-                    <p className="text-foreground/80 text-xs whitespace-pre-wrap italic leading-relaxed bg-black/40 p-3 rounded-xl border border-foreground/5">"{application.secondaryReason}"</p>
+                    <p className="text-foreground/80 text-xs whitespace-pre-wrap italic leading-relaxed bg-white p-3 rounded-xl border border-border">"{application.secondaryReason}"</p>
                   </div>
                 )}
               </div>
@@ -481,7 +481,7 @@ export default function EvaluationForm({
         </div>
 
         {/* ── Divider ───────────────────────────────────────────────────────── */}
-        <div className="h-px bg-white/[0.06]" />
+        <div className="h-px bg-muted/60" />
 
         {/* ── Recommendation ────────────────────────────────────────────────── */}
         <div className="space-y-3">
@@ -503,7 +503,7 @@ export default function EvaluationForm({
         <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground flex items-center justify-between">
             <span>Recommend For Department</span>
-            <span className="text-[10px] text-purple-400 font-normal">Select which committee this candidate fits best</span>
+            <span className="text-[10px] text-primary font-normal">Select which committee this candidate fits best</span>
           </p>
           <div className="flex flex-wrap gap-2">
             {Array.from(new Set([
@@ -527,13 +527,13 @@ export default function EvaluationForm({
                   onClick={() => setRecommendedDept(dept as string)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 ${
                     isSelected
-                      ? 'bg-purple-600/30 text-purple-200 border-purple-500 shadow-[0_0_12px_rgba(49,135,232,0.3)]'
-                      : 'bg-white/[0.03] text-muted-foreground border-foreground/10 hover:bg-white/[0.06] hover:text-foreground'
+                      ? 'bg-purple-600/30 text-primary border-purple-500 shadow-[0_0_12px_rgba(49,135,232,0.3)]'
+                      : 'bg-muted/40 text-muted-foreground border-border hover:bg-muted/60 hover:text-foreground'
                   } ${readOnly ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
                 >
                   <span>{dept as string}</span>
-                  {isPrimary && <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/30 text-purple-300 font-bold">1st Pref</span>}
-                  {isSecondary && <span className="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/30 text-blue-300 font-bold">2nd Pref</span>}
+                  {isPrimary && <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-500/30 text-primary font-bold">1st Pref</span>}
+                  {isSecondary && <span className="text-[9px] px-1.5 py-0.2 rounded bg-blue-500/30 text-primary font-bold">2nd Pref</span>}
                 </button>
               );
             })}
@@ -551,14 +551,14 @@ export default function EvaluationForm({
             disabled={readOnly}
             placeholder="Share your observations about the candidate — strengths, concerns, notable moments..."
             rows={4}
-            className="bg-white/[0.03] border-foreground/10 text-foreground/80 placeholder:text-muted-foreground resize-none focus:border-foreground/20 focus:ring-0 rounded-xl text-sm"
+            className="bg-muted/40 border-border text-foreground/80 placeholder:text-muted-foreground resize-none focus:border-primary/30 focus:ring-0 rounded-xl text-sm"
           />
         </div>
       </div>
 
       {/* ── Footer ───────────────────────────────────────────────────────────── */}
       {!readOnly && (
-        <div className="px-6 py-4 border-t border-foreground/6 flex items-center justify-between gap-3">
+        <div className="px-6 py-4 border-t border-border flex items-center justify-between gap-3">
           <div className="text-xs text-muted-foreground">
             All scores are on a <span className="text-muted-foreground">0–10</span> scale
           </div>
@@ -567,7 +567,7 @@ export default function EvaluationForm({
               variant="ghost"
               size="sm"
               onClick={onClose}
-              className="text-muted-foreground hover:text-foreground/70 hover:bg-white/70"
+              className="text-muted-foreground hover:text-foreground/70 hover:bg-white"
               disabled={submitting}
             >
               Cancel
@@ -583,7 +583,7 @@ export default function EvaluationForm({
                   <motion.span
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
-                    className="inline-block w-3.5 h-3.5 border-2 border-foreground/30 border-t-white rounded-full"
+                    className="inline-block w-3.5 h-3.5 border-2 border-primary/40 border-t-white rounded-full"
                   />
                   Submitting…
                 </span>

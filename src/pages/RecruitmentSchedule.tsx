@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Navigation from '@/components/Navigation';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { ArrowLeft, CalendarClock, ShieldAlert, Clock, AlertTriangle, CheckCircle2, XOctagon, Server } from 'lucide-react';
@@ -209,13 +210,13 @@ const RecruitmentSchedule = () => {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center p-4">
                 <HolographicCard className="max-w-md w-full text-center p-8 border-red-500/50">
-                    <ShieldAlert className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                    <h1 className="text-2xl font-bold text-red-500 mb-2">Access Denied</h1>
+                    <ShieldAlert className="w-16 h-16 text-destructive mx-auto mb-4" />
+                    <h1 className="text-2xl font-bold text-destructive mb-2">Access Denied</h1>
                     <p className="text-muted-foreground mb-6">
                         The recruitment schedule is restricted to super admins. The database enforces this
                         independently — changing it from another account will be rejected server-side.
                     </p>
-                    <Button onClick={() => navigate('/admin')} variant="outline" className="w-full border-red-500/50 text-red-500 hover:bg-red-950/30">
+                    <Button onClick={() => navigate('/admin')} variant="outline" className="w-full border-red-500/50 text-destructive hover:bg-red-950/30">
                         Back to Dashboard
                     </Button>
                 </HolographicCard>
@@ -232,8 +233,9 @@ const RecruitmentSchedule = () => {
     return (
         <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
             <CircuitBoardBackground />
+            <Navigation />
 
-            <div className="relative z-10 p-6 md:p-12">
+            <div className="relative z-10 px-6 pb-12 pt-28 md:px-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -242,7 +244,7 @@ const RecruitmentSchedule = () => {
                     <div>
                         <Link
                             to="/admin"
-                            className="inline-flex items-center text-muted-foreground hover:text-primary transition-all px-4 py-1.5 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-xs tracking-widest uppercase"
+                            className="group inline-flex items-center text-[13px] font-medium text-muted-foreground hover:text-primary transition-colors"
                         >
                             <ArrowLeft className="w-3 h-3 mr-2 transition-transform group-hover:-translate-x-1" />
                             Admin Dashboard
@@ -264,13 +266,13 @@ const RecruitmentSchedule = () => {
                             <CardTitle className="text-xl flex items-center gap-2">
                                 {isOpen ? (
                                     <>
-                                        <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                                        <span className="text-emerald-400">Applications are OPEN</span>
+                                        <CheckCircle2 className="w-5 h-5 text-green-600" />
+                                        <span className="text-green-600">Applications are OPEN</span>
                                     </>
                                 ) : (
                                     <>
-                                        <XOctagon className="w-5 h-5 text-red-400" />
-                                        <span className="text-red-400">Applications are CLOSED</span>
+                                        <XOctagon className="w-5 h-5 text-destructive" />
+                                        <span className="text-destructive">Applications are CLOSED</span>
                                     </>
                                 )}
                             </CardTitle>
@@ -412,10 +414,10 @@ const RecruitmentSchedule = () => {
 
                             {closesDraft && (
                                 <div className="flex items-start gap-3 p-4 rounded-lg border border-amber-500/30 bg-amber-500/5">
-                                    <AlertTriangle className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+                                    <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                                     <p className="text-sm text-muted-foreground">
                                         At{' '}
-                                        <span className="text-amber-300 font-medium">
+                                        <span className="text-amber-600 font-medium">
                                             {formatStamp(closesDraft, '')}
                                         </span>{' '}
                                         the form stops accepting submissions and already-submitted applications

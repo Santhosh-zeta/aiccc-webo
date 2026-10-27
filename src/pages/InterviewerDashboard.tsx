@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navigation from '@/components/Navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Badge } from "@/components/ui/badge";
@@ -178,12 +179,12 @@ const InterviewerDashboard = () => {
             // Send No Show Email
             sendEmail(
                 app.email,
-                'Missed Interview - Please Rebook - IEEE SSCS',
+                'Missed Interview - Please Rebook - AI Club',
                 `<p>Dear <strong>${app.full_name || app.fullName}</strong>,</p>
                 <p>You were marked as a "No Show" for your scheduled interview slot.</p>
                 <p>Your application has been moved back to the shortlisting queue. If you still wish to be considered, please log in to the portal and re-book a new slot immediately.</p>
                 <p>Slots are limited and available on a first-come, first-served basis. Failure to attend a re-booked interview may result in disqualification.</p>
-                <p>Regards,<br>IEEE SSCS HR Team</p>`
+                <p>Regards,<br>AI Club HR Team</p>`
             ).catch(err => console.warn('[Dashboard] No-show email failed:', err));
             
             setSuccessMsg('Candidate marked as No Show, slot freed.');
@@ -211,11 +212,11 @@ const InterviewerDashboard = () => {
     if (!user || !hasAccess) {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center p-4">
-                <div className="max-w-md w-full text-center p-8 border border-red-500/50 rounded-xl bg-black/40 backdrop-blur-xl">
-                    <ShieldAlert className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                    <h1 className="text-2xl font-bold text-red-500 mb-2">Access Denied</h1>
+                <div className="max-w-md w-full text-center p-8 border border-red-500/50 rounded-xl bg-white ">
+                    <ShieldAlert className="w-16 h-16 text-destructive mx-auto mb-4" />
+                    <h1 className="text-2xl font-bold text-destructive mb-2">Access Denied</h1>
                     <p className="text-muted-foreground mb-6">This area is restricted to authorized interviewers only.</p>
-                    <Button onClick={() => navigate('/')} variant="outline" className="border-red-500/50 text-red-500 hover:bg-red-950/30">
+                    <Button onClick={() => navigate('/')} variant="outline" className="border-red-500/50 text-destructive hover:bg-red-950/30">
                         Return Home
                     </Button>
                 </div>
@@ -226,14 +227,15 @@ const InterviewerDashboard = () => {
     return (
         <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
             <CircuitBoardBackground />
-            <div className="relative z-10 p-6 md:p-12">
+            <Navigation />
+            <div className="relative z-10 px-6 pb-12 pt-28 md:px-12">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="max-w-7xl mx-auto space-y-8"
                 >
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-foreground/10 pb-6">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border pb-6">
                         <div>
                             <h1 className="text-3xl font-bold font-heading bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-primary">
                                 Interviewer Dashboard
@@ -245,16 +247,16 @@ const InterviewerDashboard = () => {
 
                         {/* Quick Stats */}
                         <div className="flex items-center gap-4">
-                            <div className="text-center px-4 py-2 bg-white/70 border border-foreground/10 rounded-xl">
+                            <div className="text-center px-4 py-2 bg-white border border-border rounded-xl">
                                 <div className="text-2xl font-bold text-foreground">{stats.total}</div>
                                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Assigned</div>
                             </div>
                             <div className="text-center px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-xl">
-                                <div className="text-2xl font-bold text-green-400">{stats.evaluated}</div>
+                                <div className="text-2xl font-bold text-green-600">{stats.evaluated}</div>
                                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Evaluated</div>
                             </div>
                             <div className="text-center px-4 py-2 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-                                <div className="text-2xl font-bold text-yellow-400">{stats.pending}</div>
+                                <div className="text-2xl font-bold text-amber-600">{stats.pending}</div>
                                 <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Pending</div>
                             </div>
                         </div>
@@ -267,7 +269,7 @@ const InterviewerDashboard = () => {
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-green-400 text-sm"
+                                className="flex items-center gap-2 p-3 rounded-lg bg-green-500/10 border border-green-500/30 text-green-600 text-sm"
                             >
                                 <CheckCircle className="w-4 h-4" />
                                 {successMsg}
@@ -277,19 +279,19 @@ const InterviewerDashboard = () => {
 
                     {/* Admin Panel Switcher Header */}
                     {isAdmin && (
-                        <div className="bg-gradient-to-r from-purple-900/30 to-black/60 border border-purple-500/30 rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 backdrop-blur-xl shadow-[0_0_25px_rgba(49,135,232,0.15)]">
+                        <div className="bg-gradient-to-r from-purple-900/30 to-black/60 border border-purple-500/30 rounded-md p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4  shadow-[0_0_25px_rgba(49,135,232,0.15)]">
                             <div className="flex items-center gap-3">
-                                <div className="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/30 text-purple-300 shadow-inner">
+                                <div className="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/30 text-primary shadow-inner">
                                     <ShieldAlert className="w-5 h-5" />
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-extrabold text-foreground flex items-center gap-2">
-                                        Admin Panel Switcher <Badge variant="outline" className="text-[10px] bg-purple-500/20 text-purple-300 border-purple-500/30 px-2 py-0.5">Admin / SuperAdmin Mode</Badge>
+                                        Admin Panel Switcher <Badge variant="outline" className="text-[10px] bg-purple-500/20 text-primary border-purple-500/30 px-2 py-0.5">Admin / SuperAdmin Mode</Badge>
                                     </h3>
                                     <p className="text-xs text-muted-foreground mt-0.5">Switch between interview panels to oversee or evaluate candidates across any committee.</p>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-1.5 flex-wrap w-full md:w-auto bg-black/40 p-1.5 rounded-xl border border-foreground/10">
+                            <div className="flex items-center gap-1.5 flex-wrap w-full md:w-auto bg-white p-1.5 rounded-xl border border-border">
                                 <Button
                                     size="sm"
                                     variant={selectedPanelId === 'assigned' ? 'default' : 'ghost'}
@@ -323,7 +325,7 @@ const InterviewerDashboard = () => {
 
                     {/* Slots by Date */}
                     {uniqueDates.length === 0 ? (
-                        <div className="text-center p-16 border border-dashed border-foreground/10 rounded-2xl">
+                        <div className="text-center p-16 border border-dashed border-border rounded-md">
                             <User className="w-16 h-16 mx-auto text-muted-foreground/30 mb-4" />
                             <h3 className="text-xl font-bold text-foreground mb-2">No Interviews Assigned</h3>
                             <p className="text-muted-foreground text-sm">
@@ -339,7 +341,7 @@ const InterviewerDashboard = () => {
                                 className="space-y-4"
                             >
                                 <h2 className="text-lg font-bold text-foreground flex items-center gap-2">
-                                    <CalendarIcon className="w-5 h-5 text-purple-400" />
+                                    <CalendarIcon className="w-5 h-5 text-primary" />
                                     {format(parseISO(date), 'EEEE, MMMM d, yyyy')}
                                 </h2>
                                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -353,14 +355,14 @@ const InterviewerDashboard = () => {
                                             const isMissingLink = timeDiffMins > 0 && timeDiffMins <= 60 && !hasLink;
 
                                             return (
-                                                <Card key={slot.id} className={`bg-white/70 transition-all ${isUrgent ? 'border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.2)] animate-pulse-slow' : 'border-purple-500/20 hover:border-purple-500/40'}`}>
+                                                <Card key={slot.id} className={`bg-white transition-all ${isUrgent ? 'border-red-500/50 shadow-[0_0_15px_rgba(239,68,68,0.2)] animate-pulse-slow' : 'border-purple-500/20 hover:border-purple-500/40'}`}>
                                                     <CardHeader className={`${isUrgent ? 'bg-red-500/20 border-red-500/30' : 'bg-purple-500/10 border-purple-500/20'} border-b pb-3 pt-4 px-4`}>
                                                         <div className="flex justify-between items-center">
-                                                            <span className="font-mono text-sm font-bold text-purple-300">
+                                                            <span className="font-mono text-sm font-bold text-primary">
                                                                 {format(parseISO(slot.start_time), 'h:mm a')}
                                                                 {slot.end_time && ` – ${format(parseISO(slot.end_time), 'h:mm a')}`}
                                                             </span>
-                                                            <Badge variant="outline" className="bg-black/40 border-purple-500/30 text-purple-400 text-[10px]">
+                                                            <Badge variant="outline" className="bg-white border-purple-500/30 text-primary text-[10px]">
                                                                 Panel {slot.panel_id}
                                                             </Badge>
                                                         </div>
@@ -371,7 +373,7 @@ const InterviewerDashboard = () => {
                                                                 <div>
                                                                     <div className="font-bold text-foreground flex items-center gap-2">
                                                                         {app.full_name}
-                                                                        {isUrgent && <Badge className="bg-red-500/20 text-red-400 border-red-500/50 hover:bg-red-500/30 text-[10px] uppercase">Starting Soon</Badge>}
+                                                                        {isUrgent && <Badge className="bg-red-500/20 text-destructive border-red-500/50 hover:bg-red-500/30 text-[10px] uppercase">Starting Soon</Badge>}
                                                                     </div>
                                                                     <div className="text-xs text-muted-foreground mt-0.5">
                                                                         {app.roll_number} · {app.primary_dept}
@@ -379,7 +381,7 @@ const InterviewerDashboard = () => {
                                                                 </div>
 
                                                                 {isMissingLink && (
-                                                                    <div className="bg-red-500/10 border border-red-500/30 rounded p-2 text-xs text-red-400 flex items-start gap-2">
+                                                                    <div className="bg-red-500/10 border border-red-500/30 rounded p-2 text-xs text-destructive flex items-start gap-2">
                                                                         <ShieldAlert className="w-4 h-4 shrink-0" />
                                                                         <span>Add Meeting Link in Admin Panel!</span>
                                                                     </div>
@@ -390,7 +392,7 @@ const InterviewerDashboard = () => {
                                                                         <Button
                                                                             variant="outline"
                                                                             size="sm"
-                                                                            className="text-xs border-foreground/10 text-muted-foreground hover:text-foreground"
+                                                                            className="text-xs border-border text-muted-foreground hover:text-foreground"
                                                                             onClick={() => window.open(app.resume_url, '_blank')}
                                                                         >
                                                                             <FileText className="w-3 h-3 mr-1" />
@@ -401,8 +403,8 @@ const InterviewerDashboard = () => {
                                                                         variant="outline"
                                                                         size="sm"
                                                                         className={`flex-1 text-xs ${hasLink
-                                                                            ? 'border-green-500/30 text-green-400 hover:bg-green-500/10'
-                                                                            : 'border-foreground/10 text-muted-foreground opacity-50'}`}
+                                                                            ? 'border-green-500/30 text-green-600 hover:bg-green-500/10'
+                                                                            : 'border-border text-muted-foreground opacity-50'}`}
                                                                         disabled={!hasLink}
                                                                         onClick={() => hasLink && window.open(meetingLinks[slot.panel_id], '_blank')}
                                                                     >
@@ -421,7 +423,7 @@ const InterviewerDashboard = () => {
                                                                                 const portalUrl = window.location.origin;
                                                                                 const ok = await sendEmail(
                                                                                     app.email,
-                                                                                    'Your Interview Meeting Link - IEEE SSCS',
+                                                                                    'Your Interview Meeting Link - AI Club',
                                                                                     `<p>Dear <strong>${app.full_name || app.fullName}</strong>,</p>
                                                                                     <p>Your interview meeting link is ready.</p>
                                                                                     <p><strong>Date:</strong> ${slotDate}<br>
@@ -429,7 +431,7 @@ const InterviewerDashboard = () => {
                                                                                     <strong>Department:</strong> ${app.primary_dept}</p>
                                                                                     <p><strong>Join your interview:</strong> <a href="${link}">${link}</a></p>
                                                                                     <p>You can also check your status at: <a href="${portalUrl}/apply">${portalUrl}/apply</a></p>
-                                                                                    <p>Please join 5 minutes before your slot.<br>IEEE SSCS HR Team</p>`
+                                                                                    <p>Please join 5 minutes before your slot.<br>AI Club HR Team</p>`
                                                                                 );
                                                                                 if (ok) {
                                                                                     // This mail already carries the link, so claim the slot's
@@ -460,12 +462,12 @@ const InterviewerDashboard = () => {
                                                                     Evaluate Candidate
                                                                 </Button>
                                                                 
-                                                                <div className="flex gap-2 pt-2 border-t border-foreground/5">
+                                                                <div className="flex gap-2 pt-2 border-t border-border">
                                                                     {app.status === 'interview_scheduled' && (
                                                                         <Button
                                                                             variant="outline"
                                                                             size="sm"
-                                                                            className="flex-1 text-[10px] h-7 border-green-500/30 text-green-400 hover:bg-green-500/10"
+                                                                            className="flex-1 text-[10px] h-7 border-green-500/30 text-green-600 hover:bg-green-500/10"
                                                                             onClick={() => handleMarkStatus(app, slot.id, 'interviewed')}
                                                                         >
                                                                             Mark Interviewed
@@ -474,7 +476,7 @@ const InterviewerDashboard = () => {
                                                                     <Button
                                                                         variant="outline"
                                                                         size="sm"
-                                                                        className="flex-1 text-[10px] h-7 border-red-500/30 text-red-400 hover:bg-red-500/10"
+                                                                        className="flex-1 text-[10px] h-7 border-red-500/30 text-destructive hover:bg-red-500/10"
                                                                         onClick={() => {
                                                                             if (confirm('Mark as No Show? This will cancel the booking.')) {
                                                                                 handleMarkStatus(app, slot.id, 'shortlisted');
@@ -486,7 +488,7 @@ const InterviewerDashboard = () => {
                                                                 </div>
                                                             </>
                                                         ) : (
-                                                            <div className="flex flex-col items-center justify-center h-24 text-muted-foreground/40 border-2 border-dashed border-foreground/5 rounded-lg">
+                                                            <div className="flex flex-col items-center justify-center h-24 text-muted-foreground/40 border-2 border-dashed border-border rounded-lg">
                                                                 <Clock className="w-8 h-8 mb-2 opacity-40" />
                                                                 <span className="text-xs">Slot Available</span>
                                                             </div>

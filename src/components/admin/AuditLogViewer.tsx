@@ -34,10 +34,10 @@ const AuditLogViewer = () => {
     );
 
     return (
-        <HolographicCard className="p-0 border-foreground/5 overflow-hidden shadow-2xl">
-            <div className="bg-white/70 p-6 border-b border-foreground/10 flex items-center justify-between backdrop-blur-xl">
+        <HolographicCard className="p-0 border-border overflow-hidden shadow-2xl">
+            <div className="bg-white p-6 border-b border-border flex items-center justify-between ">
                 <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center">
                         <History className="w-5 h-5 text-primary" />
                     </div>
                     <div>
@@ -45,15 +45,15 @@ const AuditLogViewer = () => {
                         <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold opacity-60">Real-time Activity Stream</p>
                     </div>
                 </div>
-                <div className="px-4 py-2 rounded-xl bg-white/70 border border-foreground/10 text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                <div className="px-4 py-2 rounded-xl bg-white border border-border text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
                     {logs.length} Total Events
                 </div>
             </div>
 
             <div className="max-h-[60vh] overflow-auto scrollbar-thin scrollbar-thumb-primary/20">
                 <Table>
-                    <TableHeader className="bg-white/70 sticky top-0 z-10 backdrop-blur-2xl">
-                        <TableRow className="hover:bg-transparent border-foreground/10">
+                    <TableHeader className="bg-white sticky top-0 z-10 backdrop-blur-2xl">
+                        <TableRow className="hover:bg-transparent border-border">
                             <TableHead className="text-[10px] font-bold tracking-widest uppercase py-5 pl-8">Timestamp</TableHead>
                             <TableHead className="text-[10px] font-bold tracking-widest uppercase py-5">Actor</TableHead>
                             <TableHead className="text-[10px] font-bold tracking-widest uppercase py-5 text-primary">Operation</TableHead>
@@ -70,7 +70,7 @@ const AuditLogViewer = () => {
                             </TableRow>
                         ) : (
                             logs.map((log) => (
-                                <TableRow key={log.id} className="hover:bg-white/70 border-foreground/5 transition-colors group">
+                                <TableRow key={log.id} className="hover:bg-white border-border transition-colors group">
                                     <TableCell className="py-6 pl-8">
                                         <div className="flex items-center gap-2">
                                             <Clock className="w-3 h-3 text-muted-foreground" />
@@ -82,9 +82,9 @@ const AuditLogViewer = () => {
                                     <TableCell>
                                         <div className="flex items-center gap-2">
                                             <div className="w-6 h-6 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-                                                <User className="w-3 h-3 text-blue-400" />
+                                                <User className="w-3 h-3 text-primary" />
                                             </div>
-                                            <span className="text-[11px] font-bold text-foreground group-hover:text-blue-400 transition-colors">
+                                            <span className="text-[11px] font-bold text-foreground group-hover:text-primary transition-colors">
                                                 {log.actorEmail}
                                             </span>
                                         </div>

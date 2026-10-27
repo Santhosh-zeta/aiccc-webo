@@ -32,9 +32,9 @@ interface RankingPanelProps {
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function scoreColor(score: number): string {
-  if (score >= 7) return 'text-emerald-400';
-  if (score >= 5) return 'text-yellow-400';
-  return 'text-red-400';
+  if (score >= 7) return 'text-green-600';
+  if (score >= 5) return 'text-amber-600';
+  return 'text-destructive';
 }
 
 function scoreBg(score: number): string {
@@ -44,10 +44,10 @@ function scoreBg(score: number): string {
 }
 
 const RECOMMENDATION_META: Record<string, { label: string; className: string }> = {
-  strong_select: { label: 'Strong Select', className: 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' },
+  strong_select: { label: 'Strong Select', className: 'bg-emerald-500/20 text-green-600 border border-emerald-500/30' },
   select:        { label: 'Select',        className: 'bg-teal-500/20 text-teal-400 border border-teal-500/30' },
-  maybe:         { label: 'Maybe',         className: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' },
-  reject:        { label: 'Reject',        className: 'bg-red-500/20 text-red-400 border border-red-500/30' },
+  maybe:         { label: 'Maybe',         className: 'bg-yellow-500/20 text-amber-600 border border-yellow-500/30' },
+  reject:        { label: 'Reject',        className: 'bg-red-500/20 text-destructive border border-red-500/30' },
 };
 
 function getTopRecommendation(agg: AggregatedFeedback | undefined): string | null {
@@ -93,13 +93,13 @@ function TaskScoreEditor({ applicationId, currentScore, onSave }: TaskScoreEdito
           value={value}
           onChange={e => setValue(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') handleSave(); if (e.key === 'Escape') setEditing(false); }}
-          className="w-16 bg-white/70 border border-foreground/20 rounded px-1.5 py-0.5 text-xs text-foreground focus:outline-none focus:border-primary"
+          className="w-16 bg-white border border-primary/30 rounded px-1.5 py-0.5 text-xs text-foreground focus:outline-none focus:border-primary"
           autoFocus
         />
         <button
           onClick={handleSave}
           disabled={saving}
-          className="text-emerald-400 hover:text-emerald-300 disabled:opacity-40"
+          className="text-green-600 hover:text-green-600 disabled:opacity-40"
         >
           <Check size={13} />
         </button>
@@ -298,7 +298,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
 
       {/* Error banner */}
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 text-sm text-red-400">
+        <div className="bg-red-500/10 border border-red-500/20 rounded-lg px-4 py-3 text-sm text-destructive">
           {error}
         </div>
       )}
@@ -312,7 +312,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
               selectedDept === dept
                 ? 'bg-primary text-white shadow-[0_0_12px_rgba(49,135,232,0.35)]'
-                : 'bg-white/70 text-muted-foreground hover:bg-white/70 hover:text-foreground/80'
+                : 'bg-white text-muted-foreground hover:bg-white hover:text-foreground/80'
             }`}
           >
             {dept}
@@ -339,7 +339,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
         </HolographicCard>
       ) : (
         <motion.div
-          className="bg-white/70 border border-foreground/10 rounded-xl overflow-hidden"
+          className="bg-white border border-border rounded-xl overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
@@ -347,7 +347,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
           <div className="overflow-x-auto">
             <table className="w-full text-sm min-w-[800px]">
               <thead>
-                <tr className="border-b border-foreground/10 bg-white/[0.03]">
+                <tr className="border-b border-border bg-muted/40">
                   <th className="text-left px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider w-12">Rank</th>
                   <th className="text-left px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Name</th>
                   <th className="text-left px-4 py-3 text-muted-foreground font-medium text-xs uppercase tracking-wider">Dept</th>
@@ -381,7 +381,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
                         tabIndex={0}
                         role="button"
                         title="View evaluation details"
-                        className="border-b border-foreground/5 hover:bg-white/[0.03] focus:bg-white/[0.05] focus:outline-none transition-colors group cursor-pointer"
+                        className="border-b border-border hover:bg-muted/40 focus:bg-white/[0.05] focus:outline-none transition-colors group cursor-pointer"
                       >
                         {/* Rank */}
                         <td className="px-4 py-3">
@@ -407,7 +407,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
 
                         {/* Dept */}
                         <td className="px-4 py-3">
-                          <span className="text-xs text-muted-foreground bg-white/70 px-2 py-0.5 rounded-full">
+                          <span className="text-xs text-muted-foreground bg-white px-2 py-0.5 rounded-full">
                             {ranked.app.primaryDept || ranked.app.department || '—'}
                           </span>
                         </td>
@@ -476,7 +476,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
 
       {/* Evaluation detail dialog */}
       <Dialog open={!!detail} onOpenChange={open => { if (!open) setDetail(null); }}>
-        <DialogContent className="max-w-3xl bg-black/90 border-foreground/10 text-foreground backdrop-blur-xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-3xl bg-black/90 border-border text-foreground  max-h-[90vh] overflow-y-auto">
           {detail && (
             <>
               <DialogHeader>
@@ -497,44 +497,44 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
                     { label: 'Task', value: detail.taskScore, weight: detailWeights?.weight_task },
                     { label: 'Interview', value: detail.interviewScore, weight: detailWeights?.weight_interview },
                   ].map(({ label, value, weight }) => (
-                    <div key={label} className="bg-white/70 border border-foreground/10 rounded-xl px-3 py-2.5">
+                    <div key={label} className="bg-white border border-border rounded-xl px-3 py-2.5">
                       <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</p>
-                      <p className={`text-lg font-bold tabular-nums ${value > 0 ? scoreColor(value) : 'text-white/25'}`}>
+                      <p className={`text-lg font-bold tabular-nums ${value > 0 ? scoreColor(value) : 'text-muted-foreground'}`}>
                         {value > 0 ? value.toFixed(1) : '—'}
                       </p>
                       {weight != null && (
-                        <p className="text-[10px] text-white/25 mt-0.5">weight {Math.round(weight * 100)}%</p>
+                        <p className="text-[10px] text-muted-foreground mt-0.5">weight {Math.round(weight * 100)}%</p>
                       )}
                     </div>
                   ))}
-                  <div className="bg-white/70 border border-foreground/10 rounded-xl px-3 py-2.5">
+                  <div className="bg-white border border-border rounded-xl px-3 py-2.5">
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Final</p>
                     <p className={`text-lg font-bold tabular-nums ${scoreColor(detail.finalScore)}`}>
                       {detail.finalScore.toFixed(2)}
                     </p>
-                    <p className="text-[10px] text-white/25 mt-0.5">rank #{detail.rank}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5">rank #{detail.rank}</p>
                   </div>
-                  <div className="bg-white/70 border border-foreground/10 rounded-xl px-3 py-2.5">
+                  <div className="bg-white border border-border rounded-xl px-3 py-2.5">
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Verdict</p>
                     {detailRecMeta ? (
                       <span className={`inline-block mt-1 text-xs font-medium px-2.5 py-1 rounded-full ${detailRecMeta.className}`}>
                         {detailRecMeta.label}
                       </span>
                     ) : (
-                      <p className="text-xs text-white/25 mt-1.5">Not evaluated</p>
+                      <p className="text-xs text-muted-foreground mt-1.5">Not evaluated</p>
                     )}
                   </div>
                 </div>
 
                 {/* Department preferences */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="bg-white/70 border border-foreground/10 rounded-xl p-3.5 space-y-1.5">
+                  <div className="bg-white border border-border rounded-xl p-3.5 space-y-1.5">
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Primary Choice</p>
                     <p className="text-sm text-foreground font-medium">{detail.app.primaryDept || '—'}</p>
                     {detail.app.domains?.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
                         {detail.app.domains.map(d => (
-                          <span key={d} className="text-[10px] text-muted-foreground bg-white/70 border border-foreground/10 px-2 py-0.5 rounded-full">{d}</span>
+                          <span key={d} className="text-[10px] text-muted-foreground bg-white border border-border px-2 py-0.5 rounded-full">{d}</span>
                         ))}
                       </div>
                     )}
@@ -542,13 +542,13 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
                       <p className="text-xs text-muted-foreground leading-relaxed pt-1">{detail.app.skills}</p>
                     )}
                   </div>
-                  <div className="bg-white/70 border border-foreground/10 rounded-xl p-3.5 space-y-1.5">
+                  <div className="bg-white border border-border rounded-xl p-3.5 space-y-1.5">
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Secondary Choice</p>
                     <p className="text-sm text-foreground font-medium">{detail.app.secondaryDept || '—'}</p>
                     {detail.app.secondaryDomains?.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
                         {detail.app.secondaryDomains.map(d => (
-                          <span key={d} className="text-[10px] text-muted-foreground bg-white/70 border border-foreground/10 px-2 py-0.5 rounded-full">{d}</span>
+                          <span key={d} className="text-[10px] text-muted-foreground bg-white border border-border px-2 py-0.5 rounded-full">{d}</span>
                         ))}
                       </div>
                     )}
@@ -559,7 +559,7 @@ export default function RankingPanel({ applications, onUpdateTaskScore, userEmai
                 </div>
 
                 {/* Full interview evaluations: per-metric scores, recommended dept, remarks */}
-                <div className="border-t border-dashed border-foreground/10 pt-5">
+                <div className="border-t border-dashed border-border pt-5">
                   <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
                     <Users className="w-3.5 h-3.5" />
                     Interview Evaluations

@@ -175,15 +175,11 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center gap-2">
-              <Zap className="w-6 h-6 text-primary" />
-              <span className="font-heading font-bold text-lg">
-                <span className="text-primary">IEEE</span>
-                <span className="text-foreground"> SSCS</span>
-              </span>
+              <img src="/brand/aic-logo-full.png" alt="AI Club VIT Chennai" className="h-9 w-auto object-contain mix-blend-multiply" />
             </Link>
             {user && (
               <Button
@@ -210,7 +206,7 @@ const Register = () => {
             className="text-center mb-8"
           >
             <h1 className="font-heading text-3xl md:text-4xl font-bold mb-3">
-              Join <span className="text-primary">IEEE SSCS</span>
+              Join <span className="text-primary">AI Club</span>
             </h1>
             <p className="text-muted-foreground">
               Register to become a part of our community
@@ -328,7 +324,7 @@ const Register = () => {
                   Registration Successful!
                 </h2>
                 <p className="text-muted-foreground mb-6">
-                  Thank you for registering with IEEE SSCS. We'll be in touch soon.
+                  Thank you for registering with AI Club. We'll be in touch soon.
                 </p>
                 <Link to="/">
                   <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
@@ -472,7 +468,7 @@ const Register = () => {
 
                   {/* Why Join */}
                   <div className="space-y-2">
-                    <Label htmlFor="whyJoin">Why do you want to join IEEE SSCS?</Label>
+                    <Label htmlFor="whyJoin">Why do you want to join AI Club?</Label>
                     <Textarea
                       id="whyJoin"
                       value={formData.whyJoin}

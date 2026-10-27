@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Navigation from '@/components/Navigation';
 import { ArrowLeft, Send, CheckCircle2, GraduationCap, Building, Link as LinkIcon, User, Code, Phone, ArrowRight, ChevronLeft, LogIn, Trophy, Clock, XOctagon, Calendar as CalendarIcon, Video, Sparkles, Target, Zap, Briefcase, CalendarClock } from 'lucide-react';
 import LogoSpinner from '@/components/ui/LogoSpinner';
 import WhatsAppGroupCard from '@/components/ui/WhatsAppGroupCard';
@@ -29,7 +30,7 @@ const DEPT_QUESTIONS: Record<string, { prompt: string, judges: string }> = {
         judges: "Communication, curiosity, technical thinking, passion."
     },
     'Creative': {
-        prompt: "1. Imagine you're designing an eye-catching poster for an IEEE SSCS event. Describe your creative approach, including the theme, colours, layout, visuals, and how you'd make it stand out while keeping it professional. 2.Show us your best creative work (poster, artwork, video, writing, photography, etc.)",
+        prompt: "1. Imagine you're designing an eye-catching poster for an AI Club event. Describe your creative approach, including the theme, colours, layout, visuals, and how you'd make it stand out while keeping it professional. 2.Show us your best creative work (poster, artwork, video, writing, photography, etc.)",
         judges: "Creativity, storytelling, imagination."
     },
     'Human Resources': {
@@ -122,22 +123,22 @@ const InterviewScheduledStatus = ({ app }: { app: any }) => {
         <>
 
             <h2 className="text-3xl  font-bold mb-2 text-foreground">Interview Scheduled</h2>
-            <div className="inline-block px-4 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-6 text-sm font-medium">
+            <div className="inline-block px-4 py-1 rounded-full bg-purple-500/20 text-primary border border-purple-500/30 mb-6 text-sm font-medium">
                 ✓ Confirmed
             </div>
-            <div className="p-5 bg-white/70 rounded-xl border border-foreground/10 text-left mb-5 max-w-sm mx-auto space-y-3">
+            <div className="p-5 bg-white rounded-xl border border-border text-left mb-5 max-w-sm mx-auto space-y-3">
                 {slotInfo && (
                     <>
                         <div>
                             <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Date</div>
                             <div className="font-medium text-foreground">{format(parseISO(slotInfo.start_time), 'EEEE, MMMM d, yyyy')}</div>
                         </div>
-                        <div className="h-px bg-white/70" />
+                        <div className="h-px bg-white" />
                         <div>
                             <div className="text-[10px] text-muted-foreground uppercase tracking-widest mb-0.5">Time</div>
-                            <div className="font-bold text-purple-300 text-lg font-mono">{format(parseISO(slotInfo.start_time), 'h:mm a')}</div>
+                            <div className="font-bold text-primary text-lg font-mono">{format(parseISO(slotInfo.start_time), 'h:mm a')}</div>
                         </div>
-                        <div className="h-px bg-white/70" />
+                        <div className="h-px bg-white" />
                     </>
                 )}
                 <div>
@@ -147,7 +148,7 @@ const InterviewScheduledStatus = ({ app }: { app: any }) => {
             </div>
             {meetingLink ? (
                 <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl mb-5 max-w-sm mx-auto">
-                    <div className="text-[10px] text-green-400 uppercase tracking-widest mb-2 font-bold">Meeting Link Ready</div>
+                    <div className="text-[10px] text-green-600 uppercase tracking-widest mb-2 font-bold">Meeting Link Ready</div>
                     <a
                         href={meetingLink}
                         target="_blank"
@@ -171,7 +172,7 @@ const InterviewScheduledStatus = ({ app }: { app: any }) => {
             {canChangeSlot ? (
                 <Link
                     to="/schedule"
-                    className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-purple-500/30 text-purple-300 hover:bg-purple-500/10 text-sm font-bold transition-colors mb-6 max-w-sm w-full mx-auto"
+                    className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg border border-purple-500/30 text-primary hover:bg-purple-500/10 text-sm font-bold transition-colors mb-6 max-w-sm w-full mx-auto"
                 >
                     <CalendarClock className="w-4 h-4" />
                     Change My Slot (once)
@@ -180,7 +181,7 @@ const InterviewScheduledStatus = ({ app }: { app: any }) => {
                 <p className="text-[11px] text-muted-foreground mb-6 max-w-sm mx-auto">
                     {changesLeft <= 0
                         ? 'You have already used your one slot change, so this time is final.'
-                        : 'Your interview is too close to be moved. Contact the SSCS team if you cannot attend.'}
+                        : 'Your interview is too close to be moved. Contact the AI Club team if you cannot attend.'}
                 </p>
             )}
         </>
@@ -198,9 +199,9 @@ const FormInput = ({ label, icon: Icon, error, ...props }: any) => (
         </label>
         <input
             {...props}
-            className={`w-full bg-black/40 border rounded-xl px-4 py-3 text-foreground text-base focus:ring-2 outline-none transition-all placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed ${error ? 'border-red-500 focus:ring-red-500/50' : 'border-foreground/10 focus:ring-primary/50 focus:border-primary/50'}`}
+            className={`w-full bg-white border rounded-xl px-4 py-3 text-foreground text-base focus:ring-2 outline-none transition-all placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed ${error ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary/50'}`}
         />
-        {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
+        {error && <p className="text-xs text-destructive mt-1">{error}</p>}
     </div>
 );
 
@@ -216,7 +217,7 @@ const FormTextarea = ({ label, error, maxLength, ...props }: any) => {
                 </label>
                 {maxLength && (
                     <span className={`text-xs tabular-nums transition-colors ${
-                        isAtLimit ? 'text-red-400 font-bold' : isNearLimit ? 'text-yellow-400' : 'text-muted-foreground'
+                        isAtLimit ? 'text-destructive font-bold' : isNearLimit ? 'text-amber-600' : 'text-muted-foreground'
                     }`}>
                         {currentLength}/{maxLength}
                     </span>
@@ -225,12 +226,12 @@ const FormTextarea = ({ label, error, maxLength, ...props }: any) => {
             <textarea
                 {...props}
                 maxLength={maxLength}
-                className={`w-full min-h-[120px] bg-black/40 border rounded-xl px-4 py-3 text-white text-base focus:ring-2 outline-none transition-all placeholder:text-white/20 resize-y ${
-                    isAtLimit ? 'border-red-500/70' : error ? 'border-red-500 focus:ring-red-500/50' : 'border-foreground/10 focus:ring-primary/50 focus:border-primary/50'
+                className={`w-full min-h-[120px] bg-white border rounded-xl px-4 py-3 text-foreground text-base focus:ring-2 outline-none transition-all placeholder:text-muted-foreground resize-y ${
+                    isAtLimit ? 'border-red-500/70' : error ? 'border-red-500 focus:ring-red-500/50' : 'border-border focus:ring-primary/50 focus:border-primary/50'
                 }`}
             />
-            {error && <p className="text-xs text-red-400 mt-1">{error}</p>}
-            {isAtLimit && !error && <p className="text-xs text-red-400 mt-1">Character limit reached.</p>}
+            {error && <p className="text-xs text-destructive mt-1">{error}</p>}
+            {isAtLimit && !error && <p className="text-xs text-destructive mt-1">Character limit reached.</p>}
         </div>
     );
 };
@@ -245,7 +246,7 @@ const WelcomeSplash = ({ onComplete }: { onComplete: () => void }) => {
             className="flex flex-col items-center justify-center min-h-[60vh] text-center relative z-10"
         >
             <h1 className="text-5xl md:text-7xl font-heading font-bold mb-6 text-foreground tracking-tight">
-                Welcome to SSCS
+                Welcome to AI Club
             </h1>
             <p className="text-xl text-foreground/80 max-w-xl mx-auto mb-10 leading-relaxed font-heading font-light tracking-wide italic">
                 Your journey into circuits, code, and creativity starts right here. Let's get to know you better.
@@ -289,12 +290,12 @@ const DeadlineBanner = ({ closesAt, serverNow }: { closesAt: string | null; serv
     const urgent = remaining < 60 * 60 * 1000; // final hour
 
     return (
-        <div className={`mb-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 px-6 py-4 rounded-2xl border backdrop-blur-xl ${urgent ? 'border-red-500/30 bg-red-500/10' : 'border-white/10 bg-white/5'}`}>
+        <div className={`mb-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 px-6 py-4 rounded-md border  ${urgent ? 'border-red-500/30 bg-red-500/10' : 'border-border bg-white'}`}>
             <span className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Clock className={`w-4 h-4 ${urgent ? 'text-red-400' : 'text-primary'}`} />
+                <Clock className={`w-4 h-4 ${urgent ? 'text-destructive' : 'text-primary'}`} />
                 Applications close {format(new Date(closesAt), "d MMM yyyy 'at' h:mm a")}
             </span>
-            <span className={`font-mono font-bold tracking-wider ${urgent ? 'text-red-400' : 'text-foreground'}`}>
+            <span className={`font-mono font-bold tracking-wider ${urgent ? 'text-destructive' : 'text-foreground'}`}>
                 {formatCountdown(remaining)}
             </span>
         </div>
@@ -670,15 +671,15 @@ const Apply = () => {
                 const portalUrl = window.location.origin;
                 sendEmail(
                     user.email || '',
-                    'Application Received - IEEE SSCS Recruitment',
+                    'Application Received - AI Club Recruitment',
                     `<p>Dear <strong>${formData.fullName}</strong>,</p>
-                    <p>Thank you for applying to IEEE Solid-State Circuits Society (SSCS)! Your application has been successfully received.</p>
+                    <p>Thank you for applying to AI Club VIT Chennai! Your application has been successfully received.</p>
                     <p><strong>Registration:</strong> ${formData.rollNumber}<br>
                     <strong>Primary Department:</strong> ${formData.primaryDept}<br>
                     <strong>Status:</strong> Under Review</p>
                     <p>You can check your application status anytime: <a href="${portalUrl}/apply">${portalUrl}/apply</a></p>
                     <p>Join our WhatsApp group for updates: <a href="https://chat.whatsapp.com/Em8uoQtYNPcFTsg3w0dVdo?s=qt&p=a&ilr=1">Join Here</a></p>
-                    <p>Best of luck!<br>IEEE SSCS HR Team</p>`
+                    <p>Best of luck!<br>AI Club HR Team</p>`
                 ).catch(err => console.warn('[Apply] Confirmation email failed silently:', err));
             }
 
@@ -719,7 +720,7 @@ const Apply = () => {
                 alert("Applications have closed. The deadline passed while you were filling this in, so this submission could not be accepted.");
                 window.location.reload();
             } else if (code === '42501' || msg.includes('row-level security') || msg.includes('policy')) {
-                alert("Submission blocked by a security policy. Please sign out, sign back in, and try again. If the problem persists, contact the SSCS team.");
+                alert("Submission blocked by a security policy. Please sign out, sign back in, and try again. If the problem persists, contact the AI Club team.");
             } else if (code?.startsWith('PGRST') || msg.includes('fetch') || msg.includes('network')) {
                 alert("A network error occurred. Please check your internet connection and try again.");
             } else {
@@ -750,16 +751,16 @@ const Apply = () => {
             <div className="min-h-screen flex items-center justify-center relative text-foreground bg-background overflow-hidden">
                 <CircuitBoardBackground />
                 <div className="container mx-auto px-6 py-12 relative z-10">
-                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-8 px-6 py-2 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group">
+                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-8 px-6 py-2 rounded-full bg-white border border-border  group">
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Back to Home
                     </Link>
                     <div className="max-w-lg mx-auto mt-20">
-                        <div className="relative p-10 text-center border border-foreground/10 bg-black/40 backdrop-blur-xl rounded-3xl shadow-2xl">
+                        <div className="relative p-10 text-center border border-border bg-white/90 rounded-md shadow-[0_16px_40px_-20px_rgba(15,58,107,0.3)]">
 
                             <h2 className="text-2xl  font-bold mb-4 text-foreground">Authentication Required</h2>
                             <p className="text-muted-foreground mb-8">
-                                To apply for IEEE SSCS, you must sign in with your VIT Student email address (@vitstudent.ac.in).
+                                To apply for AI Club, you must sign in with your VIT Student email address (@vitstudent.ac.in).
                             </p>
                             <Button
                                 onClick={() => signInWithGoogle()}
@@ -795,11 +796,11 @@ const Apply = () => {
             <div className="min-h-screen flex items-center justify-center relative overflow-hidden text-foreground bg-background">
                 <CircuitBoardBackground />
                 <div className="container mx-auto px-4 py-8 relative z-10 text-center">
-                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-8 px-6 py-2 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group">
+                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-8 px-6 py-2 rounded-full bg-white border border-border  group">
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Back to Home
                     </Link>
-                    <div className="relative p-12 md:p-16 max-w-xl mx-auto border border-foreground/10 bg-black/40 backdrop-blur-xl rounded-3xl shadow-2xl">
+                    <div className="relative p-12 md:p-16 max-w-xl mx-auto border border-border bg-white/90 rounded-md shadow-[0_16px_40px_-20px_rgba(15,58,107,0.3)]">
 
                         <h2 className="text-4xl font-heading font-bold mb-6 text-foreground tracking-tight">
                             {windowUnavailable || statusCheckFailed ? 'Unable to verify status' : 'Recruitments are closed'}
@@ -809,7 +810,7 @@ const Apply = () => {
                                 ? 'We could not reach the server to check your application. Please reload, or sign out and back in. If you have been shortlisted, your interview booking link still works once this clears.'
                                 : closedNotice}
                         </p>
-                        <Button asChild variant="outline" className="w-full h-14 rounded-2xl border-foreground/10 hover:bg-white/70 font-bold">
+                        <Button asChild variant="outline" className="w-full h-14 rounded-md border-border hover:bg-white font-bold">
                             <Link to="/">Return to Home</Link>
                         </Button>
                     </div>
@@ -823,17 +824,17 @@ const Apply = () => {
             <div className="min-h-screen flex items-center justify-center relative overflow-hidden text-foreground bg-background">
                 <CircuitBoardBackground />
                 <div className="container mx-auto px-4 py-8 relative z-10">
-                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-8 absolute top-8 left-8 px-6 py-2 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group">
+                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-8 absolute top-8 left-8 px-6 py-2 rounded-full bg-white border border-border  group">
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Back to Home
                     </Link>
 
-                    <div className="relative p-10 md:p-12 max-w-3xl w-full text-center mx-auto mt-12 border border-foreground/10 bg-black/40 backdrop-blur-xl rounded-3xl shadow-2xl">
+                    <div className="relative p-10 md:p-12 max-w-3xl w-full text-center mx-auto mt-12 border border-border bg-white/90 rounded-md shadow-[0_16px_40px_-20px_rgba(15,58,107,0.3)]">
                         {existingApp.status === 'selected' ? (
                             <>
 
                                 <h2 className="text-3xl font-heading font-bold mb-2 text-foreground">Congratulations!</h2>
-                                <div className="inline-block px-4 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30 mb-6 text-sm font-medium">
+                                <div className="inline-block px-4 py-1 rounded-full bg-green-500/20 text-green-600 border border-green-500/30 mb-6 text-sm font-medium">
                                     Application Selected
                                 </div>
                                 <p className="text-gray-300 mb-8 leading-relaxed">
@@ -847,11 +848,11 @@ const Apply = () => {
                             <>
 
                                 <h2 className="text-2xl font-heading font-bold mb-2 text-foreground">Application Status</h2>
-                                <div className="inline-block px-3 py-1 rounded-full bg-red-500/10 text-red-500/80 border border-red-500/20 mb-6 text-xs uppercase tracking-wider">
+                                <div className="inline-block px-3 py-1 rounded-full bg-red-500/10 text-destructive/80 border border-red-500/20 mb-6 text-xs uppercase tracking-wider">
                                     Not Selected
                                 </div>
                                 <p className="text-muted-foreground mb-6 text-sm">
-                                    Thank you for your interest in IEEE SSCS. Due to the high volume of applications, we are unfortunately unable to offer you a position at this time.
+                                    Thank you for your interest in AI Club. Due to the high volume of applications, we are unfortunately unable to offer you a position at this time.
                                 </p>
                             </>
                         ) : existingApp.status === 'shortlisted' && existingApp.shortlist_notified ? (
@@ -864,7 +865,7 @@ const Apply = () => {
                                 <p className="text-gray-300 mb-8">
                                     You've moved to the next round. Please book an interview slot immediately.
                                     <br />
-                                    <span className="text-sm text-yellow-500/80">Slots are First Come First Serve.</span>
+                                    <span className="text-sm text-amber-600/80">Slots are First Come First Serve.</span>
                                 </p>
                                 <Button asChild className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold h-12 text-lg shadow-lg animate-bounce">
                                     <Link to="/schedule">Book Interview Slot</Link>
@@ -876,7 +877,7 @@ const Apply = () => {
                             <>
 
                                 <h2 className="text-3xl  font-bold mb-2 text-foreground">Under Review</h2>
-                                <div className="inline-block px-4 py-1 rounded-full bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 mb-6 text-sm font-medium">
+                                <div className="inline-block px-4 py-1 rounded-full bg-yellow-500/10 text-amber-600 border border-yellow-500/30 mb-6 text-sm font-medium">
                                     Status: Pending
                                 </div>
                                 <p className="text-gray-300 mb-8 leading-relaxed">
@@ -884,7 +885,7 @@ const Apply = () => {
                                     Hold tight! We will update you soon.
                                 </p>
 
-                                <div className="bg-white/70 p-6 rounded-xl border border-foreground/10 mb-8 flex flex-col items-center gap-3">
+                                <div className="bg-white p-6 rounded-xl border border-border mb-8 flex flex-col items-center gap-3">
                                     <p className="text-sm text-muted-foreground mb-2">Connect with us for updates:</p>
                                     <a
                                         href="https://chat.whatsapp.com/Em8uoQtYNPcFTsg3w0dVdo?s=qt&p=a&ilr=1"
@@ -913,7 +914,7 @@ const Apply = () => {
                                 </div>
                             </>
                         )}
-                        <Button asChild variant="outline" className="w-full border-foreground/10 hover:bg-white/70 mt-4">
+                        <Button asChild variant="outline" className="w-full border-border hover:bg-white mt-4">
                             <Link to="/">Return to Home</Link>
                         </Button>
                     </div>
@@ -926,13 +927,13 @@ const Apply = () => {
         return (
             <div className="min-h-screen flex items-center justify-center relative overflow-hidden text-foreground bg-background">
                 <CircuitBoardBackground />
-                <div className="relative p-10 max-w-lg w-full text-center z-10 border border-foreground/10 bg-black/40 backdrop-blur-xl rounded-3xl shadow-2xl">
+                <div className="relative p-10 max-w-lg w-full text-center z-10 border border-border bg-white/90 rounded-md shadow-[0_16px_40px_-20px_rgba(15,58,107,0.3)]">
 
                     <h2 className="text-4xl  font-bold mb-3 text-foreground">Application Submitted Successfully!</h2>
                     <p className="text-muted-foreground mb-8 text-lg">
                         We've received your application. Keep an eye on your email and our WhatsApp group!
                     </p>
-                    <div className="bg-white/70 p-6 rounded-xl border border-foreground/10 mb-8 flex flex-col items-center gap-3">
+                    <div className="bg-white p-6 rounded-xl border border-border mb-8 flex flex-col items-center gap-3">
                         <p className="text-sm text-muted-foreground mb-2">Connect with us for updates:</p>
                         <a
                             href="https://chat.whatsapp.com/Em8uoQtYNPcFTsg3w0dVdo?s=qt&p=a&ilr=1"
@@ -974,16 +975,17 @@ const Apply = () => {
     return (
         <div className="min-h-screen relative text-foreground bg-background overflow-hidden selection:bg-primary/30">
             <CircuitBoardBackground />
+            <Navigation />
 
             {showWelcome ? (
-                <div className="container mx-auto px-6 py-12 relative z-10 flex items-center justify-center min-h-screen">
+                <div className="container mx-auto px-6 pt-28 pb-12 relative z-10 flex items-center justify-center min-h-screen">
                     <WelcomeSplash onComplete={() => setShowWelcome(false)} />
                 </div>
             ) : (
                 <div className="container mx-auto px-4 md:px-6 py-12 relative z-10">
                     <motion.div key={step} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="max-w-4xl mx-auto">
 
-                        <div className="text-center mb-10">
+                        <div className="mb-10">
                             <span className="inline-block text-sm text-primary font-bold px-4 py-1.5 rounded-full border border-primary/20 bg-primary/10 mb-4">
                                 Step {step} of 4
                             </span>
@@ -1000,7 +1002,7 @@ const Apply = () => {
                             <div className="flex items-center justify-center gap-2 mt-8 max-w-sm mx-auto">
                                 {[1, 2, 3, 4].map((i) => (
                                     <div key={i} className="flex items-center flex-1">
-                                        <div className={`w-full h-2 rounded-full transition-all duration-500 ${step >= i ? 'bg-primary' : 'bg-white/10'}`} />
+                                        <div className={`w-full h-2 rounded-full transition-all duration-500 ${step >= i ? 'bg-primary' : 'bg-primary/10'}`} />
                                     </div>
                                 ))}
                             </div>
@@ -1009,7 +1011,7 @@ const Apply = () => {
                         <DeadlineBanner closesAt={closesAt} serverNow={serverNow} />
 
                         {/* Main Form Container - Clean and Modern */}
-                        <div className="relative p-6 md:p-10 border border-foreground/10 bg-black/40 backdrop-blur-xl rounded-3xl shadow-2xl">
+                        <div className="relative p-6 md:p-10 border border-border bg-white/90 rounded-md shadow-[0_16px_40px_-20px_rgba(15,58,107,0.3)]">
                             <form onSubmit={step === 4 ? handleSubmit : handleNextStep} noValidate className="space-y-8">
 
                                 {step === 1 && (
@@ -1021,7 +1023,7 @@ const Apply = () => {
                                             <FormInput label="Phone Number" error={formErrors.phone} icon={Phone} type="tel" name="phone" value={formData.phone} onChange={handleInputChange} placeholder="WhatsApp number" />
                                         </div>
 
-                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-foreground/10">
+                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-border">
                                             <div className="space-y-3">
                                                 <label className="text-sm font-medium text-foreground/80 flex items-center gap-2">
                                                     <GraduationCap className="w-4 h-4 text-primary/80" /> Year of Study
@@ -1029,7 +1031,7 @@ const Apply = () => {
                                                 <div className="grid grid-cols-2 gap-3">
                                                     {YEARS_OF_STUDY.map(year => (
                                                         <div key={year} onClick={() => handleOptionSelect('yearOfStudy', year)}
-                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.yearOfStudy === year ? 'bg-primary/20 border-primary text-primary shadow-sm' : formErrors.yearOfStudy ? 'border-red-500 bg-red-500/5 text-red-400' : 'bg-black/40 border-white/10 hover:border-white/30 text-white/70 hover:text-white'}`}>
+                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.yearOfStudy === year ? 'bg-primary/20 border-primary text-primary shadow-sm' : formErrors.yearOfStudy ? 'border-red-500 bg-red-500/5 text-destructive' : 'bg-white border-border hover:border-primary/40 text-muted-foreground hover:text-white'}`}>
                                                             {year}
                                                         </div>
                                                     ))}
@@ -1042,7 +1044,7 @@ const Apply = () => {
                                                 <div className="grid grid-cols-2 gap-3">
                                                     {['Hosteller', 'Day Scholar'].map(type => (
                                                         <div key={type} onClick={() => handleOptionSelect('hostelDay', type)}
-                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.hostelDay === type ? 'bg-primary/20 border-primary text-primary shadow-sm' : formErrors.hostelDay ? 'border-red-500 bg-red-500/5 text-red-400' : 'bg-black/40 border-white/10 hover:border-white/30 text-white/70 hover:text-white'}`}>
+                                                            className={`cursor-pointer px-4 py-3 border rounded-xl text-center text-sm font-medium transition-all duration-200 ${formData.hostelDay === type ? 'bg-primary/20 border-primary text-primary shadow-sm' : formErrors.hostelDay ? 'border-red-500 bg-red-500/5 text-destructive' : 'bg-white border-border hover:border-primary/40 text-muted-foreground hover:text-white'}`}>
                                                             {type}
                                                         </div>
                                                     ))}
@@ -1056,29 +1058,29 @@ const Apply = () => {
                                     <div className="space-y-8 animate-in fade-in duration-500">
                                         <div className="mb-6 text-center">
                                             <p className="text-sm text-foreground/80">
-                                                Select your <span className="text-primary font-bold">1st Preference</span> and <span className="text-blue-400 font-bold">2nd Preference</span>.
+                                                Select your <span className="text-primary font-bold">1st Preference</span> and <span className="text-primary font-bold">2nd Preference</span>.
                                             </p>
                                         </div>
-                                        {formErrors.dept && <p className="text-center text-red-400 text-sm mb-4 bg-red-500/10 py-2 rounded-lg border border-red-500/20">{formErrors.dept}</p>}
+                                        {formErrors.dept && <p className="text-center text-destructive text-sm mb-4 bg-red-500/10 py-2 rounded-lg border border-red-500/20">{formErrors.dept}</p>}
                                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
                                             {DEPARTMENTS.map(dept => {
                                                 const isPrimary = formData.primaryDept === dept.name;
                                                 const hasDeptError = !!formErrors.dept;
                                                 const isSecondary = formData.secondaryDept === dept.name;
 
-                                                let cardClass = "relative p-5 rounded-2xl cursor-pointer transition-all duration-200 border flex flex-col ";
+                                                let cardClass = "relative p-5 rounded-md cursor-pointer transition-all duration-200 border flex flex-col ";
                                                 if (isPrimary) {
                                                     cardClass += "border-primary bg-primary/10 shadow-[0_0_20px_rgba(var(--primary),0.15)]";
                                                 } else if (isSecondary) {
                                                     cardClass += "border-blue-500 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.15)]";
                                                 } else {
-                                                    cardClass += hasDeptError ? "border-red-500 bg-red-500/5 hover:bg-red-500/10" : "border-foreground/10 bg-black/40 hover:bg-white/70 hover:border-foreground/30";
+                                                    cardClass += hasDeptError ? "border-red-500 bg-red-500/5 hover:bg-red-500/10" : "border-border bg-white hover:bg-white hover:border-primary/40";
                                                 }
 
                                                 return (
                                                     <div key={dept.name} className={cardClass} onClick={() => handleDeptClick(dept.name)}>
                                                         <div className="flex items-start justify-between mb-2">
-                                                            <h4 className={`text-base font-bold transition-colors ${isPrimary ? 'text-primary' : isSecondary ? 'text-blue-400' : 'text-foreground'}`}>
+                                                            <h4 className={`text-base font-bold transition-colors ${isPrimary ? 'text-primary' : isSecondary ? 'text-primary' : 'text-foreground'}`}>
                                                                 {dept.name}
                                                             </h4>
                                                             {isPrimary && <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-xs font-bold">1</span>}
@@ -1089,8 +1091,8 @@ const Apply = () => {
                                                 );
                                             })}
                                         </div>
-                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-foreground/10">
-                                            <FormTextarea error={formErrors.whyJoinSscs} maxLength={4000} label="Why do you want to join IEEE SSCS?" name="whyJoinSscs" value={formData.whyJoinSscs} onChange={handleInputChange} placeholder="Explain your motivation for joining SSCS..." />
+                                        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t border-border">
+                                            <FormTextarea error={formErrors.whyJoinSscs} maxLength={4000} label="Why do you want to join AI Club?" name="whyJoinSscs" value={formData.whyJoinSscs} onChange={handleInputChange} placeholder="Explain your motivation for joining SSCS..." />
                                             <FormTextarea error={formErrors.whyTheseDepts} maxLength={4000} label="Why did you choose these departments?" name="whyTheseDepts" value={formData.whyTheseDepts} onChange={handleInputChange} placeholder="What draws you to this specific role?" />
                                         </div>
                                     </div>
@@ -1098,13 +1100,13 @@ const Apply = () => {
 
                                 {step === 3 && (
                                     <div className="space-y-8 animate-in fade-in duration-500">
-                                        <div className="mb-2 text-center border-b border-foreground/5 pb-4 inline-block mx-auto w-full">
+                                        <div className="mb-2 text-center border-b border-border pb-4 inline-block mx-auto w-full">
                                             <p className="text-xs text-muted-foreground italic">
                                                 Please write your own answers. Do not copy/paste AI-generated text. We value authenticity over perfection!
                                             </p>
                                         </div>
                                         <div className="space-y-4">
-                                            <div className="bg-primary/10 border border-primary/20 rounded-2xl p-6 text-center">
+                                            <div className="bg-primary/10 border border-primary/20 rounded-md p-6 text-center">
                                                 <p className="text-sm text-primary font-heading font-bold mb-2 uppercase tracking-wider">1st Preference: {formData.primaryDept}</p>
                                                 <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
                                                     {DEPT_QUESTIONS[formData.primaryDept]?.prompt || "Tell us something amazing about yourself."}
@@ -1120,9 +1122,9 @@ const Apply = () => {
                                         </div>
 
                                         {formData.secondaryDept && (
-                                            <div className="space-y-4 pt-6 border-t border-foreground/10">
-                                                <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-6 text-center">
-                                                    <p className="text-sm text-blue-400 font-heading font-bold mb-2 uppercase tracking-wider">2nd Preference: {formData.secondaryDept}</p>
+                                            <div className="space-y-4 pt-6 border-t border-border">
+                                                <div className="bg-blue-500/10 border border-blue-500/20 rounded-md p-6 text-center">
+                                                    <p className="text-sm text-primary font-heading font-bold mb-2 uppercase tracking-wider">2nd Preference: {formData.secondaryDept}</p>
                                                     <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
                                                         {DEPT_QUESTIONS[formData.secondaryDept]?.prompt || "Tell us something amazing about yourself."}
                                                     </p>
@@ -1147,14 +1149,14 @@ const Apply = () => {
                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                                 {WEEKLY_HOURS.map(hrs => (
                                                     <div key={hrs} onClick={() => handleOptionSelect('weeklyHours', hrs)}
-                                                        className={`cursor-pointer px-4 py-4 border rounded-xl text-center font-bold text-base transition-all duration-200 ${formData.weeklyHours === hrs ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-black/40 border-white/10 hover:border-white/30 text-white/70 hover:text-white'}`}>
+                                                        className={`cursor-pointer px-4 py-4 border rounded-xl text-center font-bold text-base transition-all duration-200 ${formData.weeklyHours === hrs ? 'bg-primary/20 border-primary text-primary shadow-sm' : 'bg-white border-border hover:border-primary/40 text-muted-foreground hover:text-white'}`}>
                                                         {hrs}
                                                     </div>
                                                 ))}
                                             </div>
                                         </div>
 
-                                        <div className="space-y-4 pt-8 border-t border-foreground/10">
+                                        <div className="space-y-4 pt-8 border-t border-border">
                                             <h3 className="text-lg font-heading font-bold text-foreground mb-4 flex items-center gap-2">
                                                 <LinkIcon className="w-5 h-5 text-primary" /> Links (Optional)
                                             </h3>
@@ -1163,7 +1165,7 @@ const Apply = () => {
                                             </div>
                                         </div>
 
-                                        <div className="space-y-4 pt-8 border-t border-foreground/10">
+                                        <div className="space-y-4 pt-8 border-t border-border">
                                             <h3 className="text-lg font-heading font-bold text-foreground mb-4">Any Questions for Us?</h3>
                                             <FormTextarea label="If you have any doubts about the club, the role, or the recruitment process, ask away! (Optional)" name="anyQuestions" value={formData.anyQuestions} onChange={handleInputChange} placeholder="Type your question here..." style={{ minHeight: '100px' }} />
                                         </div>
@@ -1171,9 +1173,9 @@ const Apply = () => {
                                 )}
 
                                 {/* Navigation Bar */}
-                                <div className="pt-8 flex gap-4 mt-8 border-t border-foreground/10">
+                                <div className="pt-8 flex gap-4 mt-8 border-t border-border">
                                     {step > 1 && (
-                                        <Button type="button" variant="outline" onClick={handlePrevStep} className="h-14 px-6 md:px-8 border-foreground/10 bg-transparent hover:bg-white/70 text-foreground font-heading font-medium text-base rounded-xl transition-all">
+                                        <Button type="button" variant="outline" onClick={handlePrevStep} className="h-14 px-6 md:px-8 border-border bg-transparent hover:bg-white text-foreground font-heading font-medium text-base rounded-xl transition-all">
                                             <ChevronLeft className="w-5 h-5 mr-2" /> Back
                                         </Button>
                                     )}

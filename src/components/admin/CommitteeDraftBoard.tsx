@@ -526,35 +526,35 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-24">
             {/* ── TOP HERO BAR & COMMANDS ────────────────────────────────────────── */}
-            <div className="bg-gradient-to-r from-purple-950/50 via-black/80 to-blue-950/50 p-6 md:p-8 rounded-3xl border border-purple-500/30 backdrop-blur-2xl shadow-[0_0_35px_rgba(49,135,232,0.15)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+            <div className="bg-gradient-to-r from-purple-950/50 via-black/80 to-blue-950/50 p-6 md:p-8 rounded-md border border-purple-500/30 backdrop-blur-2xl shadow-[0_0_35px_rgba(49,135,232,0.15)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
                 <div className="space-y-2 max-w-2xl">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-bold tracking-widest uppercase">
-                        <Users className="w-3.5 h-3.5 text-purple-400" />
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-500/40 text-primary text-xs font-bold tracking-widest uppercase">
+                        <Users className="w-3.5 h-3.5 text-primary" />
                         Committee Allocation & Roster Management
                     </div>
                     <h2 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">
                         Committee Selection & Team Builder
                     </h2>
                     <p className="text-sm text-zinc-300 leading-relaxed">
-                        Visually organize and assign core committee members across departments. Click <strong className="text-purple-300">Auto-Fill Committees</strong> to distribute eligible candidates based on interviewer verdicts, 1st/2nd preferences, and interview scores. Review and fine-tune teams, then hit <strong className="text-green-400">Save Roster</strong>!
+                        Visually organize and assign core committee members across departments. Click <strong className="text-primary">Auto-Fill Committees</strong> to distribute eligible candidates based on interviewer verdicts, 1st/2nd preferences, and interview scores. Review and fine-tune teams, then hit <strong className="text-green-600">Save Roster</strong>!
                     </p>
                 </div>
 
                 {/* Stat Counters & Actions */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
-                    <div className="flex items-center justify-around gap-4 bg-black/60 px-5 py-3 rounded-2xl border border-foreground/10 shrink-0">
+                    <div className="flex items-center justify-around gap-4 bg-white px-5 py-3 rounded-md border border-border shrink-0">
                         <div className="text-center">
                             <div className="text-2xl font-black text-foreground">{totalDrafted}</div>
                             <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Drafted</div>
                         </div>
-                        <div className="w-px h-8 bg-white/70" />
+                        <div className="w-px h-8 bg-white" />
                         <div className="text-center">
-                            <div className="text-2xl font-black text-purple-400">{totalQuota}</div>
+                            <div className="text-2xl font-black text-primary">{totalQuota}</div>
                             <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Total Quota</div>
                         </div>
-                        <div className="w-px h-8 bg-white/70" />
+                        <div className="w-px h-8 bg-white" />
                         <div className="text-center">
-                            <div className="text-2xl font-black text-amber-400">{unassignedCandidates.length}</div>
+                            <div className="text-2xl font-black text-amber-600">{unassignedCandidates.length}</div>
                             <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Reserve Pool</div>
                         </div>
                     </div>
@@ -581,7 +581,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                 onClick={handleClearDraft}
                                 disabled={isSaving || totalDrafted === 0}
                                 variant="outline"
-                                className="h-10 px-4 rounded-xl border-foreground/15 bg-white/70 hover:bg-white/70 text-zinc-300 font-bold text-xs uppercase tracking-wider"
+                                className="h-10 px-4 rounded-xl border-foreground/15 bg-white hover:bg-white text-zinc-300 font-bold text-xs uppercase tracking-wider"
                             >
                                 <Trash2 className="w-3.5 h-3.5 mr-1.5" />
                                 Clear Draft
@@ -590,7 +590,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                         <Button
                             onClick={handleExportPdf}
                             variant="outline"
-                            className="h-10 px-6 rounded-xl border-foreground/15 bg-white/70 hover:bg-white/70 text-zinc-300 font-bold text-xs uppercase tracking-wider"
+                            className="h-10 px-6 rounded-xl border-foreground/15 bg-white hover:bg-white text-zinc-300 font-bold text-xs uppercase tracking-wider"
                         >
                             <FileDown className="w-3.5 h-3.5 mr-1.5" />
                             Export Roster PDF
@@ -598,7 +598,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                         <Button
                             onClick={() => setIsSendDialogOpen(true)}
                             variant="outline"
-                            className="h-10 px-6 rounded-xl border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 font-bold text-xs uppercase tracking-wider"
+                            className="h-10 px-6 rounded-xl border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20 text-primary font-bold text-xs uppercase tracking-wider"
                         >
                             <Send className="w-3.5 h-3.5 mr-1.5" />
                             Send Mails{pendingMailCandidates.length > 0 ? ` (${pendingMailCandidates.length} pending)` : ''}
@@ -622,10 +622,10 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/40 text-amber-200 space-y-3 shadow-lg"
+                        className="p-4 rounded-md bg-amber-500/10 border border-amber-500/40 text-amber-200 space-y-3 shadow-lg"
                     >
                         <div className="flex items-start gap-3">
-                            <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                            <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                             <div className="text-sm font-semibold">
                                 {mismatchedMembers.length} member{mismatchedMembers.length === 1 ? ' is' : 's are'} in a department they did not apply to and were not recommended for.
                                 <span className="font-normal text-amber-200/70"> Re-run Auto-Fill to reallocate them by merit, or move them by hand.</span>
@@ -636,13 +636,13 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                 <div key={app.id} className="flex items-center justify-between gap-2 text-xs bg-black/30 rounded-lg px-2.5 py-1.5">
                                     <span className="text-foreground font-semibold truncate">{app.fullName}</span>
                                     <span className="flex items-center gap-1.5 shrink-0 font-mono text-[10px]">
-                                        <span className="text-amber-300">{dept}</span>
+                                        <span className="text-amber-600">{dept}</span>
                                         <span className="text-muted-foreground">
                                             (applied: {app.primaryDept || '—'}{app.secondaryDept ? ` / ${app.secondaryDept}` : ''})
                                         </span>
                                         <button
                                             onClick={() => removeCandidate(app.id)}
-                                            className="ml-1 px-2 py-0.5 rounded bg-red-500/15 hover:bg-red-500/25 text-red-300 font-bold"
+                                            className="ml-1 px-2 py-0.5 rounded bg-red-500/15 hover:bg-red-500/25 text-destructive font-bold"
                                         >Remove</button>
                                     </span>
                                 </div>
@@ -659,9 +659,9 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="p-4 rounded-2xl bg-red-500/15 border border-red-500/40 text-red-300 flex items-start gap-3 font-medium text-sm shadow-lg"
+                        className="p-4 rounded-md bg-red-500/15 border border-red-500/40 text-destructive flex items-start gap-3 font-medium text-sm shadow-lg"
                     >
-                        <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                        <AlertTriangle className="w-5 h-5 text-destructive shrink-0 mt-0.5" />
                         <span>{quotaError}</span>
                     </motion.div>
                 )}
@@ -674,9 +674,9 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="p-4 rounded-2xl bg-green-500/15 border border-green-500/40 text-green-300 flex items-center gap-3 font-medium text-sm shadow-lg"
+                        className="p-4 rounded-md bg-green-500/15 border border-green-500/40 text-green-600 flex items-center gap-3 font-medium text-sm shadow-lg"
                     >
-                        <CheckCircle className="w-5 h-5 text-green-400 shrink-0" />
+                        <CheckCircle className="w-5 h-5 text-green-600 shrink-0" />
                         <span>{successMsg}</span>
                     </motion.div>
                 )}
@@ -684,9 +684,9 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
 
             {/* ── DEPARTMENT COMMITTEES ROSTER ───────────────────────────────────── */}
             <div className="space-y-6 pt-2">
-                <div className="flex items-center justify-between border-b border-foreground/10 pb-3 flex-wrap gap-2">
+                <div className="flex items-center justify-between border-b border-border pb-3 flex-wrap gap-2">
                     <div className="flex items-center gap-2">
-                        <Users className="w-6 h-6 text-purple-400" />
+                        <Users className="w-6 h-6 text-primary" />
                         <h3 className="text-xl font-heading font-black text-foreground tracking-widest uppercase">
                             Department Committee Teams
                         </h3>
@@ -714,7 +714,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                             && (draggedIsAlreadyHere || !deptFull);
                         const isHoveredTarget = dragOverDept === dept && isAllowedTarget;
 
-                        let cardBgStyle = "bg-gradient-to-br from-white/[0.04] via-black/60 to-black/90 border-white/10";
+                        let cardBgStyle = "bg-gradient-to-br from-white/[0.04] via-black/60 to-black/90 border-border";
                         if (isDraggingAny) {
                             if (isAllowedTarget) {
                                 cardBgStyle = isHoveredTarget 
@@ -748,20 +748,20 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                         setDraggedCandidateId(null);
                                     }
                                 }}
-                                className={`rounded-3xl overflow-hidden flex flex-col shadow-xl transition-all duration-300 ${cardBgStyle}`}
+                                className={`rounded-md overflow-hidden flex flex-col shadow-xl transition-all duration-300 ${cardBgStyle}`}
                             >
                                 {/* Department Header & Quota Bar */}
-                                <div className="bg-white/[0.03] p-5 border-b border-foreground/10 space-y-3">
+                                <div className="bg-muted/40 p-5 border-b border-border space-y-3">
                                     <div className="flex items-center justify-between gap-2 flex-wrap">
                                         <div className="flex items-center gap-2 min-w-0">
                                             <h4 className="text-base font-black tracking-wider uppercase text-foreground">{dept}</h4>
                                             {isDraggingAny && (
                                                 isAllowedTarget ? (
-                                                    <Badge className="bg-green-500/20 text-green-300 border-green-500/40 text-[9px] font-extrabold uppercase animate-pulse">
+                                                    <Badge className="bg-green-500/20 text-green-600 border-green-500/40 text-[9px] font-extrabold uppercase animate-pulse">
                                                         Drop Allowed
                                                     </Badge>
                                                 ) : (
-                                                    <Badge variant="outline" className="bg-red-500/10 text-red-400 border-red-500/30 text-[9px] font-bold">
+                                                    <Badge variant="outline" className="bg-red-500/10 text-destructive border-red-500/30 text-[9px] font-bold">
                                                         {deptFull && isDeptAllowedForCandidate(draggedCandidateId, dept) ? 'Seats Full' : 'Not Preference'}
                                                     </Badge>
                                                 )
@@ -771,8 +771,8 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                             below any usable touch target, which made the seat
                                             count effectively uneditable on a phone — type the
                                             number instead. */}
-                                        <div className="flex items-center gap-1.5 bg-black/50 pl-2.5 pr-1.5 py-1 rounded-xl border border-foreground/10 text-xs font-mono shrink-0">
-                                            <span className={`font-bold ${fillRatio >= 1 ? 'text-green-400' : 'text-purple-300'}`}>
+                                        <div className="flex items-center gap-1.5 bg-black/50 pl-2.5 pr-1.5 py-1 rounded-xl border border-border text-xs font-mono shrink-0">
+                                            <span className={`font-bold ${fillRatio >= 1 ? 'text-green-600' : 'text-primary'}`}>
                                                 {members.length}
                                             </span>
                                             <span className="text-muted-foreground">/</span>
@@ -798,7 +798,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                                     }
                                                 }}
                                                 onClick={(e) => e.stopPropagation()}
-                                                className="w-14 h-10 bg-white/[0.06] border border-foreground/15 rounded-lg text-center text-foreground font-bold text-sm focus:outline-none focus:border-purple-500 focus:bg-white/70 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                                className="w-14 h-10 bg-muted/60 border border-foreground/15 rounded-lg text-center text-foreground font-bold text-sm focus:outline-none focus:border-purple-500 focus:bg-white transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                             />
                                             <span className="text-muted-foreground">Seats</span>
                                             <div className="flex items-center gap-1 ml-0.5">
@@ -806,19 +806,19 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                                     type="button"
                                                     aria-label={`Decrease seats for ${dept}`}
                                                     onClick={() => nudgeSeats(dept, -1)}
-                                                    className="w-10 h-10 rounded-lg bg-white/70 hover:bg-white/80 active:bg-foreground/25 text-foreground flex items-center justify-center text-lg font-bold leading-none"
+                                                    className="w-10 h-10 rounded-lg bg-white hover:bg-white active:bg-foreground/25 text-foreground flex items-center justify-center text-lg font-bold leading-none"
                                                 >−</button>
                                                 <button
                                                     type="button"
                                                     aria-label={`Increase seats for ${dept}`}
                                                     onClick={() => nudgeSeats(dept, 1)}
-                                                    className="w-10 h-10 rounded-lg bg-white/70 hover:bg-white/80 active:bg-foreground/25 text-foreground flex items-center justify-center text-lg font-bold leading-none"
+                                                    className="w-10 h-10 rounded-lg bg-white hover:bg-white active:bg-foreground/25 text-foreground flex items-center justify-center text-lg font-bold leading-none"
                                                 >+</button>
                                             </div>
                                         </div>
                                     </div>
                                     {/* Progress Bar */}
-                                    <div className="w-full h-1.5 rounded-full bg-white/70 overflow-hidden">
+                                    <div className="w-full h-1.5 rounded-full bg-white overflow-hidden">
                                         <div 
                                             className={`h-full transition-all duration-500 ${progressColor}`} 
                                             style={{ width: `${Math.min(100, fillRatio * 100)}%` }} 
@@ -834,7 +834,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                         </div>
 
                                         {members.length === 0 ? (
-                                            <div className="text-center py-10 border border-dashed border-foreground/10 rounded-2xl text-xs text-muted-foreground/60 italic">
+                                            <div className="text-center py-10 border border-dashed border-border rounded-md text-xs text-muted-foreground/60 italic">
                                                 No members assigned to {dept} yet. Click Auto-Fill or add manually below.
                                             </div>
                                         ) : (
@@ -862,21 +862,21 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                                                 setPreviewCandidate(app);
                                                                 if (onViewCandidate) onViewCandidate(app);
                                                             }}
-                                                            className={`flex items-center justify-between gap-2 p-2.5 rounded-xl bg-white/[0.03] border border-foreground/10 hover:border-purple-500/40 transition-all text-xs group cursor-pointer hover:bg-white/[0.07] ${draggedCandidateId === app.id ? 'opacity-40 border-purple-400 ring-2 ring-purple-400' : ''}`}
+                                                            className={`flex items-center justify-between gap-2 p-2.5 rounded-xl bg-muted/40 border border-border hover:border-purple-500/40 transition-all text-xs group cursor-pointer hover:bg-white/[0.07] ${draggedCandidateId === app.id ? 'opacity-40 border-purple-400 ring-2 ring-purple-400' : ''}`}
                                                         >
                                                             <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                                                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-purple-400 shrink-0" />
+                                                                <GripVertical className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-primary shrink-0" />
                                                                 <div className="min-w-0 flex-1">
                                                                     <div className="font-bold text-foreground truncate flex items-center gap-1.5">
                                                                         <span>{app.fullName}</span>
-                                                                        <span className="text-[10px] font-mono font-normal text-purple-300 bg-purple-500/10 px-1.5 py-0.2 rounded">⭐ {scoreVal}</span>
+                                                                        <span className="text-[10px] font-mono font-normal text-primary bg-purple-500/10 px-1.5 py-0.2 rounded">⭐ {scoreVal}</span>
                                                                     </div>
                                                                     <div className="flex items-center gap-1 mt-1 flex-wrap">
-                                                                        {isRec && <Badge variant="outline" className="text-[9px] bg-purple-500/20 text-purple-300 border-purple-500/30 px-1 py-0">Interviewer Rec</Badge>}
-                                                                        {is1st && <Badge variant="outline" className="text-[9px] bg-blue-500/20 text-blue-300 border-blue-500/30 px-1 py-0">1st Pref</Badge>}
-                                                                        {!is1st && is2nd && <Badge variant="outline" className="text-[9px] bg-cyan-500/20 text-cyan-300 border-cyan-500/30 px-1 py-0">2nd Pref</Badge>}
+                                                                        {isRec && <Badge variant="outline" className="text-[9px] bg-purple-500/20 text-primary border-purple-500/30 px-1 py-0">Interviewer Rec</Badge>}
+                                                                        {is1st && <Badge variant="outline" className="text-[9px] bg-blue-500/20 text-primary border-blue-500/30 px-1 py-0">1st Pref</Badge>}
+                                                                        {!is1st && is2nd && <Badge variant="outline" className="text-[9px] bg-cyan-500/20 text-primary border-cyan-500/30 px-1 py-0">2nd Pref</Badge>}
                                                                         {!isRec && !is1st && !is2nd && (
-                                                                            <Badge variant="outline" className="text-[9px] bg-amber-500/20 text-amber-300 border-amber-500/40 px-1 py-0 font-extrabold">
+                                                                            <Badge variant="outline" className="text-[9px] bg-amber-500/20 text-amber-600 border-amber-500/40 px-1 py-0 font-extrabold">
                                                                                 ⚠ Not their preference
                                                                             </Badge>
                                                                         )}
@@ -889,7 +889,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                                                     e.stopPropagation();
                                                                     removeCandidate(app.id);
                                                                 }}
-                                                                className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity shrink-0"
+                                                                className="w-7 h-7 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-destructive flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity shrink-0"
                                                                 title="Remove from Committee"
                                                             >
                                                                 <Trash2 className="w-3.5 h-3.5" />
@@ -902,7 +902,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                     </div>
 
                                     {/* Quick Add Candidate to Committee */}
-                                    <div className="pt-3 border-t border-foreground/10">
+                                    <div className="pt-3 border-t border-border">
                                         <Select
                                             value="none"
                                             onValueChange={(val) => {
@@ -912,8 +912,8 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                             <SelectTrigger
                                                 disabled={deptFull}
                                                 className={`w-full h-11 text-xs font-bold rounded-xl ${deptFull
-                                                    ? 'bg-white/70 border-foreground/10 text-muted-foreground cursor-not-allowed'
-                                                    : 'bg-purple-500/10 border-purple-500/30 hover:bg-purple-500/20 text-purple-300'}`}
+                                                    ? 'bg-white border-border text-muted-foreground cursor-not-allowed'
+                                                    : 'bg-purple-500/10 border-purple-500/30 hover:bg-purple-500/20 text-primary'}`}
                                             >
                                                 <div className="flex items-center gap-2">
                                                     <Plus className="w-3.5 h-3.5" />
@@ -933,7 +933,7 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                                                         </SelectItem>
                                                     ))}
                                                 {unassignedCandidates.some(c => !isDeptAllowedForCandidate(c.id, dept)) && (
-                                                    <div className="px-2 py-1.5 mt-1 border-t border-foreground/10 text-[9px] font-bold uppercase tracking-widest text-amber-400/70">
+                                                    <div className="px-2 py-1.5 mt-1 border-t border-border text-[9px] font-bold uppercase tracking-widest text-amber-600/70">
                                                         Outside their preferences
                                                     </div>
                                                 )}
@@ -956,12 +956,12 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
 
             {/* ── CANDIDATE QUICK MARKS & DETAILS DIALOG ───────────────────────── */}
             <Dialog open={!!previewCandidate} onOpenChange={(open) => !open && setPreviewCandidate(null)}>
-                <DialogContent className="bg-background border-purple-500/30 text-foreground max-w-lg rounded-3xl p-6">
+                <DialogContent className="bg-background border-purple-500/30 text-foreground max-w-lg rounded-md p-6">
                     {previewCandidate && (
                         <div className="space-y-5">
                             <DialogHeader>
                                 <div className="flex items-center justify-between gap-2">
-                                    <Badge variant="outline" className="bg-purple-500/20 text-purple-300 border-purple-500/40 text-[10px] font-bold uppercase">
+                                    <Badge variant="outline" className="bg-purple-500/20 text-primary border-purple-500/40 text-[10px] font-bold uppercase">
                                         {previewCandidate.assignedPosition || previewCandidate.primaryDept || 'Candidate'}
                                     </Badge>
                                     <span className="text-xs font-mono text-muted-foreground">{previewCandidate.rollNumber}</span>
@@ -975,45 +975,45 @@ export const CommitteeDraftBoard: React.FC<CommitteeDraftBoardProps> = ({ applic
                             </DialogHeader>
 
                             {/* Marks & Performance Grid */}
-                            <div className="grid grid-cols-3 gap-3 bg-black/60 p-4 rounded-2xl border border-foreground/10 text-center">
+                            <div className="grid grid-cols-3 gap-3 bg-white p-4 rounded-md border border-border text-center">
                                 <div>
                                     <div className="text-xs text-muted-foreground font-semibold">Interview Score</div>
-                                    <div className="text-xl font-black text-purple-400 mt-1">
+                                    <div className="text-xl font-black text-primary mt-1">
                                         ⭐ {(Number(previewCandidate.interviewScore || previewCandidate.finalScore || previewCandidate.rating * 2) || 0).toFixed(1)} <span className="text-xs font-normal text-muted-foreground">/ 10</span>
                                     </div>
                                 </div>
-                                <div className="border-x border-foreground/10">
+                                <div className="border-x border-border">
                                     <div className="text-xs text-muted-foreground font-semibold">Task Score</div>
-                                    <div className="text-xl font-black text-blue-400 mt-1">
+                                    <div className="text-xl font-black text-primary mt-1">
                                         {(Number(previewCandidate.taskScore) || 0).toFixed(1)} <span className="text-xs font-normal text-muted-foreground">/ 10</span>
                                     </div>
                                 </div>
                                 <div>
                                     <div className="text-xs text-muted-foreground font-semibold">Star Rating</div>
-                                    <div className="text-xl font-black text-amber-400 mt-1">
+                                    <div className="text-xl font-black text-amber-600 mt-1">
                                         {previewCandidate.rating || 0} <span className="text-xs font-normal text-muted-foreground">/ 5</span>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Preferences & Recommendations */}
-                            <div className="space-y-3 bg-white/[0.03] p-4 rounded-2xl border border-foreground/10">
+                            <div className="space-y-3 bg-muted/40 p-4 rounded-md border border-border">
                                 <div className="flex justify-between items-center text-xs">
                                     <span className="text-muted-foreground font-semibold">1st Preference:</span>
-                                    <span className="font-bold text-purple-300">{previewCandidate.primaryDept}</span>
+                                    <span className="font-bold text-primary">{previewCandidate.primaryDept}</span>
                                 </div>
                                 {previewCandidate.secondaryDept && (
-                                    <div className="flex justify-between items-center text-xs border-t border-foreground/5 pt-2">
+                                    <div className="flex justify-between items-center text-xs border-t border-border pt-2">
                                         <span className="text-muted-foreground font-semibold">2nd Preference:</span>
-                                        <span className="font-bold text-cyan-300">{previewCandidate.secondaryDept}</span>
+                                        <span className="font-bold text-primary">{previewCandidate.secondaryDept}</span>
                                     </div>
                                 )}
                                 {feedbackMap[previewCandidate.id] && feedbackMap[previewCandidate.id].length > 0 && (
-                                    <div className="flex justify-between items-center text-xs border-t border-foreground/5 pt-2">
+                                    <div className="flex justify-between items-center text-xs border-t border-border pt-2">
                                         <span className="text-muted-foreground font-semibold">Interviewer Rec:</span>
                                         <div className="flex gap-1">
                                             {feedbackMap[previewCandidate.id].map(r => (
-                                                <Badge key={r} variant="outline" className="bg-purple-500/20 text-purple-300 border-purple-500/30 text-[9px] font-bold">{r}</Badge>
+                                                <Badge key={r} variant="outline" className="bg-purple-500/20 text-primary border-purple-500/30 text-[9px] font-bold">{r}</Badge>
                                             ))}
                                         </div>
                                     </div>

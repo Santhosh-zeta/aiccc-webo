@@ -35,7 +35,7 @@ export default function Overview() {
       <div className="top">
         <div>
           <h1>{greeting}{firstName ? `, ${firstName}` : ''}!</h1>
-          <div className="sub">Here's what's coming up for IEEE SSCS VIT Chennai.</div>
+          <div className="sub">Here's what's coming up for AI Club VIT Chennai.</div>
         </div>
       </div>
 

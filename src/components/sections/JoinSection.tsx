@@ -1,173 +1,44 @@
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Instagram } from 'lucide-react';
-import HolographicCard from '@/components/ui/HolographicCard';
-import { Button } from '@/components/ui/button';
-import RevealText from '@/components/ui/RevealText';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
-import { useRecruitmentWindow } from '@/hooks/useRecruitmentWindow';
-import { RECRUITMENT_CLOSED, INSTAGRAM_URL } from '@/config/recruitment';
+import { RECRUITMENT_CLOSED } from '@/config/recruitment';
+import { useRecruitmentCta } from '@/hooks/useRecruitmentCta';
 
-const benefits = [
-  { title: 'Hands-on Projects', description: 'Work on real SSCS projects' },
-  { title: 'Expert Network', description: 'Connect with industry experts' },
-  { title: 'Competitions', description: 'Compete in hackathons' },
-];
+const PERKS = ['Hands-on AI projects', 'Mentors and industry talks', 'Hackathons and competitions'];
 
 const JoinSection = () => {
-  const { user } = useAuth();
-  const [hasApplied, setHasApplied] = useState(false);
-  const [canBookSlot, setCanBookSlot] = useState(false);
-  const [isSelected, setIsSelected] = useState(false);
-  // Server-evaluated: the manual switch AND the scheduled window.
-  const { isOpen: isRecruitmentOpen } = useRecruitmentWindow();
-
-  useEffect(() => {
-    const checkStatus = async () => {
-      if (!user) return;
-      const { data } = await supabase
-        .from('applications')
-        .select('id, status')
-        .or(`user_id.eq.${user.uid},email.eq.${user.email}`)
-        .limit(1);
-
-      if (data && data.length > 0) {
-        setHasApplied(true);
-        const st = data[0].status;
-        if (st === 'shortlisted') {
-          setCanBookSlot(true);
-        } else if (['selected', 'active_member'].includes(st)) {
-          setIsSelected(true);
-        }
-      }
-    };
-
-    checkStatus();
-  }, [user]);
+  const cta = useRecruitmentCta();
+  const cls = 'inline-flex h-12 items-center gap-3 rounded-[3px] bg-primary px-8 font-body text-[15px] font-medium text-white shadow-[0_10px_24px_-10px_hsl(var(--primary)/0.8)] transition-colors hover:bg-primary/90 aria-disabled:pointer-events-none aria-disabled:opacity-50';
+  const icon = <ArrowRight className="h-5 w-5" strokeWidth={1.75} />;
 
   return (
-    <section id="join" className="py-24 relative">
-      <div className="container mx-auto px-6">
-        <motion.div
-          className="max-w-6xl mx-auto text-center"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          {/* Badge */}
-          <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-10 backdrop-blur-sm">
-            <span className="text-xs font-semibold text-primary uppercase tracking-widest">Now Recruiting</span>
-          </div>
-
-          {/* Heading */}
-          <h2 className="font-heading text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Join the Next Generation of <br />
-            <span className="text-primary">Silicon Engineers</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Get hands-on experience with industry-standard EDA tools, participate in tapeouts, 
-            and build a network with top semiconductor professionals.
-          </p>
-        </motion.div>
-
-        {/* Benefits Grid */}
-        <div className="grid md:grid-cols-3 gap-6 mt-16 mb-16 relative z-10 max-w-5xl mx-auto">
-          {benefits.map((benefit, index) => (
-            <motion.div
-              key={benefit.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <HolographicCard 
-                key={benefit.title}
-                className="p-8 flex flex-col items-center group transition-all duration-500"
-              >
-                <h3 className="font-heading font-bold text-foreground text-xl mb-3 pt-6">
-                  {benefit.title}
-                </h3>
-                <p className="text-sm text-muted-foreground/80 font-medium">
-                  {benefit.description}
-                </p>
-              </HolographicCard>
-            </motion.div>
-          ))}
+    <section id="join" className="px-6 py-16 md:py-20">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="relative mx-auto max-w-[1246px] overflow-hidden rounded-md bg-[#0B1726] px-8 py-14 text-center md:px-16"
+      >
+        <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-primary/25 blur-[90px]" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 -left-16 h-72 w-72 rounded-full bg-primary/15 blur-[90px]" />
+        <p className="relative font-mono text-[11px] tracking-[0.3em] text-primary">
+          {RECRUITMENT_CLOSED ? 'NEXT INTAKE SOON' : 'NOW RECRUITING'}
+        </p>
+        <h2 className="relative mx-auto mt-4 max-w-2xl font-display text-[34px] font-extrabold uppercase leading-[1.02] tracking-tight text-white md:text-[46px]">
+          Be part of what <span className="text-primary">AI builds next.</span>
+        </h2>
+        <ul className="relative mx-auto mt-6 flex flex-wrap justify-center gap-x-8 gap-y-2 text-[14px] text-white/70">
+          {PERKS.map(p => <li key={p} className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-primary" />{p}</li>)}
+        </ul>
+        <div className="relative mt-9 flex justify-center">
+          {cta.kind === 'link' && <a href={cta.href} target="_blank" rel="noopener noreferrer" className={cls}>{cta.label}{icon}</a>}
+          {cta.kind === 'router' && <Link to={cta.to} className={cls}>{cta.label}{icon}</Link>}
+          {cta.kind === 'disabled' && <span aria-disabled="true" className={cls}>{cta.label}</span>}
         </div>
-
-          {/* CTA Button */}
-          <div className="flex flex-col items-center">
-            {RECRUITMENT_CLOSED ? (
-              <Button
-                size="lg"
-                className="px-12 h-16 bg-white/70 border border-foreground/10 text-foreground hover:bg-white/70 hover:border-primary/40 font-heading rounded-full text-lg transition-all"
-                asChild
-              >
-                <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer">
-                  RECRUITMENT CLOSED — RESULTS ON INSTAGRAM
-                  <Instagram className="w-6 h-6 ml-2" />
-                </a>
-              </Button>
-            ) : canBookSlot ? (
-              <Button
-                size="lg"
-                className="px-12 h-16 bg-purple-600 hover:bg-purple-700 text-white font-heading rounded-full shadow-[0_0_30px_rgba(49,135,232,0.5)] transition-all hover:scale-105 text-lg animate-pulse"
-                asChild
-              >
-                <Link to="/schedule">
-                  BOOK SLOT
-                  <ArrowRight className="w-6 h-6 ml-2" />
-                </Link>
-              </Button>
-            ) : isSelected ? (
-              <Button
-                size="lg"
-                className="px-12 h-16 bg-emerald-600 hover:bg-emerald-700 text-white font-heading rounded-full shadow-[0_0_30px_rgba(105,172,255,0.5)] transition-all hover:scale-105 text-lg"
-                asChild
-              >
-                <Link to="/apply">
-                  APPLICATION SELECTED
-                  <ArrowRight className="w-6 h-6 ml-2" />
-                </Link>
-              </Button>
-            ) : hasApplied ? (
-              <Button
-                size="lg"
-                className="px-10 h-14 bg-primary/20 text-primary/50 border border-primary/20 font-heading cursor-not-allowed rounded-full"
-                disabled
-              >
-                Application Received
-              </Button>
-            ) : !isRecruitmentOpen ? (
-              <Button
-                size="lg"
-                className="px-12 h-16 bg-white/70 border border-foreground/10 text-muted-foreground font-heading rounded-full text-lg cursor-not-allowed"
-                disabled
-              >
-                RECRUITMENT CLOSED
-              </Button>
-            ) : (
-              <Button
-                size="lg"
-                className="px-12 h-16 bg-primary text-primary-foreground hover:bg-primary/90 font-heading rounded-full shadow-[0_0_25px_rgba(49,135,232,0.3)] transition-all hover:scale-105 text-lg"
-                asChild
-              >
-                <Link to="/apply">
-                  Apply Now
-                  <ArrowRight className="w-6 h-6 ml-2" />
-                </Link>
-              </Button>
-            )}
-
-            <p className="text-sm text-muted-foreground mt-8 font-medium">
-              {RECRUITMENT_CLOSED
-                ? 'Recruitment for this cycle has closed. Results are announced on @ieee_sscs_vitcc.'
-                : 'Applications are reviewed on a rolling basis'}
-            </p>
-          </div>
-      </div>
+        <p className="relative mt-5 text-[13px] text-white/50">
+          {RECRUITMENT_CLOSED ? 'This cycle has closed. Results and the next intake are announced on Instagram.' : 'Applications are reviewed on a rolling basis.'}
+        </p>
+      </motion.div>
     </section>
   );
 };

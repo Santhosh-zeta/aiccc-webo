@@ -35,26 +35,26 @@ interface KanbanBoardProps {
 const COLUMN_STYLES: Record<string, { border: string; text: string; badge: string; glow: string }> = {
   applied: {
     border: 'border-t-blue-500/60',
-    text: 'text-blue-400',
-    badge: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+    text: 'text-primary',
+    badge: 'bg-blue-500/20 text-primary border-blue-500/30',
     glow: 'shadow-blue-500/10',
   },
   under_review: {
     border: 'border-t-yellow-500/60',
-    text: 'text-yellow-400',
-    badge: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+    text: 'text-amber-600',
+    badge: 'bg-yellow-500/20 text-amber-600 border-yellow-500/30',
     glow: 'shadow-yellow-500/10',
   },
   shortlisted: {
     border: 'border-t-cyan-500/60',
-    text: 'text-cyan-400',
-    badge: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
+    text: 'text-primary',
+    badge: 'bg-cyan-500/20 text-primary border-cyan-500/30',
     glow: 'shadow-cyan-500/10',
   },
   interview_scheduled: {
     border: 'border-t-purple-500/60',
-    text: 'text-purple-400',
-    badge: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+    text: 'text-primary',
+    badge: 'bg-purple-500/20 text-primary border-purple-500/30',
     glow: 'shadow-purple-500/10',
   },
   interviewed: {
@@ -65,34 +65,34 @@ const COLUMN_STYLES: Record<string, { border: string; text: string; badge: strin
   },
   selected: {
     border: 'border-t-green-500/60',
-    text: 'text-green-400',
-    badge: 'bg-green-500/20 text-green-300 border-green-500/30',
+    text: 'text-green-600',
+    badge: 'bg-green-500/20 text-green-600 border-green-500/30',
     glow: 'shadow-green-500/10',
   },
   // selected_pending = admin draft bucket — same green palette but with a
   // dashed top border so admins can visually distinguish it from 'Placed'.
   selected_pending: {
     border: 'border-t-green-400/40 border-dashed',
-    text: 'text-green-300',
+    text: 'text-green-600',
     badge: 'bg-green-400/10 text-green-200 border-green-400/20 border-dashed',
     glow: 'shadow-green-400/10',
   },
   active_member: {
     border: 'border-t-emerald-400/80',
-    text: 'text-emerald-300',
+    text: 'text-green-600',
     badge: 'bg-emerald-400/20 text-emerald-200 border-emerald-400/40',
     glow: 'shadow-emerald-400/20',
   },
   waitlisted: {
     border: 'border-t-amber-500/60',
-    text: 'text-amber-400',
-    badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+    text: 'text-amber-600',
+    badge: 'bg-amber-500/20 text-amber-600 border-amber-500/30',
     glow: 'shadow-amber-500/10',
   },
   rejected: {
     border: 'border-t-red-500/60',
-    text: 'text-red-400',
-    badge: 'bg-red-500/20 text-red-300 border-red-500/30',
+    text: 'text-destructive',
+    badge: 'bg-red-500/20 text-destructive border-red-500/30',
     glow: 'shadow-red-500/10',
   },
 };
@@ -120,7 +120,7 @@ function StarRating({ rating }: { rating: number }) {
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          className={`w-3 h-3 ${i < filled ? 'text-amber-400 fill-amber-400' : 'text-muted-foreground'}`}
+          className={`w-3 h-3 ${i < filled ? 'text-amber-600 fill-amber-400' : 'text-muted-foreground'}`}
         />
       ))}
     </div>
@@ -155,11 +155,11 @@ function KanbanCard({ app, onClick, isOverlay = false }: KanbanCardProps) {
   const colStyle = COLUMN_STYLES[normalizedStatus] ?? COLUMN_STYLES.applied;
 
   const cardClasses = [
-    'bg-white/70 border border-foreground/10 rounded-lg p-3',
+    'bg-white border border-border rounded-lg p-3',
     'cursor-grab active:cursor-grabbing transition-all duration-200',
-    'hover:border-foreground/20 hover:shadow-lg hover:shadow-primary/10',
+    'hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10',
     isOverlay
-      ? 'shadow-2xl shadow-black/50 rotate-1 scale-105 border-foreground/20 opacity-95'
+      ? 'shadow-2xl shadow-black/50 rotate-1 scale-105 border-primary/30 opacity-95'
       : isDragging
       ? 'opacity-40 scale-95'
       : '',
@@ -198,7 +198,7 @@ function KanbanCard({ app, onClick, isOverlay = false }: KanbanCardProps) {
           {skills.map((skill) => (
             <span
               key={skill}
-              className="text-[10px] px-1.5 py-0.5 rounded bg-white/70 border border-foreground/10 text-muted-foreground truncate max-w-[90px]"
+              className="text-[10px] px-1.5 py-0.5 rounded bg-white border border-border text-muted-foreground truncate max-w-[90px]"
             >
               {skill}
             </span>
@@ -247,16 +247,16 @@ function KanbanColumn({ stage, apps, onCardClick, isOver = false }: KanbanColumn
     <div
       className={[
         'flex flex-col min-w-[260px] max-w-[260px]',
-        'bg-white/[0.02] border border-t-2 border-foreground/10 rounded-xl',
+        'bg-muted/40 border border-t-2 border-border rounded-xl',
         colStyle.border,
         'transition-all duration-200',
-        isOver ? `shadow-lg ${colStyle.glow} bg-white/[0.04]` : '',
+        isOver ? `shadow-lg ${colStyle.glow} bg-white` : '',
       ]
         .filter(Boolean)
         .join(' ')}
     >
       {/* Column header */}
-      <div className="flex items-center justify-between px-3 py-2.5 border-b border-foreground/5">
+      <div className="flex items-center justify-between px-3 py-2.5 border-b border-border">
         <div className="flex items-center gap-2 min-w-0">
           <Users className={`w-3.5 h-3.5 flex-shrink-0 ${colStyle.text}`} />
           <span className={`text-xs font-semibold truncate ${colStyle.text}`}>{label}</span>
@@ -278,7 +278,7 @@ function KanbanColumn({ stage, apps, onCardClick, isOver = false }: KanbanColumn
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex flex-col items-center justify-center gap-2 py-8 px-3 rounded-lg border border-dashed border-foreground/10 text-center"
+                className="flex flex-col items-center justify-center gap-2 py-8 px-3 rounded-lg border border-dashed border-border text-center"
               >
                 <InboxIcon className="w-6 h-6 text-muted-foreground" />
                 <p className="text-[11px] text-muted-foreground font-medium">No applicants</p>

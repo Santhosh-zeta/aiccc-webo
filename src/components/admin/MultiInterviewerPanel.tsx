@@ -18,18 +18,18 @@ interface MultiInterviewerPanelProps {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function scoreTextColor(value: number): string {
-  if (value < 5)  return 'text-red-400';
-  if (value < 7)  return 'text-yellow-400';
-  return 'text-green-400';
+  if (value < 5)  return 'text-destructive';
+  if (value < 7)  return 'text-amber-600';
+  return 'text-green-600';
 }
 
 function recommendationMeta(rec: string): { label: string; color: string; bg: string; border: string } {
   switch (rec) {
-    case 'strong_select': return { label: 'Strong Select', color: 'text-green-400',  bg: 'bg-green-500/10',  border: 'border-green-500/30'  };
-    case 'select':        return { label: 'Select',        color: 'text-cyan-400',   bg: 'bg-cyan-500/10',   border: 'border-cyan-500/30'   };
-    case 'maybe':         return { label: 'Maybe',         color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30' };
-    case 'reject':        return { label: 'Reject',        color: 'text-red-400',    bg: 'bg-red-500/10',    border: 'border-red-500/30'    };
-    default:              return { label: rec,             color: 'text-muted-foreground',   bg: 'bg-white/70',       border: 'border-foreground/10'      };
+    case 'strong_select': return { label: 'Strong Select', color: 'text-green-600',  bg: 'bg-green-500/10',  border: 'border-green-500/30'  };
+    case 'select':        return { label: 'Select',        color: 'text-primary',   bg: 'bg-cyan-500/10',   border: 'border-cyan-500/30'   };
+    case 'maybe':         return { label: 'Maybe',         color: 'text-amber-600', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30' };
+    case 'reject':        return { label: 'Reject',        color: 'text-destructive',    bg: 'bg-red-500/10',    border: 'border-red-500/30'    };
+    default:              return { label: rec,             color: 'text-muted-foreground',   bg: 'bg-white',       border: 'border-border'      };
   }
 }
 
@@ -44,7 +44,7 @@ function MiniBar({ label, value }: { label: string; value: number }) {
         <span className="text-[10px] text-muted-foreground uppercase tracking-wider truncate">{label}</span>
         <span className={`text-[11px] font-mono font-semibold ${colorClass}`}>{value.toFixed(1)}</span>
       </div>
-      <div className="h-1.5 rounded-full bg-white/70 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-white overflow-hidden">
         <motion.div
           className="h-full rounded-full"
           initial={{ width: 0 }}
@@ -67,7 +67,7 @@ function MiniBar({ label, value }: { label: string; value: number }) {
 // Loading skeleton
 function Skeleton({ className }: { className?: string }) {
   return (
-    <div className={`animate-pulse rounded-md bg-white/[0.06] ${className ?? ''}`} />
+    <div className={`animate-pulse rounded-md bg-muted/60 ${className ?? ''}`} />
   );
 }
 
@@ -141,7 +141,7 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
   // ── Error ────────────────────────────────────────────────────────────────
   if (error) {
     return (
-      <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+      <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-destructive text-sm">
         <AlertTriangle size={15} className="shrink-0" />
         <span>{error}</span>
       </div>
@@ -156,7 +156,7 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
         animate={{ opacity: 1, y: 0 }}
         className="flex flex-col items-center justify-center py-12 gap-3 text-center"
       >
-        <div className="w-12 h-12 rounded-full bg-white/70 border border-foreground/10 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full bg-white border border-border flex items-center justify-center">
           <Users size={20} className="text-muted-foreground" />
         </div>
         <p className="text-sm font-medium text-muted-foreground">No evaluations submitted yet</p>
@@ -185,7 +185,7 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
       className="space-y-4"
     >
       {/* ── Aggregate score row ──────────────────────────────────────────────── */}
-      <div className="bg-white/70 border border-foreground/10 rounded-xl p-4">
+      <div className="bg-white border border-border rounded-xl p-4">
         <div className="flex items-start gap-4">
           {/* Big score number */}
           <div className="flex flex-col items-center shrink-0">
@@ -226,13 +226,13 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
             className="overflow-hidden"
           >
             <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-yellow-500/10 border border-yellow-500/30">
-              <AlertTriangle size={16} className="text-yellow-400 shrink-0 mt-0.5" />
+              <AlertTriangle size={16} className="text-amber-600 shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-semibold text-yellow-400">
+                <p className="text-sm font-semibold text-amber-600">
                   Conflicting Opinions — Review Recommended
                 </p>
-                <p className="text-xs text-yellow-400/60 mt-0.5">
-                  Score variance is <span className="font-mono font-semibold text-yellow-400/80">{variance.toFixed(2)}</span> — interviewers have significantly different assessments.
+                <p className="text-xs text-amber-600/60 mt-0.5">
+                  Score variance is <span className="font-mono font-semibold text-amber-600/80">{variance.toFixed(2)}</span> — interviewers have significantly different assessments.
                 </p>
               </div>
             </div>
@@ -241,10 +241,10 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
       </AnimatePresence>
 
       {/* ── Per-interviewer table ────────────────────────────────────────────── */}
-      <div className="bg-white/70 border border-foreground/10 rounded-xl overflow-hidden">
+      <div className="bg-white border border-border rounded-xl overflow-hidden">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-white/[0.03]">
+            <tr className="bg-muted/40">
               <th className="px-4 py-2.5 text-[10px] uppercase tracking-widest text-muted-foreground font-medium whitespace-nowrap">
                 Interviewer
               </th>
@@ -276,7 +276,7 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: idx * 0.06, duration: 0.25 }}
-                  className="border-t border-white/[0.05] hover:bg-white/[0.02] transition-colors"
+                  className="border-t border-white/[0.05] hover:bg-muted/40 transition-colors"
                 >
                   {/* Email */}
                   <td className="px-4 py-3 text-xs text-foreground/80 font-mono max-w-[160px] truncate">
@@ -313,7 +313,7 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
 
                   {/* Recommended Dept */}
                   <td className="px-3 py-3 text-center">
-                    <span className="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-200 border border-purple-500/30 text-[10px] font-bold">
+                    <span className="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-primary border border-purple-500/30 text-[10px] font-bold">
                       {fb.recommended_dept || (fb as any).recommends_for || 'General'}
                     </span>
                   </td>
@@ -327,7 +327,7 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
       {/* ── Detailed Interviewer Verdicts & Remarks (SuperAdmin View) ───────── */}
       <div className="space-y-3 pt-2">
         <h4 className="text-xs font-bold text-foreground uppercase tracking-widest flex items-center gap-2">
-          <span className="p-1 rounded bg-purple-500/20 border border-purple-500/30 text-purple-300">💬</span>
+          <span className="p-1 rounded bg-purple-500/20 border border-purple-500/30 text-primary">💬</span>
           Interviewer Remarks & Verdicts (SuperAdmin View)
         </h4>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -339,8 +339,8 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
               ((Number(fb.score_communication) + Number(fb.score_technical) + Number(fb.score_enthusiasm) + Number(fb.score_leadership) + Number(fb.score_team_fit)) / 5);
 
             return (
-              <div key={(fb as any).id || idx} className="bg-gradient-to-br from-white/[0.04] to-black/60 border border-white/10 rounded-xl p-4 space-y-2.5 shadow-lg">
-                <div className="flex items-start justify-between gap-2 border-b border-foreground/10 pb-2.5">
+              <div key={(fb as any).id || idx} className="bg-gradient-to-br from-white/[0.04] to-black/60 border border-border rounded-xl p-4 space-y-2.5 shadow-lg">
+                <div className="flex items-start justify-between gap-2 border-b border-border pb-2.5">
                   <div className="min-w-0 flex-1">
                     <div className="text-xs font-extrabold text-foreground font-mono truncate">{fb.interviewer_email}</div>
                     <div className="text-[10px] text-muted-foreground mt-0.5">Overall Score: <span className="text-foreground font-bold">{rowTotal.toFixed(1)} / 10</span></div>
@@ -349,12 +349,12 @@ export default function MultiInterviewerPanel({ applicationId }: MultiInterviewe
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${rec.color} ${rec.bg} ${rec.border}`}>
                       {rec.label}
                     </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-purple-200 font-extrabold border border-purple-500/30">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-purple-500/20 text-primary font-extrabold border border-purple-500/30">
                       Dept: {dept}
                     </span>
                   </div>
                 </div>
-                <div className="text-xs text-foreground/80 italic whitespace-pre-wrap bg-black/40 p-3 rounded-lg border border-foreground/5 leading-relaxed font-sans">
+                <div className="text-xs text-foreground/80 italic whitespace-pre-wrap bg-white p-3 rounded-lg border border-border leading-relaxed font-sans">
                   {remarksText ? `"${remarksText}"` : <span className="text-muted-foreground/50 not-italic">No verbal remarks left by this interviewer.</span>}
                 </div>
               </div>

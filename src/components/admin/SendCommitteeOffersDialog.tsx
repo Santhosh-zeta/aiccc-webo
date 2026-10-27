@@ -27,13 +27,13 @@ type Step = 'select' | 'confirm' | 'sending' | 'done';
 function buildOfferEmail(app: Application): { subject: string; message: string } {
     const dept = app.assignedPosition || app.primaryDept || 'the';
     return {
-        subject: `IEEE SSCS Results — Selected for ${dept} Committee!`,
+        subject: `AI Club Results — Selected for ${dept} Committee!`,
         message: `<p>Dear <strong>${app.fullName}</strong>,</p>
-            <p>The selection results for IEEE SSCS are officially out!</p>
-            <p>We are pleased to offer you a position as a <strong>Core Committee Member in the ${dept} Department</strong> at IEEE SSCS for the tenure 2026-27!</p>
+            <p>The selection results for AI Club are officially out!</p>
+            <p>We are pleased to offer you a position as a <strong>Core Committee Member in the ${dept} Department</strong> at AI Club for the tenure 2026-27!</p>
             <p>We expect helpful co-ordination and teamwork throughout this tenure, along with active participation in our upcoming flagship events.</p>
             <p>Congratulations and welcome aboard!</p>
-            <p>Best regards,<br>IEEE SSCS Executive Committee</p>`,
+            <p>Best regards,<br>AI Club Executive Committee</p>`,
     };
 }
 
@@ -125,10 +125,10 @@ const SendCommitteeOffersDialog: React.FC<SendCommitteeOffersDialogProps> = ({ o
 
     return (
         <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
-            <DialogContent className="max-w-2xl bg-black/90 border-foreground/10 text-foreground backdrop-blur-xl max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-2xl bg-black/90 border-border text-foreground  max-h-[85vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold flex items-center gap-2">
-                        <Send className="w-5 h-5 text-purple-400" />
+                        <Send className="w-5 h-5 text-primary" />
                         Send Committee Offer Mails
                     </DialogTitle>
                     <DialogDescription>
@@ -145,7 +145,7 @@ const SendCommitteeOffersDialog: React.FC<SendCommitteeOffersDialogProps> = ({ o
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     placeholder="Filter by name or department..."
-                                    className="bg-white/70 border-foreground/10 pl-8 h-9 text-sm"
+                                    className="bg-white border-border pl-8 h-9 text-sm"
                                 />
                             </div>
                             <Button variant="ghost" size="sm" onClick={selectAllFiltered} className="text-xs shrink-0">Select all{search ? ' (filtered)' : ''}</Button>
@@ -165,15 +165,15 @@ const SendCommitteeOffersDialog: React.FC<SendCommitteeOffersDialogProps> = ({ o
                                 {filtered.map(c => (
                                     <label
                                         key={c.id}
-                                        className={`flex items-center gap-3 p-2 rounded-lg border cursor-pointer transition-colors ${selectedIds.has(c.id) ? 'bg-purple-500/10 border-purple-500/30' : 'bg-white/5 border-white/5 hover:bg-white/10'}`}
+                                        className={`flex items-center gap-3 p-2 rounded-lg border cursor-pointer transition-colors ${selectedIds.has(c.id) ? 'bg-purple-500/10 border-purple-500/30' : 'bg-white border-white/5 hover:bg-primary/10'}`}
                                     >
                                         <Checkbox checked={selectedIds.has(c.id)} onCheckedChange={() => toggle(c.id)} />
                                         <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
                                             <div className="min-w-0">
                                                 <div className="text-sm font-medium truncate">{c.fullName}</div>
-                                                {!c.email && <div className="text-[10px] text-red-400">No email on file — will be skipped</div>}
+                                                {!c.email && <div className="text-[10px] text-destructive">No email on file — will be skipped</div>}
                                             </div>
-                                            <span className="text-[10px] font-mono text-purple-300 bg-purple-500/10 px-2 py-0.5 rounded shrink-0">{c.assignedPosition}</span>
+                                            <span className="text-[10px] font-mono text-primary bg-purple-500/10 px-2 py-0.5 rounded shrink-0">{c.assignedPosition}</span>
                                         </div>
                                     </label>
                                 ))}
@@ -184,12 +184,12 @@ const SendCommitteeOffersDialog: React.FC<SendCommitteeOffersDialogProps> = ({ o
                         )}
 
                         {step === 'confirm' && (
-                            <div className="space-y-2 pt-2 border-t border-foreground/10">
+                            <div className="space-y-2 pt-2 border-t border-border">
                                 {sendError && (
-                                    <p className="text-xs text-red-400">Could not queue the batch: {sendError}</p>
+                                    <p className="text-xs text-destructive">Could not queue the batch: {sendError}</p>
                                 )}
                                 <label className="text-xs font-extrabold uppercase tracking-widest text-foreground/80 block">
-                                    Type <span className="text-purple-400 font-mono">CONFIRM</span> to send {selectedCount} offer mail{selectedCount === 1 ? '' : 's'}:
+                                    Type <span className="text-primary font-mono">CONFIRM</span> to send {selectedCount} offer mail{selectedCount === 1 ? '' : 's'}:
                                 </label>
                                 <Input
                                     value={confirmText}
@@ -204,7 +204,7 @@ const SendCommitteeOffersDialog: React.FC<SendCommitteeOffersDialogProps> = ({ o
 
                 {step === 'sending' && (
                     <div className="py-10 space-y-4 text-center">
-                        <Loader2 className="w-8 h-8 text-purple-400 animate-spin mx-auto" />
+                        <Loader2 className="w-8 h-8 text-primary animate-spin mx-auto" />
                         <p className="text-sm text-foreground/80">Queuing {selectedCount} email{selectedCount === 1 ? '' : 's'}...</p>
                         <p className="text-xs text-muted-foreground">This can take a little while for a large batch — do not close this tab yet.</p>
                     </div>
@@ -212,12 +212,12 @@ const SendCommitteeOffersDialog: React.FC<SendCommitteeOffersDialogProps> = ({ o
 
                 {step === 'done' && result && (
                     <div className="py-6 text-center space-y-3">
-                        <CheckCircle2 className="w-12 h-12 text-green-400 mx-auto" />
+                        <CheckCircle2 className="w-12 h-12 text-green-600 mx-auto" />
                         <h4 className="text-lg font-black text-foreground">Queued</h4>
                         <div className="flex justify-center gap-6 text-sm font-bold flex-wrap">
-                            <span className="text-green-400">{result.queued} newly queued</span>
-                            {result.skippedDuplicates > 0 && <span className="text-amber-400">{result.skippedDuplicates} already queued/sent — skipped</span>}
-                            {result.skippedNoEmail > 0 && <span className="text-red-400">{result.skippedNoEmail} skipped — no email on file</span>}
+                            <span className="text-green-600">{result.queued} newly queued</span>
+                            {result.skippedDuplicates > 0 && <span className="text-amber-600">{result.skippedDuplicates} already queued/sent — skipped</span>}
+                            {result.skippedNoEmail > 0 && <span className="text-destructive">{result.skippedNoEmail} skipped — no email on file</span>}
                         </div>
                         <p className="text-xs text-muted-foreground max-w-md mx-auto">
                             Sending continues in the background even if you close this tab. Each candidate flips to Active Member only once their email is confirmed delivered — refresh the board in a bit to see updated statuses.
@@ -251,7 +251,7 @@ const SendCommitteeOffersDialog: React.FC<SendCommitteeOffersDialogProps> = ({ o
                         </>
                     )}
                     {step === 'done' && (
-                        <Button onClick={handleClose} className="w-full bg-white/70 hover:bg-white/80 text-foreground">Close</Button>
+                        <Button onClick={handleClose} className="w-full bg-white hover:bg-white text-foreground">Close</Button>
                     )}
                 </DialogFooter>
             </DialogContent>

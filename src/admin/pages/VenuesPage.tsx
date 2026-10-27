@@ -79,7 +79,7 @@ export default function VenuesPage() {
       <div className="top">
         <div>
           <h1>Venues</h1>
-          <div className="sub">The halls IEEE SSCS uses, and who has them booked. {asOf && <>Venue data as of {fmtLong(asOf)}.</>}</div>
+          <div className="sub">The halls AI Club uses, and who has them booked. {asOf && <>Venue data as of {fmtLong(asOf)}.</>}</div>
         </div>
         <button className="ghost" onClick={() => navigate('/admin/calendar?venues=1')}>Availability on the calendar</button>
       </div>
@@ -97,7 +97,7 @@ export default function VenuesPage() {
               <div className="v">{venueName(venues, b.venue_id)}</div>
               <div className="e" title={b.event_name}>{b.event_name}</div>
             </button>
-          )) : <div className="muted">No upcoming venues marked as booked by SSCS. Tick “Booked by our club” when adding, or use “Mark as ours” on any booking.</div>}
+          )) : <div className="muted">No upcoming venues marked as booked by AI Club. Tick “Booked by our club” when adding, or use “Mark as ours” on any booking.</div>}
         </div>
 
         <div className="bk-grid">
@@ -127,7 +127,7 @@ export default function VenuesPage() {
               <div className="fld"><label htmlFor="bPhone">Phone</label>
                 <input id="bPhone" maxLength={15} inputMode="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} />
               </div>
-              <label className="chk wide"><input type="checkbox" checked={form.is_ours} onChange={e => setForm(f => ({ ...f, is_ours: e.target.checked }))} /> Booked by our club (SSCS)</label>
+              <label className="chk wide"><input type="checkbox" checked={form.is_ours} onChange={e => setForm(f => ({ ...f, is_ours: e.target.checked }))} /> Booked by our club (AI Club)</label>
             </div>
             <div className="form-acts" style={{ marginTop: 14 }}><button type="submit" className="primary" disabled={adding}>{adding ? 'Adding…' : 'Add booking'}</button></div>
           </form>
@@ -160,7 +160,7 @@ export default function VenuesPage() {
                 <tr key={b.id}>
                   <td className="d"><button className="jump" onClick={() => navigate(`/admin/calendar?d=${b.booking_date}&venues=1`)}>{fmtMed(b.booking_date)}</button></td>
                   <td className="d">{fmtTime(b.from_time)}–{fmtTime(b.to_time)}</td>
-                  <td>{venueName(venues, b.venue_id)}{b.is_ours && <span className="ourtag">SSCS</span>}</td>
+                  <td>{venueName(venues, b.venue_id)}{b.is_ours && <span className="ourtag">AI Club</span>}</td>
                   <td style={{ maxWidth: 360 }}><div className="bk-title" title={b.event_name}>{b.event_name}</div></td>
                   <td className="hide-sm">{b.booked_by}{b.phone && <div className="m"><a className="tel" href={`tel:${b.phone}`}>{b.phone}</a></div>}</td>
                   <td className="acts">
@@ -181,7 +181,7 @@ export default function VenuesPage() {
 
       <section className="panel">
         <div className="list-head">
-          <h3 className="ph">Venues IEEE SSCS uses</h3>
+          <h3 className="ph">Venues AI Club uses</h3>
           <button className="add-btn" onClick={() => setVenueEdit({ v: { id: '', name: '', short_name: '', notes: null, is_active: true, is_room: false, sort_order: (venues.length + 1) * 10 }, isNew: true })}>
             <span style={{ fontSize: 16, lineHeight: 1 }}>+</span> Add venue
           </button>

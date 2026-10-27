@@ -7,6 +7,7 @@ import type { TeamMember } from '@/types/club';
 import HolographicCard from '@/components/ui/HolographicCard';
 import RevealText from '@/components/ui/RevealText';
 import TechGridBackground from '@/components/ui/TechGridBackground';
+import Navigation from '@/components/Navigation';
 
 const ProfileImage = ({ src: ref, alt }: { src: string | null, alt: string }) => {
     const [error, setError] = useState(false);
@@ -14,7 +15,7 @@ const ProfileImage = ({ src: ref, alt }: { src: string | null, alt: string }) =>
 
     if (error || !src) {
         return (
-            <div className="w-full h-full bg-white/70 flex items-center justify-center">
+            <div className="w-full h-full bg-white flex items-center justify-center">
                 <User className="w-10 h-10 text-primary drop-shadow-[0_0_12px_rgba(49,135,232,0.8)]" />
             </div>
         );
@@ -268,6 +269,7 @@ const Team = () => {
     return (
         <div className="min-h-screen relative text-foreground bg-background overflow-hidden">
             <TechGridBackground />
+<Navigation />
             
             {/* Sibhi Mode Background Pulse */}
             <AnimatePresence>
@@ -301,24 +303,24 @@ const Team = () => {
                 )}
             </AnimatePresence>
             
-            <div className="container mx-auto px-6 py-12 relative z-10">
+            <div className="container mx-auto px-6 pt-28 pb-16 relative z-10">
                 <div className="max-w-6xl mx-auto">
-                    <Link to="/" className="inline-flex items-center text-muted-foreground hover:text-primary transition-all mb-12 px-6 py-1.5 rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl group text-sm">
+                    <Link to="/" className="group inline-flex items-center text-[13px] font-medium text-muted-foreground hover:text-primary transition-colors mb-12">
                         <ArrowLeft className="w-4 h-4 mr-2 transition-transform group-hover:-translate-x-1" />
                         Back to Home
                     </Link>
 
-                    <div className="text-center mb-16">
+                    <div className="mb-12">
                         <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="mb-4"
                         >
-                            <span className="text-[10px] text-primary tracking-[0.4em] uppercase font-bold px-4 py-1 rounded-full border border-primary/20 bg-primary/5">
+                            <span className="inline-flex items-center font-mono text-[11px] font-normal tracking-[0.3em] text-[#0B1726] uppercase">
                                 Leadership
-                            </span>
+                            <span className="ml-4 inline-block h-px w-14 bg-primary" /></span>
                         </motion.div>
-                        <h1 className="font-heading text-[1.75rem] leading-tight sm:text-4xl md:text-5xl font-bold tracking-tight">
+                        <h1 className="font-display text-[36px] md:text-[48px] font-extrabold uppercase leading-[1.02] tracking-tight text-[#0B1726]">
                             <RevealText text="Faculty Coordinators" />
                         </h1>
                     </div>
@@ -333,12 +335,12 @@ const Team = () => {
                             >
                                 <HolographicCard className="p-8 text-center h-full">
                                     <div className="flex flex-col items-center">
-                                        <div className="w-24 h-24 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 text-primary relative overflow-hidden border border-primary/20 mx-auto">
+                                        <div className="w-24 h-24 rounded-md bg-primary/10 flex items-center justify-center mb-6 text-primary relative overflow-hidden border border-primary/20 mx-auto">
                                             <FlipPhoto member={coord} />
                                         </div>
 
                                         <div className="mb-4">
-                                            <span className="inline-block text-[10px] text-primary font-bold tracking-[0.3em] uppercase mb-2 px-4 py-1 rounded-full bg-primary/10 border border-primary/20">
+                                            <span className="inline-block text-[10px] text-primary font-bold tracking-[0.3em] uppercase mb-2 px-4 py-1 rounded-[3px] bg-primary/10 border border-primary/20">
                                                 {coord.role}
                                             </span>
                                             <h2 className="font-heading text-2xl md:text-3xl font-bold text-foreground mb-4">
@@ -363,11 +365,11 @@ const Team = () => {
                             viewport={{ once: true }}
                             className="mb-4"
                         >
-                            <span className="text-[10px] text-primary tracking-[0.4em] uppercase font-bold px-4 py-1 rounded-full border border-primary/20 bg-primary/5">
+                            <span className="inline-flex items-center font-mono text-[11px] font-normal tracking-[0.3em] text-[#0B1726] uppercase">
                                 Leadership
-                            </span>
+                            <span className="ml-4 inline-block h-px w-14 bg-primary" /></span>
                         </motion.div>
-                        <h1 className="font-heading text-[1.75rem] leading-tight sm:text-4xl md:text-5xl font-bold tracking-tight mb-8">
+                        <h1 className="font-display text-[36px] md:text-[48px] font-extrabold uppercase leading-[1.02] tracking-tight text-[#0B1726] mb-8">
                             <RevealText text="Board" />
                         </h1>
                         <div className="flex flex-wrap justify-center gap-4">
@@ -375,7 +377,7 @@ const Team = () => {
                                 <button
                                     key={t}
                                     onClick={() => setCoreTeamYear(t)}
-                                    className={`px-6 py-2 rounded-full text-sm font-bold tracking-widest uppercase transition-all ${year === t ? 'bg-primary text-white' : 'bg-white/5 border border-white/10 text-muted-foreground hover:text-white hover:border-white/30'}`}
+                                    className={`px-6 py-2 rounded-[3px] text-sm font-bold tracking-widest uppercase transition-all ${year === t ? 'bg-primary text-white' : 'bg-white border border-white/10 text-muted-foreground hover:text-white hover:border-white/30'}`}
                                 >
                                     AY {t}
                                 </button>
@@ -399,7 +401,7 @@ const Team = () => {
                                 className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.33%-16px)]"
                             >
                                 <HolographicCard className="p-6 text-center h-full flex flex-col items-center">
-                                    <div className="w-24 h-24 rounded-2xl bg-white/70 grid place-items-center mb-6 relative overflow-hidden border border-foreground/10 group-hover:border-primary/30 transition-colors mx-auto">
+                                    <div className="w-24 h-24 rounded-md bg-white grid place-items-center mb-6 relative overflow-hidden border border-border group-hover:border-primary/30 transition-colors mx-auto">
                                         <FlipPhoto member={member} />
                                     </div>
 
@@ -429,11 +431,11 @@ const Team = () => {
                             viewport={{ once: true }}
                             className="mb-4"
                         >
-                            <span className="text-[10px] text-primary tracking-[0.4em] uppercase font-bold px-4 py-1 rounded-full border border-primary/20 bg-primary/5">
+                            <span className="inline-flex items-center font-mono text-[11px] font-normal tracking-[0.3em] text-[#0B1726] uppercase">
                                 Expertise
-                            </span>
+                            <span className="ml-4 inline-block h-px w-14 bg-primary" /></span>
                         </motion.div>
-                        <h1 className="font-heading text-[1.75rem] leading-tight sm:text-4xl md:text-5xl font-bold tracking-tight">
+                        <h1 className="font-display text-[36px] md:text-[48px] font-extrabold uppercase leading-[1.02] tracking-tight text-[#0B1726]">
                             <RevealText text="Leads" />
                         </h1>
                     </div>
@@ -457,7 +459,7 @@ const Team = () => {
                                         onMouseLeave={() => isSibhi && setIsHoveringSibhi(false)}
                                     >
                                         <div 
-                                            className="w-20 h-20 rounded-2xl bg-white/70 grid place-items-center mb-6 relative overflow-hidden border border-foreground/10 group-hover:border-primary/30 transition-colors mx-auto"
+                                            className="w-20 h-20 rounded-md bg-white grid place-items-center mb-6 relative overflow-hidden border border-border group-hover:border-primary/30 transition-colors mx-auto"
                                         >
                                             <FlipPhoto member={member} />
                                             

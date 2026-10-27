@@ -141,8 +141,8 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                         key={index}
                         className={`inline-block px-1.5 py-0.2 mx-0.5 rounded-md font-semibold text-xs border ${
                             isMe 
-                                ? 'bg-pink-500/20 text-pink-300 border-pink-500/40 shadow-sm shadow-pink-500/20 animate-pulse'
-                                : 'bg-purple-500/20 text-purple-300 border-purple-500/30'
+                                ? 'bg-pink-500/20 text-primary border-pink-500/40 shadow-sm shadow-pink-500/20 animate-pulse'
+                                : 'bg-purple-500/20 text-primary border-purple-500/30'
                         }`}
                     >
                         {part}
@@ -154,9 +154,9 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
     };
 
     return (
-        <div className="space-y-4 bg-black/40 border border-foreground/10 rounded-2xl p-5 backdrop-blur-xl shadow-2xl">
+        <div className="space-y-4 bg-white border border-border rounded-md p-5  shadow-2xl">
             {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-foreground/10">
+            <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div className="flex items-center gap-2">
                     <div className="p-1.5 rounded-lg bg-primary/20 text-primary border border-primary/30">
                         <MessageSquare className="w-4 h-4" />
@@ -168,7 +168,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                         </p>
                     </div>
                 </div>
-                <span className="text-[10px] text-muted-foreground font-mono bg-white/70 px-2 py-0.5 rounded-md border border-foreground/5">
+                <span className="text-[10px] text-muted-foreground font-mono bg-white px-2 py-0.5 rounded-md border border-border">
                     Type @ to tag members
                 </span>
             </div>
@@ -181,7 +181,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                         Loading committee discussion...
                     </div>
                 ) : notes.length === 0 ? (
-                    <div className="py-8 text-center bg-white/[0.02] border border-foreground/5 rounded-xl">
+                    <div className="py-8 text-center bg-muted/40 border border-border rounded-xl">
                         <MessageSquare className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
                         <p className="text-xs text-muted-foreground font-medium">No committee notes yet</p>
                         <p className="text-[11px] text-muted-foreground mt-0.5">Start the discussion or tag a panelist below.</p>
@@ -201,7 +201,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                                     className={`p-3.5 rounded-xl border transition-all ${
                                         amIMentioned 
                                             ? 'bg-gradient-to-r from-pink-950/30 via-purple-950/20 to-black/80 border-pink-500/40 shadow-lg shadow-pink-500/10'
-                                            : 'bg-white/[0.03] border-foreground/10 hover:border-foreground/20'
+                                            : 'bg-muted/40 border-border hover:border-primary/30'
                                     }`}
                                 >
                                     <div className="flex items-start justify-between gap-2 mb-1.5">
@@ -219,7 +219,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
 
                                         <div className="flex items-center gap-1">
                                             {amIMentioned && (
-                                                <span className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-pink-500/20 text-pink-300 border border-pink-500/30">
+                                                <span className="text-[9px] font-bold uppercase tracking-widest px-1.5 py-0.5 rounded bg-pink-500/20 text-primary border border-pink-500/30">
                                                     Mentioned You
                                                 </span>
                                             )}
@@ -227,7 +227,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                                                 <button
                                                     type="button"
                                                     onClick={() => handleDelete(note.id)}
-                                                    className="p-1 rounded text-muted-foreground hover:text-red-400 hover:bg-white/70 transition-colors"
+                                                    className="p-1 rounded text-muted-foreground hover:text-destructive hover:bg-white transition-colors"
                                                     title="Delete Note"
                                                 >
                                                     <Trash2 className="w-3.5 h-3.5" />
@@ -247,7 +247,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
             </div>
 
             {/* Input & Autocomplete Area */}
-            <div className="relative pt-2 border-t border-foreground/10">
+            <div className="relative pt-2 border-t border-border">
                 {/* Autocomplete Popover */}
                 <AnimatePresence>
                     {showMentionMenu && filteredMembers.length > 0 && (
@@ -257,7 +257,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                             exit={{ opacity: 0, y: 8 }}
                             className="absolute bottom-full left-0 mb-2 w-64 max-h-48 overflow-y-auto bg-black/95 border border-purple-500/40 rounded-xl shadow-2xl p-1.5 z-50 custom-scrollbar backdrop-blur-2xl"
                         >
-                            <div className="text-[10px] font-bold uppercase tracking-widest text-purple-300 px-2 py-1 border-b border-foreground/10 mb-1 flex items-center gap-1">
+                            <div className="text-[10px] font-bold uppercase tracking-widest text-primary px-2 py-1 border-b border-border mb-1 flex items-center gap-1">
                                 <AtSign className="w-3 h-3" /> Select member to tag
                             </div>
                             {filteredMembers.map((m, idx) => (
@@ -268,10 +268,10 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                                     className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-left hover:bg-purple-500/20 text-xs text-white transition-colors group"
                                 >
                                     <div className="truncate">
-                                        <div className="font-semibold text-purple-200 group-hover:text-foreground">{m.name}</div>
+                                        <div className="font-semibold text-primary group-hover:text-foreground">{m.name}</div>
                                         <div className="text-[10px] text-muted-foreground truncate">{m.email}</div>
                                     </div>
-                                    <span className="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-white/70 text-muted-foreground">
+                                    <span className="text-[9px] uppercase font-mono px-1.5 py-0.5 rounded bg-white text-muted-foreground">
                                         {m.role.replace('_', ' ')}
                                     </span>
                                 </button>
@@ -287,7 +287,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                         onChange={handleTextChange}
                         placeholder="Add a committee note... (Type @ to tag a member)"
                         rows={2}
-                        className="bg-white/[0.03] border-foreground/15 text-foreground placeholder:text-muted-foreground text-xs rounded-xl resize-none focus:border-primary/50 focus:ring-0 transition-all flex-1"
+                        className="bg-muted/40 border-foreground/15 text-foreground placeholder:text-muted-foreground text-xs rounded-xl resize-none focus:border-primary/50 focus:ring-0 transition-all flex-1"
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
                                 e.preventDefault();
@@ -305,7 +305,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                             <motion.span
                                 animate={{ rotate: 360 }}
                                 transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
-                                className="inline-block w-4 h-4 border-2 border-foreground/30 border-t-white rounded-full"
+                                className="inline-block w-4 h-4 border-2 border-primary/40 border-t-white rounded-full"
                             />
                         ) : (
                             <>
@@ -316,7 +316,7 @@ export default function TeamNotesFeed({ applicationId }: TeamNotesFeedProps) {
                     </Button>
                 </div>
                 <div className="flex justify-between items-center text-[10px] text-muted-foreground mt-1.5 px-1">
-                    <span>Press <kbd className="px-1 py-0.5 bg-white/70 rounded text-foreground font-mono">Ctrl+Enter</kbd> to post</span>
+                    <span>Press <kbd className="px-1 py-0.5 bg-white rounded text-foreground font-mono">Ctrl+Enter</kbd> to post</span>
                     <span>No emails sent for tags (UI notifications only)</span>
                 </div>
             </div>

@@ -58,7 +58,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
 
     return (
         <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-            <DialogContent className="max-w-3xl bg-black/90 border-foreground/10 text-foreground backdrop-blur-xl max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-3xl bg-black/90 border-border text-foreground  max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <div className="flex justify-between items-start">
                         <div>
@@ -77,28 +77,28 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                             {/* Derived Metadata Badge Block */}
                             <div className="flex gap-2 mt-3">
                                 {application.programCode && (
-                                    <Badge variant="secondary" className="bg-blue-500/10 text-blue-400 border-blue-500/20">
+                                    <Badge variant="secondary" className="bg-blue-500/10 text-primary border-blue-500/20">
                                         {application.programCode}
                                     </Badge>
                                 )}
                                 {application.batch && (
-                                    <Badge variant="secondary" className="bg-purple-500/10 text-purple-400 border-purple-500/20">
+                                    <Badge variant="secondary" className="bg-purple-500/10 text-primary border-purple-500/20">
                                         Batch {application.batch}
                                     </Badge>
                                 )}
                                 {application.programCategory && (
-                                    <Badge variant="secondary" className="bg-white/70 text-muted-foreground border-foreground/10">
+                                    <Badge variant="secondary" className="bg-white text-muted-foreground border-border">
                                         {application.programCategory}
                                     </Badge>
                                 )}
                             </div>
                         </div>
                         {/* Status Badge in Header */}
-                        <Badge variant="outline" className={`capitalize px-3 py-1 text-sm ${application.status === 'selected' ? 'text-green-500 border-green-500/50 bg-green-500/10' :
+                        <Badge variant="outline" className={`capitalize px-3 py-1 text-sm ${application.status === 'selected' ? 'text-green-600 border-green-500/50 bg-green-500/10' :
                             application.status === 'shortlisted' ? 'text-cyan-500 border-cyan-500/50 bg-cyan-500/10' :
-                                application.status === 'rejected' ? 'text-red-500 border-red-500/50 bg-red-500/10' :
+                                application.status === 'rejected' ? 'text-destructive border-red-500/50 bg-red-500/10' :
                                     application.status === 'rejected_pending' ? 'text-orange-500 border-orange-500/50 bg-orange-500/10' :
-                                        application.status === 'neutral' ? 'text-yellow-500 border-yellow-500/50 bg-yellow-500/10' :
+                                        application.status === 'neutral' ? 'text-amber-600 border-yellow-500/50 bg-yellow-500/10' :
                                             'text-blue-500 border-blue-500/50 bg-blue-500/10'
                             }`}>
                             {application.status === 'rejected_pending' ? 'To Reject' : application.status}
@@ -107,7 +107,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                 </DialogHeader>
 
                 {(onNext || onPrev) && (
-                    <div className="flex items-center justify-between border-b border-foreground/10 pb-3">
+                    <div className="flex items-center justify-between border-b border-border pb-3">
                         <Button
                             size="sm"
                             variant="ghost"
@@ -136,7 +136,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
 
                 <div className="space-y-8 mt-4">
                     {/* Actions Bar */}
-                    <div className="flex flex-col sm:flex-row justify-between items-center bg-white/70 p-4 rounded-xl border border-foreground/10 gap-4">
+                    <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 rounded-xl border border-border gap-4">
                         <div className="flex items-center gap-2">
                         </div>
                         {isSuperAdmin && (
@@ -146,7 +146,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                     variant={application.status === 'rejected_pending' ? 'destructive' : 'outline'}
                                     onClick={() => onUpdate(application.id, { status: 'rejected_pending' })}
                                     disabled={!canTransition(application.status, 'rejected_pending') || !canPerformAction(currentPhase, 'canReview')}
-                                    className={application.status === 'rejected_pending' ? '' : 'border-red-500/50 text-red-500 hover:bg-red-500/10 hover:border-red-500'}
+                                    className={application.status === 'rejected_pending' ? '' : 'border-red-500/50 text-destructive hover:bg-red-500/10 hover:border-red-500'}
                                 >
                                     <XCircle className="w-4 h-4 mr-2" />
                                     {application.status === 'rejected_pending' ? 'Marked to Reject' : 'Reject'}
@@ -202,7 +202,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                     variant={application.status === 'rejected' ? 'destructive' : 'outline'}
                                     onClick={() => onUpdate(application.id, { status: 'rejected' })}
                                     disabled={!canTransition(application.status, 'rejected') || !canPerformAction(currentPhase, 'canDecide')}
-                                    className={application.status === 'rejected' ? '' : 'border-red-500/50 text-red-500 hover:bg-red-500/10 hover:border-red-500'}
+                                    className={application.status === 'rejected' ? '' : 'border-red-500/50 text-destructive hover:bg-red-500/10 hover:border-red-500'}
                                 >
                                     <XCircle className="w-4 h-4 mr-2" />
                                     Reject
@@ -212,7 +212,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                     variant={application.status === 'waitlisted' ? 'secondary' : 'outline'}
                                     onClick={() => onUpdate(application.id, { status: 'waitlisted' })}
                                     disabled={!canTransition(application.status, 'waitlisted') || !canPerformAction(currentPhase, 'canDecide')}
-                                    className={application.status === 'waitlisted' ? 'bg-amber-500/20 text-amber-500 hover:bg-amber-500/30' : 'border-amber-500/50 text-amber-500 hover:bg-amber-500/10 hover:border-amber-500'}
+                                    className={application.status === 'waitlisted' ? 'bg-amber-500/20 text-amber-600 hover:bg-amber-500/30' : 'border-amber-500/50 text-amber-600 hover:bg-amber-500/10 hover:border-amber-500'}
                                 >
                                     <MinusCircle className="w-4 h-4 mr-2" />
                                     Waitlist
@@ -225,7 +225,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                         disabled={!canTransition(application.status, 'selected') || !canPerformAction(currentPhase, 'canDecide')}
                                         className={application.status === 'selected'
                                             ? 'bg-green-600 hover:bg-green-700 text-white rounded-r-none px-3'
-                                            : 'border-green-500/50 text-green-500 hover:bg-green-500/10 hover:border-green-500 rounded-r-none px-3'
+                                            : 'border-green-500/50 text-green-600 hover:bg-green-500/10 hover:border-green-500 rounded-r-none px-3'
                                         }
                                     >
                                         <CheckCircle className="w-4 h-4 mr-1.5" />
@@ -236,13 +236,13 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                         onValueChange={(val) => onUpdate(application.id, { status: 'selected', assignedPosition: val })}
                                         disabled={!canPerformAction(currentPhase, 'canDecide')}
                                     >
-                                        <SelectTrigger className={`h-9 w-8 px-1 rounded-l-none border-l-0 focus:ring-0 ${application.status === 'selected' ? 'bg-green-700 border-green-600 text-white hover:bg-green-800' : 'border-green-500/50 bg-green-500/10 text-green-400 hover:bg-green-500/20'}`}>
+                                        <SelectTrigger className={`h-9 w-8 px-1 rounded-l-none border-l-0 focus:ring-0 ${application.status === 'selected' ? 'bg-green-700 border-green-600 text-white hover:bg-green-800' : 'border-green-500/50 bg-green-500/10 text-green-600 hover:bg-green-500/20'}`}>
                                             <span className="sr-only">Choose Department</span>
                                         </SelectTrigger>
                                         <SelectContent className="bg-background border-zinc-800">
-                                            <SelectItem value={application.primaryDept} className="text-xs font-bold text-purple-300">🌟 1st: {application.primaryDept}</SelectItem>
+                                            <SelectItem value={application.primaryDept} className="text-xs font-bold text-primary">🌟 1st: {application.primaryDept}</SelectItem>
                                             {application.secondaryDept && (
-                                                <SelectItem value={application.secondaryDept} className="text-xs font-semibold text-blue-300">⭐ 2nd: {application.secondaryDept}</SelectItem>
+                                                <SelectItem value={application.secondaryDept} className="text-xs font-semibold text-primary">⭐ 2nd: {application.secondaryDept}</SelectItem>
                                             )}
                                             {['Technical', 'Management', 'Event Operations', 'Creative', 'Outreach & Partnerships', 'Human Resources'].filter(d => d !== application.primaryDept && d !== application.secondaryDept).map(d => (
                                                 <SelectItem key={d} value={d} className="text-xs">{d}</SelectItem>
@@ -290,11 +290,11 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                 <div className="space-y-3">
                                     <div>
                                         <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-1">1st Preference Answer</span>
-                                        <p className="text-sm bg-white/70 p-3 rounded-md border border-foreground/5 leading-relaxed whitespace-pre-wrap">{application.skills || 'N/A'}</p>
+                                        <p className="text-sm bg-white p-3 rounded-md border border-border leading-relaxed whitespace-pre-wrap">{application.skills || 'N/A'}</p>
                                     </div>
                                     <div>
-                                        <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-1">Why Join SSCS?</span>
-                                        <p className="text-sm bg-white/70 p-3 rounded-md border border-foreground/5 max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{application.reason || 'N/A'}</p>
+                                        <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-1">Why Join AI Club?</span>
+                                        <p className="text-sm bg-white p-3 rounded-md border border-border max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{application.reason || 'N/A'}</p>
                                     </div>
                                 </div>
                             </div>
@@ -316,11 +316,11 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                     <div className="space-y-3">
                                         <div>
                                             <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-1">2nd Preference Answer</span>
-                                            <p className="text-sm bg-white/70 p-3 rounded-md border border-foreground/5 whitespace-pre-wrap">{application.secondarySkills || 'N/A'}</p>
+                                            <p className="text-sm bg-white p-3 rounded-md border border-border whitespace-pre-wrap">{application.secondarySkills || 'N/A'}</p>
                                         </div>
                                         <div>
                                             <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-1">Why these departments?</span>
-                                            <p className="text-sm bg-white/70 p-3 rounded-md border border-foreground/5 max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{application.secondaryReason || 'N/A'}</p>
+                                            <p className="text-sm bg-white p-3 rounded-md border border-border max-h-[150px] overflow-y-auto leading-relaxed whitespace-pre-wrap">{application.secondaryReason || 'N/A'}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -328,20 +328,20 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                         )}
 
                         {/* Committee Discussion Feed (@mentions enabled) */}
-                        <div className="md:col-span-2 border-t border-dashed border-foreground/10 pt-6 mt-2">
+                        <div className="md:col-span-2 border-t border-dashed border-border pt-6 mt-2">
                             <TeamNotesFeed applicationId={application.id} />
                         </div>
 
                         {/* Social Links */}
                         {(application.githubUrl || application.linkedinUrl || application.portfolioUrl) && (
-                            <div className="md:col-span-2 border-t border-dashed border-foreground/10 pt-6 mt-2">
+                            <div className="md:col-span-2 border-t border-dashed border-border pt-6 mt-2">
                                 <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">Links</h4>
                                 <div className="flex flex-wrap gap-2">
                                     {application.githubUrl && (
                                         <Button
                                             size="sm"
                                             variant="outline"
-                                            className="border-foreground/10 text-muted-foreground hover:text-foreground text-xs"
+                                            className="border-border text-muted-foreground hover:text-foreground text-xs"
                                             onClick={() => window.open(application.githubUrl, '_blank')}
                                         >
                                             <Github className="w-3 h-3 mr-1.5" /> GitHub
@@ -352,7 +352,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                         <Button
                                             size="sm"
                                             variant="outline"
-                                            className="border-foreground/10 text-muted-foreground hover:text-foreground text-xs"
+                                            className="border-border text-muted-foreground hover:text-foreground text-xs"
                                             onClick={() => window.open(application.linkedinUrl, '_blank')}
                                         >
                                             <Linkedin className="w-3 h-3 mr-1.5" /> LinkedIn
@@ -363,7 +363,7 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                                         <Button
                                             size="sm"
                                             variant="outline"
-                                            className="border-foreground/10 text-muted-foreground hover:text-foreground text-xs"
+                                            className="border-border text-muted-foreground hover:text-foreground text-xs"
                                             onClick={() => window.open(application.portfolioUrl, '_blank')}
                                         >
                                             <ExternalLink className="w-3 h-3 mr-1.5" /> Portfolio
@@ -374,14 +374,14 @@ const ApplicationModal: React.FC<ApplicationModalProps> = ({
                         )}
 
                         {/* Candidate Timeline */}
-                        <div className="md:col-span-2 border-t border-dashed border-foreground/10 pt-6 mt-2">
+                        <div className="md:col-span-2 border-t border-dashed border-border pt-6 mt-2">
                             <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">Application Timeline</h4>
                             <CandidateTimeline application={application} />
                         </div>
 
                         {/* Multi-Interviewer Panel */}
                         {['interview_scheduled', 'interviewed', 'selected', 'waitlisted', 'rejected'].includes(application.status) && (
-                            <div className="md:col-span-2 border-t border-dashed border-foreground/10 pt-6 mt-2">
+                            <div className="md:col-span-2 border-t border-dashed border-border pt-6 mt-2">
                                 <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4 flex items-center gap-2">
                                     <Users className="w-3.5 h-3.5" />
                                     Interview Evaluations

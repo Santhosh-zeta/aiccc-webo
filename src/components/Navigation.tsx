@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, LogIn, LogOut, User as UserIcon, Award, ClipboardList, Video } from 'lucide-react';
+import { ArrowRight, Menu, X, LogIn, LogOut, User as UserIcon, Award, ClipboardList, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
@@ -101,6 +101,9 @@ const Navigation = () => {
     { name: 'Propose', href: '/proposals' },
   ];
 
+  const isActive = (href: string) =>
+    href === '/' ? location.pathname === '/' && !location.hash : href.startsWith('/') && location.pathname.startsWith(href);
+
   const handleNavClick = (href: string) => {
     if (href.startsWith('/')) {
       navigate(href);
@@ -138,8 +141,8 @@ const Navigation = () => {
           className={`
             pointer-events-auto grid grid-cols-[minmax(max-content,1fr)_auto] lg:grid-cols-[minmax(max-content,1fr)_auto_minmax(max-content,1fr)] items-center gap-4 px-4 sm:px-6 py-2.5 sm:py-3 transition-[max-width,background-color,border-color,box-shadow,border-radius] duration-500
             ${isScrolled 
-              ? 'w-full max-w-6xl rounded-full bg-white/70 border border-foreground/10 backdrop-blur-xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)]' 
-              : 'w-full max-w-7xl bg-transparent border-transparent'
+              ? 'w-full max-w-[1246px] rounded-md bg-white/90 border border-border backdrop-blur-xl shadow-[0_8px_24px_-14px_rgba(15,58,107,0.3)]'
+              : 'w-full max-w-[1246px] bg-transparent border-transparent'
             }
           `}
         >
@@ -157,10 +160,10 @@ const Navigation = () => {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.href)}
-                className="px-3 py-2 text-sm font-medium whitespace-nowrap text-foreground/70 hover:text-primary transition-all rounded-full hover:bg-white/70 relative overflow-hidden group"
+                className={`group relative px-4 py-2 text-[14px] font-medium whitespace-nowrap transition-colors hover:text-primary ${isActive(link.href) ? 'text-primary' : 'text-[#0B1726]'}`}
               >
-                <span className="relative z-10">{link.name}</span>
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                {link.name}
+                <span className={`absolute inset-x-4 -bottom-0.5 h-0.5 bg-primary transition-transform origin-left ${isActive(link.href) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} />
               </button>
             ))}
           </div>
@@ -169,30 +172,30 @@ const Navigation = () => {
           <div className="flex items-center gap-3 justify-self-end">
             <div className="hidden sm:flex items-center gap-3">
               {joinCta.href ? (
-                <Button size="sm" variant="outline" className="border-foreground/10 text-muted-foreground hover:text-foreground backdrop-blur-md rounded-full bg-white/70 px-6" asChild>
+                <Button size="sm" variant="outline" className="border-foreground/10 text-muted-foreground hover:text-foreground rounded-[3px] bg-white px-6" asChild>
                   <a href={joinCta.href} target="_blank" rel="noopener noreferrer">{joinCta.label}</a>
                 </Button>
               ) : joinCta.disabled ? (
-                <Button size="sm" variant="outline" className="border-foreground/10 text-muted-foreground backdrop-blur-md rounded-full bg-white/70 cursor-not-allowed px-6" disabled>
+                <Button size="sm" variant="outline" className="border-foreground/10 text-muted-foreground rounded-[3px] bg-white cursor-not-allowed px-6" disabled>
                   {joinCta.label}
                 </Button>
               ) : (
-                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 shadow-[0_0_15px_rgba(49,135,232,0.2)] font-bold" onClick={() => navigate(joinCta.to!)}>
-                  {joinCta.label}
+                <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-[3px] px-6 shadow-[0_8px_20px_-8px_hsl(var(--primary)/0.7)] font-medium" onClick={() => navigate(joinCta.to!)}>
+                  {joinCta.label} <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               )}
             </div>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-9 w-9 rounded-full border border-foreground/10 p-0 overflow-hidden hover:bg-white/70">
+                  <Button variant="ghost" className="relative h-9 w-9 rounded-full border border-border p-0 overflow-hidden hover:bg-primary/10">
                     <Avatar className="h-full w-full">
                       <AvatarImage src={user.photoURL} alt={user.displayName} />
-                      <AvatarFallback className="bg-white/70 text-foreground text-xs">{user.displayName?.charAt(0)}</AvatarFallback>
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs">{user.displayName?.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-black/80 backdrop-blur-2xl border-foreground/10 text-foreground p-2 rounded-2xl mt-4" align="end">
+                <DropdownMenuContent className="w-64 bg-white border-border text-foreground p-2 rounded-md mt-4 shadow-[0_16px_32px_-16px_rgba(15,58,107,0.3)]" align="end">
                   <DropdownMenuLabel className="font-normal p-4">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-bold">{user.displayName}</p>
@@ -201,31 +204,31 @@ const Navigation = () => {
                       </p>
                     </div>
                   </DropdownMenuLabel>
-                  <DropdownMenuSeparator className="bg-white/70" />
+                  <DropdownMenuSeparator className="bg-border" />
                   <div className="p-1">
-                    <DropdownMenuItem onClick={() => navigate('/me')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
+                    <DropdownMenuItem onClick={() => navigate('/me')} className="rounded-md focus:bg-primary/10 cursor-pointer p-3">
                       <Award className="mr-3 h-4 w-4 text-primary" />
                       <span>My Contributions</span>
                     </DropdownMenuItem>
                     {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'external') && (
-                      <DropdownMenuItem onClick={() => navigate('/admin')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
+                      <DropdownMenuItem onClick={() => navigate('/admin')} className="rounded-md focus:bg-primary/10 cursor-pointer p-3">
                         <UserIcon className="mr-3 h-4 w-4 text-primary" />
                         <span>Admin Dashboard</span>
                       </DropdownMenuItem>
                     )}
                     {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'interviewer') && (
-                      <DropdownMenuItem onClick={() => navigate('/admin/recruitment')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
+                      <DropdownMenuItem onClick={() => navigate('/admin/recruitment')} className="rounded-md focus:bg-primary/10 cursor-pointer p-3">
                         <ClipboardList className="mr-3 h-4 w-4 text-primary" />
                         <span>Recruitment</span>
                       </DropdownMenuItem>
                     )}
                     {user.role === 'interviewer' && (
-                      <DropdownMenuItem onClick={() => navigate('/interviewer')} className="rounded-xl focus:bg-white/70 cursor-pointer p-3">
+                      <DropdownMenuItem onClick={() => navigate('/interviewer')} className="rounded-md focus:bg-primary/10 cursor-pointer p-3">
                         <Video className="mr-3 h-4 w-4 text-primary" />
                         <span>My Interviews</span>
                       </DropdownMenuItem>
                     )}
-                    <DropdownMenuItem onClick={logout} className="rounded-xl focus:bg-red-500/20 text-red-400 cursor-pointer p-3">
+                    <DropdownMenuItem onClick={logout} className="rounded-md focus:bg-destructive/10 text-destructive cursor-pointer p-3">
                       <LogOut className="mr-3 h-4 w-4" />
                       <span>Log out</span>
                     </DropdownMenuItem>
@@ -238,7 +241,7 @@ const Navigation = () => {
                   <Button
                     size="sm"
                     variant="outline"
-                    className="hidden sm:flex border-amber-500/30 text-amber-400 hover:bg-amber-500/10 rounded-full px-4 text-xs font-mono font-bold"
+                    className="hidden sm:flex border-amber-500/40 text-amber-600 hover:bg-amber-500/10 rounded-[3px] px-4 text-xs font-mono font-bold"
                     onClick={() => {
                       loginAsLocalAdmin();
                       if (location.pathname !== '/admin') navigate('/admin');
@@ -251,7 +254,7 @@ const Navigation = () => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="hidden sm:flex border-foreground/10 hover:bg-white/70 text-foreground backdrop-blur-md rounded-full px-6"
+                  className="hidden sm:flex border-border bg-white hover:bg-primary/5 text-[#0B1726] rounded-[3px] px-6"
                   onClick={signInWithGoogle}
                 >
                   <LogIn className="w-4 h-4 mr-2" />
@@ -262,7 +265,7 @@ const Navigation = () => {
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2.5 -mr-1.5 text-foreground hover:bg-white/70 rounded-full transition-colors"
+              className="lg:hidden p-2.5 -mr-1.5 text-foreground hover:bg-primary/10 rounded-md transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMobileMenuOpen}
@@ -277,7 +280,7 @@ const Navigation = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-40 lg:hidden overflow-y-auto overscroll-contain bg-black/90 backdrop-blur-md"
+            className="fixed inset-0 z-40 lg:hidden overflow-y-auto overscroll-contain bg-[#F4F8FD]/95 backdrop-blur-md"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -297,59 +300,59 @@ const Navigation = () => {
               ))}
               
               {joinCta.href ? (
-                <Button asChild className="w-full max-w-xs rounded-full h-12 text-base font-bold" variant="outline">
+                <Button asChild className="w-full max-w-xs rounded-[3px] h-12 text-base font-bold" variant="outline">
                   <a href={joinCta.href} target="_blank" rel="noopener noreferrer">{joinCta.label}</a>
                 </Button>
               ) : joinCta.disabled ? (
-                <Button disabled className="w-full max-w-xs rounded-full h-12 text-base font-bold" variant="outline">{joinCta.label}</Button>
+                <Button disabled className="w-full max-w-xs rounded-[3px] h-12 text-base font-bold" variant="outline">{joinCta.label}</Button>
               ) : (
-                <Button className="w-full max-w-xs bg-primary text-primary-foreground rounded-full h-12 text-base font-bold" onClick={() => { navigate(joinCta.to!); setIsMobileMenuOpen(false); }}>{joinCta.label}</Button>
+                <Button className="w-full max-w-xs bg-primary text-primary-foreground rounded-[3px] h-12 text-base font-bold" onClick={() => { navigate(joinCta.to!); setIsMobileMenuOpen(false); }}>{joinCta.label}</Button>
               )}
 
               <motion.div
-                className="w-full h-[1px] bg-white/70 my-4"
+                className="w-full h-[1px] bg-border my-4"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
               />
 
               {user ? (
                 <div className="flex flex-col items-center gap-6">
-                  <div className="flex items-center gap-3 px-6 py-3 rounded-full bg-white/70 border border-foreground/10">
+                  <div className="flex items-center gap-3 px-6 py-3 rounded-md bg-white border border-border">
                     <Avatar className="h-8 w-8">
                       <AvatarImage src={user.photoURL} />
                       <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <span className="font-bold">{user.displayName}</span>
                   </div>
-                  <Button variant="outline" className="rounded-full px-8" onClick={() => { navigate('/me'); setIsMobileMenuOpen(false); }}>
+                  <Button variant="outline" className="rounded-[3px] px-8" onClick={() => { navigate('/me'); setIsMobileMenuOpen(false); }}>
                     <Award className="w-4 h-4 mr-2" />
                     My Contributions
                   </Button>
                   {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'external') && (
-                    <Button variant="outline" className="rounded-full px-8" onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }}>
+                    <Button variant="outline" className="rounded-[3px] px-8" onClick={() => { navigate('/admin'); setIsMobileMenuOpen(false); }}>
                       <UserIcon className="w-4 h-4 mr-2" />
                       Admin Dashboard
                     </Button>
                   )}
                   {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'interviewer') && (
-                    <Button variant="outline" className="rounded-full px-8" onClick={() => { navigate('/admin/recruitment'); setIsMobileMenuOpen(false); }}>
+                    <Button variant="outline" className="rounded-[3px] px-8" onClick={() => { navigate('/admin/recruitment'); setIsMobileMenuOpen(false); }}>
                       <ClipboardList className="w-4 h-4 mr-2" />
                       Recruitment
                     </Button>
                   )}
                   {user.role === 'interviewer' && (
-                    <Button variant="outline" className="rounded-full px-8" onClick={() => { navigate('/interviewer'); setIsMobileMenuOpen(false); }}>
+                    <Button variant="outline" className="rounded-[3px] px-8" onClick={() => { navigate('/interviewer'); setIsMobileMenuOpen(false); }}>
                       <Video className="w-4 h-4 mr-2" />
                       My Interviews
                     </Button>
                   )}
-                  <Button variant="outline" className="rounded-full px-8 border-red-500/30 text-red-400 hover:bg-red-500/10" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
+                  <Button variant="outline" className="rounded-[3px] px-8 border-destructive/40 text-destructive hover:bg-destructive/10" onClick={() => { logout(); setIsMobileMenuOpen(false); }}>
                     <LogOut className="w-4 h-4 mr-2" />
                     Log Out
                   </Button>
                 </div>
               ) : (
-                <Button className="w-full max-w-xs bg-primary text-primary-foreground rounded-full h-14 text-lg font-bold" onClick={() => { signInWithGoogle(); setIsMobileMenuOpen(false); }}>
+                <Button className="w-full max-w-xs bg-primary text-primary-foreground rounded-[3px] h-14 text-lg font-bold" onClick={() => { signInWithGoogle(); setIsMobileMenuOpen(false); }}>
                   <LogIn className="w-5 h-5 mr-3" />
                   Sign In
                 </Button>

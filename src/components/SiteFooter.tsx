@@ -1,124 +1,70 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { drawAllTiles, tileLayout } from '@/components/game/tiles';
+import { Link } from 'react-router-dom';
+import { Instagram, Linkedin, Mail, MessageCircle, MapPin } from 'lucide-react';
+import { CLUB_LINKS } from '@/config/club';
 
-// The game code only downloads when someone presses PLAY.
-const ElectronBreakout = lazy(() => import('@/components/game/ElectronBreakout'));
+const ICONS: Record<string, typeof Mail> = { Instagram, LinkedIn: Linkedin, WhatsApp: MessageCircle, Email: Mail };
 
-const LINKS = [
-  { label: 'Instagram', href: 'https://www.instagram.com/ieee_sscs_vitcc/' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/ieee-sscs-vitc/' },
-  { label: 'WhatsApp', href: 'https://chat.whatsapp.com/Em8uoQtYNPcFTsg3w0dVdo?s=qt&p=a&ilr=1' },
-  { label: 'Email', href: 'mailto:ieee.sscs.vitchennai@gmail.com' },
+const EXPLORE = [
+  { label: 'About', to: '/#about' },
+  { label: 'Events', to: '/#events' },
+  { label: 'Team', to: '/team' },
+  { label: 'Leaderboard', to: '/leaderboard' },
+  { label: 'Calendar', to: '/calendar' },
+  { label: 'Propose an event', to: '/proposals' },
 ];
 
-/** The tile strip at rest, drawn with the same code and layout the game uses. */
-function StaticTiles() {
-  const ref = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    const canvas = ref.current;
-    const box = canvas?.parentElement;
-    if (!canvas || !box) return;
-    const paint = () => {
-      const w = Math.round(box.clientWidth), h = Math.round(box.clientHeight);
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = w * dpr; canvas.height = h * dpr;
-      canvas.style.width = `${w}px`; canvas.style.height = `${h}px`;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
-      drawAllTiles(ctx, tileLayout(w, h));
-    };
-    const ro = new ResizeObserver(paint);
-    ro.observe(box);
-    return () => ro.disconnect();
-  }, []);
-  return <canvas ref={ref} aria-hidden="true" className="pointer-events-none absolute inset-0" />;
-}
-
-/**
- * The site footer, after Razorpay's /ai-builders: a big grey wordmark, a dare
- * to PLAY, and a strip of tiles along the bottom edge. Pressing PLAY turns the
- * whole footer into Electron Breakout.
- */
-const SiteFooter = () => {
-  const [playing, setPlaying] = useState(false);
-  const [combo, setCombo] = useState(0);
-
-  const stop = () => { setPlaying(false); setCombo(0); };
-
-  return (
-    <footer
-      className="relative h-[100svh] min-h-[560px] w-full overflow-hidden border-t border-foreground/5 bg-[#060606]"
-      style={{ backgroundImage: "radial-gradient(60% 50% at 0% 0%, rgba(49,135,232,0.10), transparent 70%), radial-gradient(50% 45% at 100% 40%, rgba(49,135,232,0.07), transparent 70%)" }}
-    >
-      {playing ? (
-        <Suspense fallback={<StaticTiles />}>
-          <ElectronBreakout onExit={stop} onCombo={setCombo} />
-        </Suspense>
-      ) : (
-        <StaticTiles />
-      )}
-
-      {/* Text sits above the game; only its links and the PLAY/STOP button take clicks */}
-      <div className="pointer-events-none relative z-10 mx-auto grid max-w-[1800px] grid-cols-1 gap-x-10 gap-y-6 px-6 pt-12 md:grid-cols-2 md:px-16 md:pt-16">
-        <div className="font-body font-medium leading-[0.92] tracking-tight text-white/35 text-[clamp(34px,4.6vw,76px)] select-none">
-          <span className="relative">
-            <span className="text-primary/85">AI</span> <span className="text-muted-foreground">CLUB</span>
-            {combo > 1 && (
-              <span className="absolute -right-12 top-[0.35em] font-mono text-xs md:text-sm font-bold text-primary">×{combo}</span>
-            )}
-          </span>
-          <br />
-          /vit chennai
-        </div>
-
-        <div className="text-[#9b9b9f] text-[clamp(20px,2vw,32px)] leading-snug md:text-right">
-          <button
-            onClick={() => (playing ? stop() : setPlaying(true))}
-            className="pointer-events-auto py-1 font-medium text-foreground underline decoration-primary decoration-2 underline-offset-[6px] hover:text-primary transition-colors"
-          >
-            {playing ? 'STOP' : 'PLAY'}
-          </button>{' '}
-          this game,
-          <br />
-          Bet you can win.
-        </div>
-
-        <p className="text-sm md:text-lg text-[#9b9b9f]">
-          Copyright © 2026 AI Club VIT Chennai
-          <span aria-hidden="true" className="mx-2 text-[#5a5a5e]">·</span>
-          <span className="whitespace-nowrap">
-            Built by{' '}
-            <a
-              href="https://sibhi.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="pointer-events-auto inline-block py-1.5 text-foreground underline decoration-primary decoration-2 underline-offset-4 hover:text-primary transition-colors"
-            >
-              Sibhi
-            </a>
-          </span>
+const SiteFooter = () => (
+  <footer className="bg-[#0B1726] text-white">
+    <div className="mx-auto grid max-w-[1246px] gap-10 px-6 py-14 md:grid-cols-[1.4fr_1fr_1fr] xl:px-0">
+      <div>
+        <img src="/brand/aic-logo-full.png" alt="AI Club VIT Chennai" className="h-12 w-auto rounded-sm bg-white p-1" />
+        <p className="mt-5 max-w-sm text-[14px] leading-6 text-white/60">
+          A student-led community at VIT Chennai, exploring AI through learning, building and collaboration.
         </p>
-
-        <nav aria-label="Social links" className="flex flex-wrap items-center gap-x-2 text-sm md:text-lg text-[#9b9b9f] md:justify-end">
-          {LINKS.map((l, i) => (
-            <span key={l.label} className="flex items-center gap-2">
-              {i > 0 && <span aria-hidden="true" className="text-[#5a5a5e]">|</span>}
-              <a
-                href={l.href}
-                target={l.href.startsWith('http') ? '_blank' : undefined}
-                rel="noopener noreferrer"
-                className="pointer-events-auto inline-block py-2 hover:text-foreground transition-colors"
-              >
-                {l.label}
-              </a>
-            </span>
-          ))}
-        </nav>
+        <p className="mt-4 flex items-center gap-2 text-[13px] text-white/60"><MapPin className="h-4 w-4 text-primary" />VIT Chennai, India</p>
       </div>
-    </footer>
-  );
-};
+
+      <nav aria-label="Explore">
+        <p className="font-mono text-[11px] tracking-[0.3em] text-primary">EXPLORE</p>
+        <ul className="mt-4 space-y-2.5 text-[14px] text-white/70">
+          {EXPLORE.map(l => (
+            <li key={l.label}><Link to={l.to} className="transition-colors hover:text-white">{l.label}</Link></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div>
+        <p className="font-mono text-[11px] tracking-[0.3em] text-primary">CONNECT</p>
+        <ul className="mt-4 space-y-2.5 text-[14px] text-white/70">
+          {CLUB_LINKS.map(l => {
+            const Icon = ICONS[l.label];
+            return (
+              <li key={l.label}>
+                <a
+                  href={l.href}
+                  target={l.href.startsWith('http') ? '_blank' : undefined}
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 transition-colors hover:text-white"
+                >
+                  {Icon && <Icon className="h-4 w-4 text-primary" />}{l.label}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+
+    <div className="border-t border-white/10">
+      <div className="mx-auto flex max-w-[1246px] flex-col gap-2 px-6 py-5 text-[13px] text-white/45 sm:flex-row sm:items-center sm:justify-between xl:px-0">
+        <p>Copyright © 2026 AI Club VIT Chennai</p>
+        <p>
+          Built by{' '}
+          <a href="https://sibhi.com" target="_blank" rel="noopener noreferrer" className="text-white/70 underline decoration-primary underline-offset-4 hover:text-white">Sibhi</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+);
 
 export default SiteFooter;

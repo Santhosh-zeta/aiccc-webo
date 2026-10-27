@@ -113,16 +113,16 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
                 const displayPosition = app.assignedPosition.replace(/ \d -/, ' -');
                 const success = await sendEmail(
                     app.email,
-                    `IEEE SSCS Results — You've Been Selected!`,
+                    `AI Club Results — You've Been Selected!`,
                     `<p>Dear <strong>${app.fullName}</strong>,</p>
-                    <p>The results for the <strong>Department Leads and Boards</strong> for IEEE SSCS for the tenure 2026-27 is out.</p>
+                    <p>The results for the <strong>Department Leads and Boards</strong> for AI Club for the tenure 2026-27 is out.</p>
                     <p>We are so excited to inform you that you have been selected as <strong>"${displayPosition}"</strong>. We are thrilled to welcome you on board!</p>
                     <p>We expect helpful co-ordination and teamwork throughout the course of this tenure. We also expect your <strong>mandatory participation in all events</strong>.</p>
                     <p>Congratulations for being selected and wishing you all the very best for your future!</p>
                     <p style="margin-top: 20px; padding: 12px 16px; background-color: #1c1c1e; border-left: 3px solid #3187E8; border-radius: 4px; font-size: 13px;">
-                        <strong>Important Note:</strong> Students selected for Board/Lead/Associate Lead positions are required to hold an active IEEE Student Membership with IEEE Solid-State Circuits Society (SSCS) membership to serve as office bearers of the IEEE SSCS Student Branch Chapter.
+                        <strong>Important Note:</strong> Students selected for Board/Lead/Associate Lead positions are required to hold an active IEEE Student Membership with IEEE Solid-State Circuits Society (AI Club) membership to serve as office bearers of the AI Club Student Branch Chapter.
                     </p>
-                    <p>Best regards,<br>IEEE SSCS Executive Committee</p>`
+                    <p>Best regards,<br>AI Club Executive Committee</p>`
                 );
 
                 if (success) {
@@ -158,10 +158,10 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
             {/* TOP BAR / ACTION HEADER */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/70 p-6 rounded-2xl border border-foreground/10 backdrop-blur-xl">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-6 rounded-md border border-border ">
                 <div>
                     <h2 className="text-xl font-heading font-bold text-foreground flex items-center gap-2">
-                        <Mail className="w-5 h-5 text-purple-400" />
+                        <Mail className="w-5 h-5 text-primary" />
                         Position Notifications
                     </h2>
                     <p className="text-xs text-muted-foreground mt-1">
@@ -181,22 +181,22 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
             {/* BOARD POSITIONS */}
             <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-6">
-                    <Crown className="w-6 h-6 text-yellow-400" />
+                    <Crown className="w-6 h-6 text-amber-600" />
                     <h2 className="text-2xl font-heading font-bold text-foreground tracking-widest uppercase">Board Positions</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {BOARD_POSITIONS.map(position => (
-                        <Card key={position} className="bg-white/70 border-foreground/10 backdrop-blur-xl">
+                        <Card key={position} className="bg-white border-border ">
                             <CardContent className="p-5 flex flex-col gap-3">
-                                <div className="text-sm font-bold tracking-widest uppercase text-yellow-400/80">
+                                <div className="text-sm font-bold tracking-widest uppercase text-amber-600/80">
                                     {position}
                                 </div>
                                 <Select 
                                     value={getCandidateForPosition(position)} 
                                     onValueChange={(val) => handleAssignPosition(val, position)}
                                 >
-                                    <SelectTrigger className="w-full bg-black/50 border-foreground/10 h-10 text-xs">
+                                    <SelectTrigger className="w-full bg-black/50 border-border h-10 text-xs">
                                         <SelectValue placeholder="Select candidate..." />
                                     </SelectTrigger>
                                     <SelectContent className="bg-background border-zinc-800">
@@ -215,26 +215,26 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
             </div>
 
             {/* DEPARTMENT POSITIONS */}
-            <div className="space-y-4 pt-8 border-t border-foreground/10">
+            <div className="space-y-4 pt-8 border-t border-border">
                 <div className="flex items-center gap-2 mb-6">
-                    <Users className="w-6 h-6 text-blue-400" />
+                    <Users className="w-6 h-6 text-primary" />
                     <h2 className="text-2xl font-heading font-bold text-foreground tracking-widest uppercase">Department Leads</h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {DEPARTMENTS.map(dept => (
-                        <Card key={dept} className="bg-white/70 border-foreground/10 backdrop-blur-xl overflow-hidden">
-                            <div className="bg-white/70 px-5 py-3 border-b border-foreground/10">
-                                <h3 className="text-sm font-bold tracking-widest uppercase text-blue-400">{dept}</h3>
+                        <Card key={dept} className="bg-white border-border  overflow-hidden">
+                            <div className="bg-white px-5 py-3 border-b border-border">
+                                <h3 className="text-sm font-bold tracking-widest uppercase text-primary">{dept}</h3>
                             </div>
                             <CardContent className="p-5 space-y-4">
                                 {getRolesForDept(dept).map(role => {
                                     const fullPositionName = `${role} - ${dept}`;
                                     // Visual accent: Associate Leads in teal, Lead in blue, Associate in purple
                                     const labelColor =
-                                        role === 'Lead' ? 'text-blue-400' :
+                                        role === 'Lead' ? 'text-primary' :
                                         role.startsWith('Associate Lead') ? 'text-teal-400' :
-                                        'text-purple-400';
+                                        'text-primary';
                                     return (
                                         <div key={role} className="space-y-2">
                                             <label className={`text-[10px] font-bold tracking-widest uppercase ${labelColor}`}>
@@ -244,7 +244,7 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
                                                 value={getCandidateForPosition(fullPositionName)} 
                                                 onValueChange={(val) => handleAssignPosition(val, fullPositionName)}
                                             >
-                                                <SelectTrigger className="w-full bg-black/50 border-foreground/10 h-10 text-xs">
+                                                <SelectTrigger className="w-full bg-black/50 border-border h-10 text-xs">
                                                     <SelectValue placeholder="Select candidate..." />
                                                 </SelectTrigger>
                                                 <SelectContent className="bg-background border-zinc-800">
@@ -269,7 +269,7 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
                 <DialogContent className="bg-background border-purple-500/30 text-foreground max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-heading font-bold text-foreground flex items-center gap-2">
-                            <Send className="w-5 h-5 text-purple-400" />
+                            <Send className="w-5 h-5 text-primary" />
                             Confirm Position Mails
                         </DialogTitle>
                         <DialogDescription className="text-zinc-400 text-xs">
@@ -280,13 +280,13 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
                     {sendResult !== null ? (
                         <div className="py-6 text-center space-y-4">
                             {sendResult.failed === 0 ? (
-                                <CheckCircle className="w-12 h-12 text-green-400 mx-auto animate-bounce" />
+                                <CheckCircle className="w-12 h-12 text-green-600 mx-auto animate-bounce" />
                             ) : sendResult.sent === 0 ? (
-                                <XCircle className="w-12 h-12 text-red-400 mx-auto animate-bounce" />
+                                <XCircle className="w-12 h-12 text-destructive mx-auto animate-bounce" />
                             ) : (
                                 <div className="flex justify-center gap-3">
-                                    <CheckCircle className="w-10 h-10 text-green-400" />
-                                    <XCircle className="w-10 h-10 text-red-400" />
+                                    <CheckCircle className="w-10 h-10 text-green-600" />
+                                    <XCircle className="w-10 h-10 text-destructive" />
                                 </div>
                             )}
                             <h4 className="text-lg font-bold text-foreground">
@@ -295,9 +295,9 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
                                  'Partially Sent'}
                             </h4>
                             <div className="flex justify-center gap-6 text-sm">
-                                <span className="text-green-400 font-bold">{sendResult.sent} sent</span>
+                                <span className="text-green-600 font-bold">{sendResult.sent} sent</span>
                                 {sendResult.failed > 0 && (
-                                    <span className="text-red-400 font-bold">{sendResult.failed} failed</span>
+                                    <span className="text-destructive font-bold">{sendResult.failed} failed</span>
                                 )}
                             </div>
                             {sendResult.failed > 0 && (
@@ -305,31 +305,31 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
                                     Failed sends did not update candidate status. Retry individually if needed.
                                 </p>
                             )}
-                            <Button onClick={() => setIsSendDialogOpen(false)} className="w-full bg-white/70 text-foreground font-bold text-xs mt-2">
+                            <Button onClick={() => setIsSendDialogOpen(false)} className="w-full bg-white text-foreground font-bold text-xs mt-2">
                                 Close
                             </Button>
                         </div>
                     ) : (
                         <div className="space-y-4 pt-2">
-                            <div className="bg-white/70 p-3 rounded-xl border border-foreground/10 max-h-40 overflow-y-auto space-y-1.5 scrollbar-thin">
-                                <div className="text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-2">Recipients ({assignedCandidates.length})</div>
+                            <div className="bg-white p-3 rounded-xl border border-border max-h-40 overflow-y-auto space-y-1.5 scrollbar-thin">
+                                <div className="text-[10px] font-bold text-primary uppercase tracking-wider mb-2">Recipients ({assignedCandidates.length})</div>
                                 {assignedCandidates.map(c => (
                                     <div key={c.id} className="flex justify-between items-center text-xs">
                                         <span className="text-foreground font-medium">{c.fullName}</span>
-                                        <span className="text-purple-300 font-mono text-[10px]">{c.assignedPosition}</span>
+                                        <span className="text-primary font-mono text-[10px]">{c.assignedPosition}</span>
                                     </div>
                                 ))}
                             </div>
 
                             <div className="space-y-2 pt-2">
                                 <label className="text-xs text-zinc-300 font-semibold">
-                                    Type <span className="font-mono font-bold text-red-400">CONFIRM</span> to send:
+                                    Type <span className="font-mono font-bold text-destructive">CONFIRM</span> to send:
                                 </label>
                                 <Input
                                     value={confirmText}
                                     onChange={e => setConfirmText(e.target.value)}
                                     placeholder="Type CONFIRM here"
-                                    className="bg-black/50 border-foreground/10 text-foreground text-xs font-mono uppercase tracking-widest"
+                                    className="bg-black/50 border-border text-foreground text-xs font-mono uppercase tracking-widest"
                                 />
                             </div>
 
@@ -338,7 +338,7 @@ const PositionManager = ({ applications, onUpdate }: PositionManagerProps) => {
                                     variant="outline"
                                     onClick={() => setIsSendDialogOpen(false)}
                                     disabled={isSending}
-                                    className="flex-1 border-foreground/10 text-zinc-400 text-xs"
+                                    className="flex-1 border-border text-zinc-400 text-xs"
                                 >
                                     Cancel
                                 </Button>
