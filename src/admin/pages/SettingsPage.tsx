@@ -36,6 +36,7 @@ export default function SettingsPage() {
 
 const FEATURES: { key: keyof FeatureFlags; name: string; text: string }[] = [
   { key: 'recruitment', name: 'Recruitment mode', text: 'Shows the Recruitment panel (applicants, interviews, rankings, results) to admins and super admins. Switch it on when a recruitment drive starts and off when it ends.' },
+  { key: 'anyEmail', name: 'Allow any Google account to sign in', text: 'For testing. Normally only @vitstudent.ac.in and @vit.ac.in accounts can sign in. While this is on, any Google account can, and can apply. Turn it off when testing is over. Needs the allow_any_email_switch migration to have been run.' },
   { key: 'grid', name: 'Grid maker', text: 'Shows the Instagram grid maker to every admin. When off, it is hidden from the menu for everyone.' },
 ];
 
@@ -59,10 +60,10 @@ function FeaturesSection() {
   const [open, setOpen] = useState(false);
 
   const toggle = async (key: keyof FeatureFlags) => {
-    const next = { recruitment: flags.recruitment, grid: flags.grid, [key]: !flags[key] } as FeatureFlags;
+    const next = { recruitment: flags.recruitment, grid: flags.grid, anyEmail: flags.anyEmail, [key]: !flags[key] } as FeatureFlags;
     setBusy(key);
     try {
-      await saveSetting(key === 'recruitment' ? FEATURE_KEYS.recruitment : FEATURE_KEYS.grid, next[key]);
+      await saveSetting(FEATURE_KEYS[key], next[key]);
       publishFeatureFlags(next);
       toast.success(`${FEATURES.find(f => f.key === key)?.name} is ${next[key] ? 'on' : 'off'}.`);
     } catch (err) { toast.error(errMsg(err)); }

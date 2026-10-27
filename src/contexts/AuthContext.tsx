@@ -112,7 +112,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         // Anyone a super admin added to the panel may use any Google account
         // (external users are often from outside VIT); everyone else needs a VIT one.
-        if (role === 'member' && !isVitStudent && !isVitStaff) {
+        // The "Allow any Google account" switch in Admin > Settings > Features lifts this for testing.
+        const openSignin = role === 'member' && !isVitStudent && !isVitStaff
+          ? !!(await supabase.rpc('open_signin_enabled')).data
+          : false;
+        if (role === 'member' && !isVitStudent && !isVitStaff && !openSignin) {
           await supabase.auth.signOut();
           alert('Access Restricted: Please sign in with your VIT email address (@vitstudent.ac.in).');
           setUser(null);

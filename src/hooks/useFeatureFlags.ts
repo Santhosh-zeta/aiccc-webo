@@ -3,11 +3,11 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 
 /** Optional parts of the admin panel a super admin switches on in Admin > Settings > Features. Off by default. */
-export const FEATURE_KEYS = { recruitment: 'feature_recruitment', grid: 'feature_grid_maker' } as const;
+export const FEATURE_KEYS = { recruitment: 'feature_recruitment', grid: 'feature_grid_maker', anyEmail: 'allow_any_email' } as const;
 
-export interface FeatureFlags { recruitment: boolean; grid: boolean }
+export interface FeatureFlags { recruitment: boolean; grid: boolean; anyEmail: boolean }
 
-const OFF: FeatureFlags = { recruitment: false, grid: false };
+const OFF: FeatureFlags = { recruitment: false, grid: false, anyEmail: false };
 const listeners = new Set<(f: FeatureFlags) => void>();
 let cache: FeatureFlags | null = null;
 
@@ -16,7 +16,7 @@ async function load(): Promise<FeatureFlags> {
     .from('club_settings').select('key, value').in('key', Object.values(FEATURE_KEYS));
   if (error || !data) return OFF;
   const on = (k: string) => data.some(r => r.key === k && r.value === true);
-  return { recruitment: on(FEATURE_KEYS.recruitment), grid: on(FEATURE_KEYS.grid) };
+  return { recruitment: on(FEATURE_KEYS.recruitment), grid: on(FEATURE_KEYS.grid), anyEmail: on(FEATURE_KEYS.anyEmail) };
 }
 
 /** Called after a switch is saved so every open menu updates at once. */
