@@ -17,7 +17,7 @@ const SiteFooter = () => (
   <footer className="bg-[#0B1726] text-white">
     <div className="mx-auto grid max-w-[1246px] gap-10 px-6 py-14 md:grid-cols-[1.4fr_1fr_1fr] xl:px-0">
       <div>
-        <img src="/brand/aic-logo-full.png" alt="AI Club VIT Chennai" className="h-12 w-auto rounded-sm bg-white p-1" />
+        <img src="/brand/aic-logo-transparent.png" alt="AI Club VIT Chennai" className="h-12 w-auto rounded-md bg-white px-3 py-1.5" />
         <p className="mt-5 max-w-sm text-[14px] leading-6 text-white/60">
           A student-led community at VIT Chennai, exploring AI through learning, building and collaboration.
         </p>

@@ -149,7 +149,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group justify-self-start">
             <div className="relative">
-              <img src="/brand/aic-logo-full.png" alt="AI Club VIT Chennai logo" className="h-11 w-auto object-contain mix-blend-multiply relative z-10 transition-transform group-hover:scale-105" />
+              <img src="/brand/aic-logo-transparent.png" alt="AI Club VIT Chennai logo" className="h-11 w-auto object-contain relative z-10 transition-transform group-hover:scale-105" />
               <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           </Link>
