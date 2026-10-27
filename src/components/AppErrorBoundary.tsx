@@ -18,7 +18,7 @@ export default class AppErrorBoundary extends Component<{ children: ReactNode },
     return (
       <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
         <div className="max-w-sm w-full text-center rounded-2xl border border-foreground/10 bg-white/[.04] p-8">
-          <img src="/brand/aic-mark.svg" alt="" width={44} height={44} className="mx-auto mb-4 object-contain" />
+          <img src="/brand/aic-logo-icon.png" alt="" width={44} height={44} className="mx-auto mb-4 object-contain" />
           <h1 className="text-xl font-bold mb-2">Something went wrong</h1>
           <p className="text-sm text-muted-foreground mb-6">The page couldn't load. This usually happens right after the site is updated. Reloading fixes it.</p>
           <div className="flex flex-col gap-2">

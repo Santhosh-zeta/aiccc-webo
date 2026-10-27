@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Instagram, Linkedin, Mail, MapPin } from 'lucide-react';
 import { BUILT_BY, CLUB_LINKS } from '@/config/club';
+import BrandLogo from '@/components/site/BrandLogo';
 
 const ICONS: Record<string, typeof Mail> = { Instagram, LinkedIn: Linkedin, Email: Mail };
 
@@ -9,7 +10,6 @@ const EXPLORE = [
   { label: 'Events', to: '/#events' },
   { label: 'Team', to: '/team' },
   { label: 'Leaderboard', to: '/leaderboard' },
-  { label: 'Calendar', to: '/calendar' },
   { label: 'Propose an event', to: '/proposals' },
 ];
 
@@ -29,15 +29,7 @@ const SiteFooter = () => (
     <div className="relative mx-auto max-w-[1246px] px-6 pb-40 pt-16 md:pb-56 xl:px-0">
       <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1.2fr]">
         <div>
-          <Link to="/" className="inline-flex items-center gap-4" aria-label="AI Club VIT Chennai home">
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_0_0_4px_rgba(49,135,232,0.25)]">
-              <img src="/brand/aic-mark.svg" alt="" className="h-9 w-9" />
-            </span>
-            <span className="leading-none">
-              <span className="block font-display text-[28px] font-extrabold uppercase tracking-tight">AI Club</span>
-              <span className="mt-1 block font-mono text-[10px] tracking-[0.35em] text-white/60">VIT CHENNAI</span>
-            </span>
-          </Link>
+          <BrandLogo size={56} tone="dark" />
           <p className="mt-6 max-w-sm text-[14px] leading-6 text-white/60">
             Where human curiosity meets artificial intelligence. A student-led community exploring AI through learning, building and collaboration.
           </p>

@@ -4,32 +4,15 @@ import { motion, useReducedMotion } from 'framer-motion';
 /** How long the loader runs before the site appears (ms). */
 const DURATION = 3600;
 
-// The AI Club mark, split so each part can be drawn on in turn.
-const LEFT = [
-  'M98 26 C76 8 40 12 30 42 C10 50 6 82 20 96 C12 118 24 142 48 146 C54 166 76 178 98 170',
-  'M46 52 C56 62 62 70 64 82',
-  'M30 98 C44 96 52 104 60 116',
-  'M48 124 C60 124 66 132 70 144',
-  'M70 56 C78 60 84 64 90 72',
-];
-const RIGHT = [
-  'M102 26 C124 8 160 12 170 42 C190 50 194 82 180 96 C188 118 176 142 152 146 C146 166 124 178 102 170',
-  'M154 52 C144 62 138 70 136 82',
-  'M170 98 C156 96 148 104 140 116',
-  'M152 124 C140 124 134 132 130 144',
-  'M130 56 C122 60 116 64 110 72',
-  'M102 60 H128 L136 68',
-  'M102 120 H124',
-  'M136 92 H160',
-  'M124 150 L134 160 H146',
-];
-const NODES: [number, number, number][] = [[128, 60, 5], [160, 92, 5], [146, 160, 5], [124, 120, 4], [186, 82, 4]];
 const LETTERS = 'AI CLUB'.split('');
+const TICKS = Array.from({ length: 36 }, (_, i) => i);
+// Eight glowing "circuit" spurs that grow out of the ring, as angles in degrees.
+const SPURS = [20, 65, 110, 155, 200, 245, 290, 335];
 
 /**
- * Intro: the club mark is drawn on in glowing lines (grey hemisphere, then the blue circuit
- * traces), the nodes light up, the AIC chip powers on and light keeps travelling along the
- * circuits while the wordmark appears and the bar fills. SVG and CSS only, no extra library.
+ * Intro: the club logo appears inside glowing rings that draw themselves on, a dial of ticks lights
+ * up around it, circuit spurs grow out of the ring and carry pulses of light, ripples spread
+ * outwards while the wordmark appears and the bar fills. SVG and CSS only, no extra library.
  */
 const StartupPreloader = ({ onComplete }: { onComplete: () => void }) => {
   const reduce = useReducedMotion();
@@ -60,92 +43,102 @@ const StartupPreloader = ({ onComplete }: { onComplete: () => void }) => {
       <style>{`
         .ldr-grid { background-image: linear-gradient(rgba(49,135,232,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(49,135,232,.07) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(circle at 50% 45%, #000, transparent 70%); -webkit-mask-image: radial-gradient(circle at 50% 45%, #000, transparent 70%); }
         .ldr-halo { animation: ldr-halo 2.6s ease-in-out infinite; }
-        .ldr-orbit { animation: ldr-orbit 12s linear infinite; transform-origin: 50% 50%; }
-        .ldr-run { stroke-dasharray: .09 .91; animation: ldr-run 1.8s linear infinite; }
-        .ldr-scan { animation: ldr-scan 2.2s ease-in-out infinite; }
-        @keyframes ldr-halo { 0%,100% { opacity: .55; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.06); } }
+        .ldr-orbit { animation: ldr-orbit 9s linear infinite; transform-origin: 50% 50%; }
+        .ldr-orbit-rev { animation: ldr-orbit 14s linear infinite reverse; transform-origin: 50% 50%; }
+        .ldr-ripple { animation: ldr-ripple 2.4s ease-out infinite; }
+        .ldr-run { stroke-dasharray: .18 .82; animation: ldr-run 1.6s linear infinite; animation-fill-mode: backwards; }
+        .ldr-logo { animation: ldr-float 3.2s ease-in-out infinite; animation-delay: 2s; }
+        @keyframes ldr-halo { 0%,100% { opacity: .5; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.06); } }
         @keyframes ldr-orbit { to { transform: rotate(360deg); } }
-        @keyframes ldr-run { 0% { stroke-dashoffset: 1; opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
-        @keyframes ldr-scan { 0% { transform: translateY(-6%); opacity: 0; } 20%,80% { opacity: .9; } 100% { transform: translateY(106%); opacity: 0; } }
-        @media (prefers-reduced-motion: reduce) { .ldr-halo, .ldr-orbit, .ldr-run, .ldr-scan { animation: none !important; } }
+        @keyframes ldr-ripple { 0% { transform: scale(.6); opacity: .55; } 100% { transform: scale(1.25); opacity: 0; } }
+        @keyframes ldr-run { 0% { stroke-dashoffset: 1; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 0; } }
+        @keyframes ldr-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @media (prefers-reduced-motion: reduce) { .ldr-halo, .ldr-orbit, .ldr-orbit-rev, .ldr-ripple, .ldr-run, .ldr-logo { animation: none !important; } }
       `}</style>
 
       <div className="ldr-grid pointer-events-none absolute inset-0" aria-hidden="true" />
 
       <div className="relative h-[300px] w-[300px] sm:h-[380px] sm:w-[380px]">
-        {/* Glow behind the mark */}
-        <div className="ldr-halo absolute inset-[8%] rounded-full bg-[radial-gradient(circle,rgba(49,135,232,.35),rgba(49,135,232,0)_68%)]" />
+        <div className="ldr-halo absolute inset-[10%] rounded-full bg-[radial-gradient(circle,rgba(49,135,232,.32),rgba(49,135,232,0)_68%)]" />
 
-        {/* Thin orbit with a travelling dot */}
-        <svg viewBox="0 0 400 400" className="ldr-orbit absolute inset-0" aria-hidden="true">
-          <circle cx="200" cy="200" r="190" fill="none" stroke="rgba(49,135,232,.28)" strokeWidth="1" strokeDasharray="2 7" />
-          <circle cx="200" cy="10" r="5" fill="#3187E8" style={{ filter: 'drop-shadow(0 0 8px rgba(49,135,232,.95))' }} />
-        </svg>
+        {/* Ripples */}
+        {!reduce && [0, 0.8, 1.6].map(delay => (
+          <div key={delay} className="ldr-ripple absolute inset-[14%] rounded-full border border-[#3187E8]/50" style={{ animationDelay: `${2 + delay}s`, animationFillMode: 'backwards' }} />
+        ))}
 
-        <svg viewBox="-10 -4 220 208" className="absolute inset-[6%] h-[88%] w-[88%] overflow-visible" role="img" aria-label="AI Club VIT Chennai">
+        <svg viewBox="0 0 400 400" className="absolute inset-0 overflow-visible" aria-hidden="true">
           <defs>
             <filter id="ldr-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur stdDeviation="1.8" result="b" />
+              <feGaussianBlur stdDeviation="2.2" result="b" />
               <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
             </filter>
-            <linearGradient id="ldr-scan" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stopColor="#3187E8" stopOpacity="0" />
-              <stop offset="1" stopColor="#3187E8" stopOpacity=".5" />
-            </linearGradient>
-            <clipPath id="ldr-clip"><rect x="-10" y="-4" width="220" height="208" /></clipPath>
           </defs>
 
-          {/* Grey hemisphere, drawn on */}
-          <g fill="none" stroke="#5B6B7D" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" filter="url(#ldr-glow)" opacity=".95">
-            {LEFT.map((p, i) => (
-              <motion.path key={p} d={p} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1, delay: d(0.1 + i * 0.12), ease: 'easeInOut' }} />
+          {/* Dial of ticks lighting up in turn */}
+          <g stroke="#3187E8" strokeLinecap="round" strokeWidth="2">
+            {TICKS.map(i => (
+              <motion.line
+                key={i}
+                x1="200" y1="14" x2="200" y2="24"
+                transform={`rotate(${i * 10} 200 200)`}
+                initial={{ opacity: reduce ? 0.55 : 0 }}
+                animate={{ opacity: [0, 1, 0.45] }}
+                transition={{ duration: 0.9, delay: d(0.2 + i * 0.035), times: [0, 0.4, 1] }}
+              />
             ))}
           </g>
 
-          {/* Blue circuit hemisphere, drawn on, then light keeps running along it */}
-          <g fill="none" stroke="#3187E8" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" filter="url(#ldr-glow)">
-            {RIGHT.map((p, i) => (
-              <motion.path key={p} d={p} initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.1, delay: d(0.6 + i * 0.12), ease: 'easeInOut' }} />
-            ))}
-          </g>
-          {!reduce && (
-            <g fill="none" stroke="#BFE0FF" strokeWidth="2.4" strokeLinecap="round" filter="url(#ldr-glow)">
-              {RIGHT.map((p, i) => (
-                <path key={p} d={p} pathLength={1} className="ldr-run" style={{ animationDelay: `${2.0 + i * 0.17}s`, animationFillMode: 'backwards' }} />
-              ))}
-            </g>
-          )}
-
-          {/* Nodes light up */}
-          {NODES.map(([cx, cy, r], i) => (
+          {/* Two rings draw themselves on */}
+          <g fill="none" filter="url(#ldr-glow)" strokeLinecap="round">
             <motion.circle
-              key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} fill="#3187E8" filter="url(#ldr-glow)"
-              initial={{ scale: reduce ? 1 : 0, opacity: reduce ? 1 : 0 }} animate={{ scale: 1, opacity: 1 }}
-              style={{ transformOrigin: `${cx}px ${cy}px`, transformBox: 'fill-box' }}
-              transition={{ type: 'spring', stiffness: 260, damping: 14, delay: d(1.5 + i * 0.1) }}
+              cx="200" cy="200" r="168" stroke="#3187E8" strokeWidth="3" transform="rotate(-90 200 200)"
+              initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.5, delay: d(0.3), ease: 'easeInOut' }}
             />
-          ))}
+            <motion.circle
+              cx="200" cy="200" r="150" stroke="#69ACFF" strokeWidth="1.6" strokeDasharray="3 7" transform="rotate(-90 200 200)"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: d(1) }}
+            />
+          </g>
 
-          {/* The AIC chip powers on */}
-          <motion.rect
-            x="58" y="78" width="84" height="60" rx="8" fill="#FFFFFF" stroke="#3187E8" strokeWidth="4.5" filter="url(#ldr-glow)"
-            initial={{ pathLength: reduce ? 1 : 0, fillOpacity: reduce ? 1 : 0 }} animate={{ pathLength: 1, fillOpacity: 1 }}
-            transition={{ pathLength: { duration: 0.9, delay: d(1.2) }, fillOpacity: { duration: 0.5, delay: d(2.0) } }}
-          />
-          <motion.text
-            x="100" y="116" textAnchor="middle" fontFamily="'Saira Semi Condensed','Space Grotesk',sans-serif" fontWeight="800" fontSize="28" fill="#3187E8"
-            initial={{ opacity: reduce ? 1 : 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: d(2.1) }}
-          >
-            AIC
-          </motion.text>
+          {/* Circuit spurs grow out from the ring and carry a pulse of light */}
+          <g fill="none" strokeLinecap="round" filter="url(#ldr-glow)">
+            {SPURS.map((deg, i) => (
+              <g key={deg} transform={`rotate(${deg} 200 200)`}>
+                <motion.path
+                  d="M200 32 V10 L212 -2 H236" stroke="#3187E8" strokeWidth="2.4"
+                  initial={{ pathLength: reduce ? 1 : 0 }} animate={{ pathLength: 1 }} transition={{ duration: 0.7, delay: d(1.2 + i * 0.1) }}
+                />
+                {!reduce && (
+                  <path d="M200 32 V10 L212 -2 H236" pathLength={1} stroke="#CFE6FF" strokeWidth="1.8" className="ldr-run" style={{ animationDelay: `${2.3 + i * 0.15}s` }} />
+                )}
+                <motion.circle
+                  cx="236" cy="-2" r="4" fill="#3187E8" stroke="none"
+                  initial={{ scale: reduce ? 1 : 0 }} animate={{ scale: 1 }} style={{ transformOrigin: '236px -2px', transformBox: 'fill-box' }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 14, delay: d(1.8 + i * 0.1) }}
+                />
+              </g>
+            ))}
+          </g>
 
-          {/* A scan line sweeps the finished mark */}
-          {!reduce && (
-            <g clipPath="url(#ldr-clip)">
-              <rect className="ldr-scan" x="-10" y="-4" width="220" height="14" fill="url(#ldr-scan)" style={{ animationDelay: '2.4s', animationFillMode: 'backwards' }} />
-            </g>
-          )}
+          {/* Orbiting dots */}
+          <g className="ldr-orbit"><circle cx="200" cy="30" r="5" fill="#3187E8" style={{ filter: 'drop-shadow(0 0 8px rgba(49,135,232,.95))' }} /></g>
+          <g className="ldr-orbit-rev"><circle cx="200" cy="50" r="3.5" fill="#69ACFF" style={{ filter: 'drop-shadow(0 0 6px rgba(105,172,255,.9))' }} /></g>
         </svg>
+
+        {/* The logo icon */}
+        <motion.div
+          className="absolute inset-[24%] flex items-center justify-center"
+          initial={{ opacity: reduce ? 1 : 0, scale: reduce ? 1 : 0.8, filter: reduce ? 'blur(0px)' : 'blur(10px)' }}
+          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+          transition={{ duration: 1, delay: d(0.9), ease: 'easeOut' }}
+        >
+          <img
+            src="/brand/aic-logo-icon.png"
+            alt="AI Club VIT Chennai"
+            className="ldr-logo h-full w-full object-contain drop-shadow-[0_10px_24px_rgba(49,135,232,0.45)]"
+            draggable={false}
+          />
+        </motion.div>
       </div>
 
       {/* Wordmark */}
@@ -154,7 +147,6 @@ const StartupPreloader = ({ onComplete }: { onComplete: () => void }) => {
           {LETTERS.map((ch, i) => (
             <motion.span
               key={i}
-              className={ch === ' ' ? 'w-3' : ''}
               initial={{ opacity: reduce ? 1 : 0, y: reduce ? 0 : 14, filter: reduce ? 'blur(0px)' : 'blur(6px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.5, delay: d(2.2 + i * 0.06) }}
@@ -164,7 +156,7 @@ const StartupPreloader = ({ onComplete }: { onComplete: () => void }) => {
           ))}
         </div>
         <motion.p
-          className="mt-2 font-mono text-[11px] tracking-[0.5em] text-primary"
+          className="mt-2 font-heading text-[12px] font-semibold tracking-[0.45em] text-[#0B1726]"
           initial={{ opacity: reduce ? 1 : 0 }} animate={{ opacity: 1 }} transition={{ delay: d(2.7), duration: 0.6 }}
         >
           VIT CHENNAI

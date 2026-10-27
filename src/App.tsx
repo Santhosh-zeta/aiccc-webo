@@ -21,6 +21,7 @@ import BroadcastCenter from '@/components/broadcasts/BroadcastCenter';
 import { BroadcastProvider } from '@/lib/broadcasts';
 import { lazyPage } from '@/lib/lazyPage';
 import AppErrorBoundary from '@/components/AppErrorBoundary';
+import FeatureOnly from '@/components/FeatureOnly';
 import LogoSpinner from '@/components/ui/LogoSpinner';
 
 import { Analytics } from '@vercel/analytics/react';
@@ -39,7 +40,6 @@ const Overview = lazyPage(() => import('@/admin/pages/Overview'));
 const CalendarPage = lazyPage(() => import('@/admin/pages/CalendarPage'));
 const EventsPage = lazyPage(() => import('@/admin/pages/EventsPage'));
 const EventDetail = lazyPage(() => import('@/admin/pages/EventDetail'));
-const VenuesPage = lazyPage(() => import('@/admin/pages/VenuesPage'));
 const ImportPage = lazyPage(() => import('@/admin/pages/ImportPage'));
 const MembersPage = lazyPage(() => import('@/admin/pages/MembersPage'));
 const MemberCard = lazyPage(() => import('@/admin/pages/MemberCard'));
@@ -146,7 +146,7 @@ function App() {
 
                 {/* Staff recruitment routes: auth-gated, unaffected by the recruitment switch */}
                 <Route path="/interviewer" element={<InterviewerDashboard />} />
-                <Route path="/admin/recruitment" element={<RecruitmentPanel />} />
+                <Route path="/admin/recruitment" element={<FeatureOnly feature="recruitment"><RecruitmentPanel /></FeatureOnly>} />
                 <Route path="/admin/recruitment/schedule" element={<RecruitmentSchedule />} />
 
                 <Route path="/admin" element={<AdminLayout />}>
@@ -154,7 +154,6 @@ function App() {
                   <Route path="calendar" element={<CalendarPage />} />
                   <Route path="events" element={<EventsPage />} />
                   <Route path="events/:id" element={<EventDetail />} />
-                  <Route path="venues" element={<SuperAdminOnly><VenuesPage /></SuperAdminOnly>} />
                   <Route path="import" element={<ImportPage />} />
                   <Route path="members" element={<MembersPage />} />
                   <Route path="members/:id" element={<MemberCard />} />
@@ -163,7 +162,7 @@ function App() {
                   <Route path="proposals/:id" element={<ProposalDetail />} />
                   <Route path="drive" element={<DrivePage />} />
                   <Route path="meets" element={<MeetsPage />} />
-                  <Route path="grid" element={<GridMakerPage />} />
+                  <Route path="grid" element={<FeatureOnly feature="grid"><GridMakerPage /></FeatureOnly>} />
                   <Route path="broadcasts" element={<SuperAdminOnly><BroadcastsPage /></SuperAdminOnly>} />
                   <Route path="website" element={<SuperAdminOnly><WebsitePage /></SuperAdminOnly>} />
                   <Route path="team" element={<SuperAdminOnly><TeamPage /></SuperAdminOnly>} />

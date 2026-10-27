@@ -72,7 +72,7 @@ const LogoSpinner = ({ size = 'md', className }: LogoSpinnerProps) => {
                     {/* Size sm is too small for the logo to look good, so only show it on md+ */}
                     {size !== 'sm' && (
                         <img
-                            src="/brand/aic-mark.svg"
+                            src="/brand/aic-logo-icon.png"
                             alt="Loading"
                             className="w-[70%] h-[70%] object-contain opacity-80"
                         />

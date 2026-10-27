@@ -103,7 +103,7 @@ const SelectedCard = ({ app }: { app: any }) => {
                 <div className="px-5 sm:px-8 pt-8 sm:pt-10 pb-8 sm:pb-10 text-center relative z-10">
                     {/* Org badge */}
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/10 mb-8">
-                        <img src="/brand/aic-mark.svg" alt="AI Club" className="w-4 h-4 object-contain opacity-80" />
+                        <img src="/brand/aic-logo-icon.png" alt="AI Club" className="w-4 h-4 object-contain opacity-80" />
                         <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary/80">
                             AI Club — {new Date().getFullYear()} Tenure
                         </span>

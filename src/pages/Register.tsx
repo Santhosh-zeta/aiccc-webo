@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import BrandLogo from '@/components/site/BrandLogo';
 import { Zap, CheckCircle, AlertCircle, LogOut } from 'lucide-react';
 import LogoSpinner from '@/components/ui/LogoSpinner';
 import { Link } from 'react-router-dom';
@@ -178,9 +179,7 @@ const Register = () => {
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between h-16">
-            <Link to="/" className="flex items-center gap-2">
-              <img src="/brand/aic-logo-transparent.png" alt="AI Club VIT Chennai" className="h-9 w-auto object-contain" />
-            </Link>
+            <BrandLogo size={36} />
             {user && (
               <Button
                 variant="ghost"

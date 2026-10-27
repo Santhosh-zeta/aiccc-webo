@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowRight, Menu, X, LogIn, LogOut, User as UserIcon, Award, ClipboardList, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import BrandLogo from '@/components/site/BrandLogo';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { useRecruitmentWindow } from '@/hooks/useRecruitmentWindow';
-import { RECRUITMENT_CLOSED, INSTAGRAM_URL } from '@/config/recruitment';
+import { RECRUITMENT_CLOSED } from '@/config/recruitment';
+import { useFeatureFlags } from '@/hooks/useFeatureFlags';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,6 +28,7 @@ const Navigation = () => {
   const [hasApplied, setHasApplied] = useState(false);
   // Server-evaluated: the manual switch AND the scheduled window.
   const { isOpen: isRecruitmentOpen } = useRecruitmentWindow();
+  const flags = useFeatureFlags();
 
   useEffect(() => {
     if (!user) {
@@ -41,8 +44,9 @@ const Navigation = () => {
   }, [user]);
 
   // One recruitment call-to-action, used by both the desktop bar and the mobile menu.
+  // Hidden entirely while recruitment is closed.
   const joinCta = RECRUITMENT_CLOSED
-    ? { label: 'Results on Instagram', to: undefined, href: INSTAGRAM_URL, disabled: false }
+    ? null
     : hasApplied
       ? { label: 'Applied', to: undefined, href: undefined, disabled: true }
       : !isRecruitmentOpen
@@ -97,7 +101,6 @@ const Navigation = () => {
     { name: 'Events', href: '#events' },
     { name: 'Team', href: '/team' },
     { name: 'Leaderboard', href: '/leaderboard' },
-    { name: 'Calendar', href: '/calendar' },
     { name: 'Propose', href: '/proposals' },
   ];
 
@@ -147,12 +150,7 @@ const Navigation = () => {
           `}
         >
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group justify-self-start">
-            <div className="relative">
-              <img src="/brand/aic-logo-transparent.png" alt="AI Club VIT Chennai logo" className="h-11 w-auto object-contain relative z-10 transition-transform group-hover:scale-105" />
-              <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-          </Link>
+          <BrandLogo className="justify-self-start" />
 
           {/* Desktop Nav Links */}
           <div className="hidden lg:flex items-center gap-1">
@@ -171,7 +169,7 @@ const Navigation = () => {
           {/* Actions */}
           <div className="flex items-center gap-3 justify-self-end">
             <div className="hidden sm:flex items-center gap-3">
-              {joinCta.href ? (
+              {joinCta && (joinCta.href ? (
                 <Button size="sm" variant="outline" className="border-foreground/10 text-muted-foreground hover:text-foreground rounded-[3px] bg-white px-6" asChild>
                   <a href={joinCta.href} target="_blank" rel="noopener noreferrer">{joinCta.label}</a>
                 </Button>
@@ -183,7 +181,7 @@ const Navigation = () => {
                 <Button size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-[3px] px-6 shadow-[0_8px_20px_-8px_hsl(var(--primary)/0.7)] font-medium" onClick={() => navigate(joinCta.to!)}>
                   {joinCta.label} <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              )}
+              ))}
             </div>
             {user ? (
               <DropdownMenu>
@@ -216,7 +214,7 @@ const Navigation = () => {
                         <span>Admin Dashboard</span>
                       </DropdownMenuItem>
                     )}
-                    {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'interviewer') && (
+                    {((user.role === 'interviewer') || ((user.role === 'super_admin' || user.role === 'admin') && flags.recruitment)) && (
                       <DropdownMenuItem onClick={() => navigate('/admin/recruitment')} className="rounded-md focus:bg-primary/10 cursor-pointer p-3">
                         <ClipboardList className="mr-3 h-4 w-4 text-primary" />
                         <span>Recruitment</span>
@@ -299,7 +297,7 @@ const Navigation = () => {
                 </motion.button>
               ))}
               
-              {joinCta.href ? (
+              {joinCta && (joinCta.href ? (
                 <Button asChild className="w-full max-w-xs rounded-[3px] h-12 text-base font-bold" variant="outline">
                   <a href={joinCta.href} target="_blank" rel="noopener noreferrer">{joinCta.label}</a>
                 </Button>
@@ -307,7 +305,7 @@ const Navigation = () => {
                 <Button disabled className="w-full max-w-xs rounded-[3px] h-12 text-base font-bold" variant="outline">{joinCta.label}</Button>
               ) : (
                 <Button className="w-full max-w-xs bg-primary text-primary-foreground rounded-[3px] h-12 text-base font-bold" onClick={() => { navigate(joinCta.to!); setIsMobileMenuOpen(false); }}>{joinCta.label}</Button>
-              )}
+              ))}
 
               <motion.div
                 className="w-full h-[1px] bg-border my-4"
@@ -334,7 +332,7 @@ const Navigation = () => {
                       Admin Dashboard
                     </Button>
                   )}
-                  {(user.role === 'super_admin' || user.role === 'admin' || user.role === 'interviewer') && (
+                  {((user.role === 'interviewer') || ((user.role === 'super_admin' || user.role === 'admin') && flags.recruitment)) && (
                     <Button variant="outline" className="rounded-[3px] px-8" onClick={() => { navigate('/admin/recruitment'); setIsMobileMenuOpen(false); }}>
                       <ClipboardList className="w-4 h-4 mr-2" />
                       Recruitment

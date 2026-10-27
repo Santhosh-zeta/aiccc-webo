@@ -8,6 +8,8 @@ import {
   addAdmin, deleteType, fetchAdmins, fetchAllTypes, removeAdmin, saveType, setAdminRole, type AdminRow, type PanelRole,
 } from '../api';
 import { fmtMed, isoDate } from '../calendarLogic';
+import { FEATURE_KEYS, publishFeatureFlags, useFeatureFlags, type FeatureFlags } from '@/hooks/useFeatureFlags';
+import { saveSetting } from '../api';
 
 const errMsg = (err: unknown) => (err as { message?: string })?.message || 'Something went wrong.';
 const ROLE_LABEL: Record<PanelRole, string> = { admin: 'Admin', super_admin: 'Super admin', external: 'External access' };
@@ -25,9 +27,54 @@ export default function SettingsPage() {
           <div className="sub">Who can use this panel, and what each kind of contribution is worth.</div>
         </div>
       </div>
+      <FeaturesSection />
       <AdminsSection />
       <TypesSection />
     </>
+  );
+}
+
+const FEATURES: { key: keyof FeatureFlags; name: string; text: string }[] = [
+  { key: 'recruitment', name: 'Recruitment mode', text: 'Shows the Recruitment panel (applicants, interviews, rankings, results) to admins and super admins. Switch it on when a recruitment drive starts and off when it ends.' },
+  { key: 'grid', name: 'Grid maker', text: 'Shows the Instagram grid maker to every admin. When off, it is hidden from the menu for everyone.' },
+];
+
+function FeaturesSection() {
+  const flags = useFeatureFlags();
+  const [busy, setBusy] = useState<string | null>(null);
+
+  const toggle = async (key: keyof FeatureFlags) => {
+    const next = { recruitment: flags.recruitment, grid: flags.grid, [key]: !flags[key] } as FeatureFlags;
+    setBusy(key);
+    try {
+      await saveSetting(key === 'recruitment' ? FEATURE_KEYS.recruitment : FEATURE_KEYS.grid, next[key]);
+      publishFeatureFlags(next);
+      toast.success(`${FEATURES.find(f => f.key === key)?.name} is ${next[key] ? 'on' : 'off'}.`);
+    } catch (err) { toast.error(errMsg(err)); }
+    finally { setBusy(null); }
+  };
+
+  return (
+    <section className="panel">
+      <div className="list-head">
+        <h3 className="ph">Features</h3>
+        <span className="asof">Optional parts of the panel. Off until you need them.</span>
+      </div>
+      <div style={{ display: 'grid', gap: 12 }}>
+        {FEATURES.map(f => (
+          <div key={f.key} style={{ display: 'flex', alignItems: 'center', gap: 16, justifyContent: 'space-between', padding: '12px 0', borderTop: '1px solid var(--line)' }}>
+            <div style={{ minWidth: 0 }}>
+              <b style={{ fontSize: 15 }}>{f.name}</b>
+              <div className="muted" style={{ marginTop: 4, maxWidth: 640 }}>{f.text}</div>
+            </div>
+            <label className="switch" aria-label={f.name}>
+              <input type="checkbox" checked={flags[f.key]} disabled={flags.loading || busy === f.key} onChange={() => toggle(f.key)} />
+              <span className="track"><span className="knob" /></span>
+            </label>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
